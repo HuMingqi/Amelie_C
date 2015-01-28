@@ -1,0 +1,38 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.diandian.coolco.emilie.activity.SimilarImgDetailActivity">
+
+
+    <item
+        android:id="@+id/ab_button_list"
+        android:title="更多"
+        android:icon="@android:drawable/ic_menu_more"
+        android:orderInCategory="2"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/action_download"
+                android:title="下载"
+                android:orderInCategory="1"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_go_shopping"
+                android:title="去购买"
+                android:orderInCategory="2"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_info"
+                android:title="查看详情"
+                android:orderInCategory="3"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+    <!--
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    -->
+</menu>

@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.diandian.coolco.emilie.activity.SrcImgCropActivity">
+
+    <com.edmodo.cropper.CropImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/crop_image_view"
+        android:src="@drawable/ic_launcher"
+        android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
+        />
+
+    <TextView
+        android:text="裁剪"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/tv_crop"
+        android:layout_alignParentBottom="true"
+        android:background="#88000000"
+        android:textSize="16sp"
+        android:textColor="#f9f9f9"
+        android:gravity="center"
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>
