@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.model.Image;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
+import com.malinskiy.materialicons.IconDrawable;
+import com.malinskiy.materialicons.Iconify;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import roboguice.inject.InjectView;
@@ -37,6 +39,10 @@ public class SimilarImgDetailActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_similar_img_detail, menu);
+        menu.findItem(R.id.ab_button_list).setIcon(
+                new IconDrawable(this, Iconify.IconValue.md_more_vert)
+                        .colorRes(R.color.ab_icon)
+                        .actionBarSize());
         return true;
     }
 

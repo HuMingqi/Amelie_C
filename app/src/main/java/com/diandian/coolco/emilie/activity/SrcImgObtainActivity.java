@@ -34,6 +34,7 @@ public class SrcImgObtainActivity extends BaseActivity {
         fragmentClasses.add(CameraFragment.class);
         fragmentClasses.add(GalleryFragment.class);
         FragmentPagerAdapter obtainImgFragmentAdapter = new CommonFragmentAdapter(getSupportFragmentManager(), fragmentClasses);
+//        obtainImgViewPager.setOffscreenPageLimit(0);
         obtainImgViewPager.setAdapter(obtainImgFragmentAdapter);
     }
 

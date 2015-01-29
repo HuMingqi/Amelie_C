@@ -28,6 +28,10 @@ import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.model.ImageFolder;
 import com.diandian.coolco.emilie.tmp.CustomGridAdapter;
 import com.diandian.coolco.emilie.tmp.ListImageDirPopupWindow;
+import com.diandian.coolco.emilie.utility.Preference;
+import com.diandian.coolco.emilie.utility.PreferenceKey;
+import com.malinskiy.materialicons.IconDrawable;
+import com.malinskiy.materialicons.Iconify;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -36,8 +40,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import roboguice.inject.InjectView;
 
@@ -54,6 +60,8 @@ public class GalleryFragment extends BaseFragment  implements ListImageDirPopupW
     private TextView chosenDirTextView;
     @InjectView(R.id.tv_dir_img_count)
     private TextView chosenDirImgCountTextView;
+
+    private boolean initialized;
 
 
     public GalleryFragment() {
@@ -79,17 +87,37 @@ public class GalleryFragment extends BaseFragment  implements ListImageDirPopupW
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        init();
+//        init();
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            // load data here
+            if (!initialized) {
+                init();
+            }
+        }else{
+            // fragment is no longer visible
+        }
+    }
+
+
     private void init() {
+        initialized = true;
+
+        chosenDirTextView.setCompoundDrawables(null, null, new IconDrawable(context, Iconify.IconValue.md_signal_cellular_4_bar)
+                .colorRes(R.color.ab_icon)
+                .sizeDp(14), null);
+//        chosenDirTextView.setCompoundDrawablePadding();
+
         DisplayMetrics outMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
         screenHeight = outMetrics.heightPixels;
 
         getImages();
         initEvent();
-
     }
 
     private ProgressDialog mProgressDialog;
@@ -181,12 +209,36 @@ public class GalleryFragment extends BaseFragment  implements ListImageDirPopupW
     private void initListDirPopupWindw()
     {
         //sort every folder's images, but don't store it ,because it can be very large
+        /*u can't del element in for-each loop, it will arise concurrentModificationException, but iterator.remove is safe
         for (ImageFolder imageFolder : imageFolders){
             if (imageFolder.getDir().equals("/所有图片")){
                 continue;
             }
 
             List<String> imgs = getImgs(imageFolder);
+
+            sortImg(imgs);
+
+            imageFolder.setFirstImagePath(imgs.get(0));
+            imageFolder.setCount(imgs.size());
+        }
+        */
+        for (Iterator<ImageFolder> iterator = imageFolders.iterator(); iterator.hasNext(); ) {
+            ImageFolder imageFolder = iterator.next();
+
+            //all image is an virtual dir, u can't get images from its dir, skip it
+            if (imageFolder.getDir().equals("/所有图片")){
+                continue;
+            }
+
+            List<String> imgs = getImgs(imageFolder);
+
+            //del the empty dir, I don't how it was create
+            if (imgs == null) {
+                iterator.remove();
+                continue;
+            }
+
             sortImg(imgs);
 
             imageFolder.setFirstImagePath(imgs.get(0));
@@ -354,6 +406,9 @@ public class GalleryFragment extends BaseFragment  implements ListImageDirPopupW
         imgGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //set flag
+                Preference.setPrefBoolean(context, PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
+
                 imgObtained(currentFolderImgs.get(position));
             }
         });
@@ -407,6 +462,11 @@ public class GalleryFragment extends BaseFragment  implements ListImageDirPopupW
                 return false;
             }
         });
+
+        // It seems there would be empty dir
+        if (imgNames == null) {
+            return null;
+        }
 
         String dirPrefix = folder.getDir() + "/";
         for (int i = 0; i < imgNames.length; i++) {

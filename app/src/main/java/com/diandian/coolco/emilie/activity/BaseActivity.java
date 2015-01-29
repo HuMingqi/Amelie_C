@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import roboguice.activity.RoboActionBarActivity;
 
 
+//
 public class BaseActivity extends RoboActionBarActivity{
 
     protected Context context;

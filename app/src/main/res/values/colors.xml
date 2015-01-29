@@ -34,4 +34,5 @@
 	<color name="theme_edge_effect">#ffbdbdbd</color>
     <color name="bg_pressed_list_item">#e7e7e7</color>
     <color name="bg_list_item">#f9f9f9</color>
+    <color name="ab_icon">#e7e7e7</color>
 </resources>

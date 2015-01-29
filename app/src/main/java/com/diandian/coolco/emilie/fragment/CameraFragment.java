@@ -2,6 +2,7 @@ package com.diandian.coolco.emilie.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,7 @@ import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -19,11 +21,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.diandian.coolco.emilie.R;
+import com.diandian.coolco.emilie.utility.ActionName;
 import com.diandian.coolco.emilie.utility.BitmapStorage;
 import com.diandian.coolco.emilie.utility.Logcat;
+import com.diandian.coolco.emilie.utility.Preference;
+import com.diandian.coolco.emilie.utility.PreferenceKey;
+import com.malinskiy.materialicons.IconDrawable;
+import com.malinskiy.materialicons.Iconify;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -86,13 +91,19 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
             CameraFragment.this.camera.stopPreview();
-            //rotate the pic
-            Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
-            Matrix matrix = new Matrix();
-            matrix.postRotate((float)(90.0));
-            bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, false);
 
             String imgName = System.currentTimeMillis() + ".jpg";
+            String imgPath = BitmapStorage.getImgDir(context) + "/" +imgName;
+
+            rotateStoreSrcImgInBg(data, imgName);
+//            rotateStoreSrcImgInBg();
+
+            imgObtained(imgPath);
+
+//            Logcat.e(TAG, System.currentTimeMillis()+"");
+
+            //rotate the pic
+
 //            try {
 //                FileOutputStream fos = getActivity().openFileOutput(imgName, Context.MODE_PRIVATE);
 //                BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -102,11 +113,58 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
 //            } catch (Exception e) {
 //                Logcat.e(TAG, "Save Picture Fail");
 //            }
-            String imgPath = BitmapStorage.saveImg(context, bm, imgName);
-            Logcat.e(TAG, imgPath);
-            imgObtained(imgPath);
+//            Logcat.e(TAG, System.currentTimeMillis()+"");
+//            Logcat.e(TAG, System.currentTimeMillis()+"");
+//            Logcat.e(TAG, imgPath);
         }
     };
+
+    private void rotateStoreSrcImgInBg(final byte[] data, final String imgName) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+                Matrix matrix = new Matrix();
+                matrix.postRotate(90);
+                bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, false);
+
+                BitmapStorage.storeImg(context, bm, imgName);
+
+                srcImgStorageCompleted();
+            }
+        }).start();
+
+    }
+    private void rotateStoreSrcImgInBg() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+//                Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+//                Matrix matrix = new Matrix();
+//                matrix.postRotate(90);
+//                bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, false);
+//
+//                BitmapStorage.storeImg(context, bm, imgName);
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                srcImgStorageCompleted();
+            }
+        }).start();
+
+    }
+
+    private void srcImgStorageCompleted() {
+        //set flag
+        Preference.setPrefBoolean(context, PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
+
+        //send broadcast
+        Intent intent = new Intent(ActionName.SRC_IMG_STORAGE_COMPLETED);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
 
     public CameraFragment() {
         // Required empty public constructor
@@ -142,11 +200,18 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
         List<Camera.Size> supportedPreviewSizes = parameters.getSupportedPreviewSizes();
         List<Camera.Size> supportedPictureSizes = parameters.getSupportedPictureSizes();
         int preViewPicSizeIndex = supportedPictureSizes.size() - 1;
+//        for (Camera.Size supportedPreviewSize : supportedPreviewSizes) {
+//
+//        }
+//        int previewWidth, previewHeight;
         parameters.setPreviewSize(supportedPreviewSizes.get(preViewPicSizeIndex).width, supportedPreviewSizes.get(preViewPicSizeIndex).height);
         parameters.setPictureSize(supportedPictureSizes.get(preViewPicSizeIndex).width, supportedPictureSizes.get(preViewPicSizeIndex).height);
         camera.setParameters(parameters);
         camera.setDisplayOrientation(90);
 
+        captureImageView.setImageDrawable(new IconDrawable(context, Iconify.IconValue.md_camera)
+                .colorRes(R.color.ab_icon)
+                .actionBarSize());
         captureImageView.setOnClickListener(this);
 
 //        captureImageView.setOnClickListener(new View.OnClickListener() {

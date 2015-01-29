@@ -14,7 +14,7 @@ import java.io.IOException;
 public class BitmapStorage {
     private static final String TAG = BitmapStorage.class.getSimpleName();
 
-    public static String saveImg(Context context, Bitmap bm, String imgName) {
+    public static String storeImg(Context context, Bitmap bm, String imgName) {
         String imgDir = Environment.getExternalStorageDirectory().toString()
                 + "/" + getApplicationName(context);
         String imgPath = imgDir + "/" + imgName;
@@ -34,6 +34,11 @@ public class BitmapStorage {
             Logcat.e(TAG, e.toString());
         }
         return null;
+    }
+
+    public static String getImgDir(Context context){
+        return Environment.getExternalStorageDirectory().toString()
+                + "/" + getApplicationName(context);
     }
 
     public static String getApplicationName(Context context) {

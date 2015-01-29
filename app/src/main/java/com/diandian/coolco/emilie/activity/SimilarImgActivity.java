@@ -1,6 +1,7 @@
 package com.diandian.coolco.emilie.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.Menu;
@@ -15,6 +16,8 @@ import com.diandian.coolco.emilie.adapter.CommonBaseAdapter;
 import com.diandian.coolco.emilie.model.Image;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.etsy.android.grid.StaggeredGridView;
+import com.malinskiy.materialicons.IconDrawable;
+import com.malinskiy.materialicons.Iconify;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -121,10 +124,14 @@ public class SimilarImgActivity extends BaseActivity {
 
     static class SimilarImgGridViewHolder extends CommonBaseAdapter.CommonViewHolder<Image> {
         private ImageView imageView;
+        private IconDrawable defaultDrawable;
 
         public SimilarImgGridViewHolder(View convertView) {
-            ((CardView)convertView).setPreventCornerOverlap(false);
-            imageView = (ImageView) convertView.findViewById(R.id.iv_similar_img_grid_item);
+//            ((CardView)convertView).setPreventCornerOverlap(false);
+//            imageView = (ImageView) convertView.findViewById(R.id.iv_similar_img_grid_item);
+            imageView = (ImageView) convertView;
+            defaultDrawable = new IconDrawable(convertView.getContext(), Iconify.IconValue.md_filter_drama).color(Color.parseColor("#474747")).sizeDp(120);
+            imageView.setImageDrawable(defaultDrawable);
         }
 
         @Override

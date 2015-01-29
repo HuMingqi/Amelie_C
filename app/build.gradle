@@ -30,4 +30,5 @@ dependencies {
     compile 'com.edmodo:cropper:1.0.1'
     compile 'com.mcxiaoke.volley:library:1.0.+'
     compile files('libs/universal-image-loader-1.9.3-with-sources.jar')
+    compile 'com.malinskiy:materialicons:1.0.1'
 }
