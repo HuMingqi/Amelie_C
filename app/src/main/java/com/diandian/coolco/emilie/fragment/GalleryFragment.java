@@ -302,6 +302,7 @@ public class GalleryFragment extends BaseFragment  implements ListImageDirPopupW
             return;
         }
         // 显示进度条
+//        mProgressDialog = ProgressDialog.show(getActivity(), "正在加载...");
         mProgressDialog = ProgressDialog.show(getActivity(), null, "正在加载...");
 
         new Thread(new Runnable()

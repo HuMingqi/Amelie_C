@@ -21,7 +21,7 @@ public class CustomGridAdapter extends CommonAdapter<String>
 	 * 用户选择的图片，存储为图片的完整路径
 	 */
 	public static List<String> mSelectedImage = new LinkedList<String>();
-    private final Drawable defaultDrawable;
+//    private final Drawable defaultDrawable;
 
     /**
 	 * 文件夹路径
@@ -32,9 +32,9 @@ public class CustomGridAdapter extends CommonAdapter<String>
 	{
 		super(context, mDatas, itemLayoutId);
 //		this.mDirPath = dirPath;
-        defaultDrawable = new IconDrawable(context, Iconify.IconValue.md_filter_drama)
-                .color(Color.parseColor("#474747"))
-                .sizeDp(160);
+//        defaultDrawable = new IconDrawable(context, Iconify.IconValue.md_filter_drama)
+//                .color(Color.parseColor("#474747"))
+//                .sizeDp(160);
 
 	}
 
@@ -43,7 +43,7 @@ public class CustomGridAdapter extends CommonAdapter<String>
 	{
 		//设置no_pic
 //		helper.setImageResource(R.id.iv_local_img_grid_item, 0);
-        helper.setImageDrawable(R.id.iv_local_img_grid_item, defaultDrawable);
+//        helper.setImageDrawable(R.id.iv_local_img_grid_item, defaultDrawable);
 		//设置no_selected
 //				helper.setImageResource(R.id.id_item_select,
 //						R.drawable.picture_unselected);

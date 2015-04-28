@@ -57,7 +57,8 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
         if (isSrcImgStorageCompleted){
             srcImgStorageCompleted();
         } else {
-            progressDialog = ProgressDialog.show(this, null, "加载中...");
+//            progressDialog = ProgressDialog.show(this, "正在加载...");
+            progressDialog = ProgressDialog.show(this, null,  "正在加载...");
 //            progressDialog = new ProgressDialog(SrcImgCropActivity.this);
 //            progressDialog.setTitle(null);
 //            progressDialog.setMessage("加载中...");

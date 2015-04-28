@@ -175,7 +175,7 @@ public class ImageLoader
 					if (imageView.getTag().toString().equals(path))
 					{
 						imageView.setImageBitmap(bm);
-                        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 					}
 				}
 			};

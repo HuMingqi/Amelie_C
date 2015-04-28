@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="progressBarLightTheme">
+        <item name="android:indeterminateDrawable">@anim/progress_bar_light</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateBehavior">repeat</item>
+        <item name="android:indeterminateDuration">700</item>
+    </style>
+
+    <style name="GrowInShrinkOut">
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@anim/shrink</item>
+    </style>
+
+    <style name="progressDialogTheme" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:windowAnimationStyle">@style/GrowInShrinkOut</item>
+    </style>
+
+</resources>
