@@ -1,7 +1,6 @@
 package com.diandian.coolco.emilie.fragment;
 
 
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -13,6 +12,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.diandian.coolco.emilie.R;
+import com.diandian.coolco.emilie.dialog.ProgressDialog;
 import com.diandian.coolco.emilie.model.ImageFolder;
 import com.diandian.coolco.emilie.tmp.CustomGridAdapter;
 import com.diandian.coolco.emilie.tmp.ListImageDirPopupWindow;
@@ -271,6 +272,9 @@ public class GalleryFragment extends BaseFragment  implements ListImageDirPopupW
         // 设置选择文件夹的回调
         mListImageDirPopupWindow.setOnImageDirSelected(this);
 
+        mListImageDirPopupWindow
+                .setAnimationStyle(R.style.anim_popup_dir);
+
 
     }
 
@@ -302,8 +306,8 @@ public class GalleryFragment extends BaseFragment  implements ListImageDirPopupW
             return;
         }
         // 显示进度条
-//        mProgressDialog = ProgressDialog.show(getActivity(), "正在加载...");
-        mProgressDialog = ProgressDialog.show(getActivity(), null, "正在加载...");
+        mProgressDialog = ProgressDialog.show(getActivity(), "正在加载...");
+//        mProgressDialog = ProgressDialog.show(getActivity(), null, "正在加载...");
 
         new Thread(new Runnable()
         {
@@ -389,8 +393,7 @@ public class GalleryFragment extends BaseFragment  implements ListImageDirPopupW
         bottomBarRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListImageDirPopupWindow
-                        .setAnimationStyle(R.style.anim_popup_dir);
+
                 mListImageDirPopupWindow.showAsDropDown(bottomBarRelativeLayout, 0, 0);
 
                 // 设置背景颜色变暗

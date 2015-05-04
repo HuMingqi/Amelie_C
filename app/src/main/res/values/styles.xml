@@ -3,11 +3,29 @@
     <!-- Base application theme. Theme.AppCompat -->
     <style name="AppTheme" parent="Theme.AppCompat">
         <!-- Customize your theme here. -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
     </style>
 
     <style name="anim_popup_dir">
         <item name="android:windowEnterAnimation">@anim/slide_in</item>
         <item name="android:windowExitAnimation">@anim/slide_out</item>
+    </style>
+    
+    <!-- the theme applied to the application or activity -->
+    <!--<style name="CustomActionBarTheme" parent="@android:style/Theme.Holo">-->
+        <!--<item name="android:actionBarStyle">@style/MyActionBar</item>-->
+    <!--</style>-->
+
+    <!-- ActionBar styles <item name="height">56dp</item><item name="displayOptions">showHome|showTitle</item> -->
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
+        <item name="titleTextStyle">@style/MyActionBarTitleText</item>
+
+
+    </style>
+
+    <!-- ActionBar title text <item name="android:textColor">@color/actionbar_title</item> -->
+    <style name="MyActionBarTitleText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textSize">18sp</item>
     </style>
 
 </resources>

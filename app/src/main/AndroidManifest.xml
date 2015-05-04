@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.diandian.coolco.emilie" >
+    package="com.diandian.coolco.emilie">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -19,7 +19,7 @@
         android:name=".utility.MyApplication">
         <activity
             android:name=".activity.SrcImgObtainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,16 +28,22 @@
         </activity>
         <activity
             android:name=".activity.SrcImgCropActivity"
-            android:label="@string/title_activity_src_img_crop" >
+            android:label="@string/title_activity_src_img_crop">
+
         </activity>
         <activity
             android:name=".activity.SimilarImgActivity"
-            android:label="@string/title_activity_similar_img" >
+            android:label="@string/title_activity_similar_img">
 
         </activity>
         <activity
             android:name=".activity.SimilarImgDetailActivity"
-            android:label="@string/title_activity_similar_img_detail" >
+            android:label="@string/title_activity_similar_img_detail"></activity>
+
+        <activity
+            android:name=".activity.SettingActivity"
+            android:label="设置">
+
         </activity>
     </application>
 

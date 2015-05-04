@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ListView
+        android:id="@+id/list1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="0dp"
+        android:cacheColorHint="@android:color/transparent"
+        android:dividerHeight="1px"
+        android:listSelector="@android:color/transparent" >
+
+    </ListView>
+    <!--android:divider="@color/divider"-->
+    <!-- 
+    <View android:layout_width="match_parent"
+          android:layout_height="1px"
+          android:layout_marginLeft="12dp"
+          android:layout_marginRight="12dp"
+          android:background="@color/divider" />
+     -->
+    <!--可以用 space 取代-->
+    <!--<View android:layout_width="match_parent"-->
+          <!--android:layout_height="1px"-->
+          <!--android:layout_marginTop="24dp"-->
+          <!--android:layout_marginLeft="12dp"-->
+          <!--android:layout_marginRight="12dp"-->
+          <!--android:background="@color/divider" />-->
+
+    <!--会有无法完全显示的问题-->
+    <ListView
+        android:id="@+id/list2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="24dp"
+        android:cacheColorHint="@android:color/transparent"
+        android:dividerHeight="1px"
+        android:listSelector="@android:color/transparent" >
+    </ListView>
+    
+    <!--<View android:layout_width="match_parent"-->
+          <!--android:layout_height="1px"-->
+          <!--android:layout_marginLeft="12dp"-->
+          <!--android:layout_marginRight="12dp"-->
+          <!--android:background="@color/divider" />-->
+
+</LinearLayout>

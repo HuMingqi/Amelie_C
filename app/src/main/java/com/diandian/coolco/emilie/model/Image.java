@@ -1,13 +1,25 @@
 package com.diandian.coolco.emilie.model;
 
+import android.graphics.Point;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Size;
 
 public class Image implements Parcelable {
     private String name;
     private String description;
     private String downloadUrl;
     private String shoppingUrl;
+
+    private Point size;
+
+    public Point getSize() {
+        return size;
+    }
+
+    public void setSize(Point size) {
+        this.size = size;
+    }
 
     public String getName() {
         return name;

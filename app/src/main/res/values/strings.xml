@@ -4,9 +4,10 @@
     <string name="app_name">Emilie</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_src_img_crop">SrcImgCropActivity</string>
-    <string name="title_activity_similar_img">SimilarImgActivity</string>
-    <string name="title_activity_similar_img_detail">SimilarImgDetailActivity</string>
+    <string name="title_activity_src_img_crop">裁剪</string>
+    <string name="title_activity_similar_img">搜索结果</string>
+    <string name="title_activity_similar_img_detail">结果详情</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="similar_img_transtion_dest">similarImgTranstionDest</string>
 
 </resources>

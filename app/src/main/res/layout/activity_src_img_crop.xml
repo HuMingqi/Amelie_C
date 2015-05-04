@@ -2,6 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:id="@+id/root"
+
     tools:context="com.diandian.coolco.emilie.activity.SrcImgCropActivity">
 
     <com.edmodo.cropper.CropImageView
@@ -28,10 +31,11 @@
 -->
 
     <RelativeLayout
+        android:id="@+id/rl_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="#cc000000" >
+        android:background="#aa000000" >
 
         <ImageView
             android:id="@+id/iv_crop"
@@ -41,6 +45,19 @@
             android:layout_centerVertical="true"
             android:contentDescription="@null"
             android:src="@android:drawable/ic_menu_crop" />
+
+        <TextView
+            android:id="@+id/tv_skip_crop"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="跳过"
+            android:textSize="16sp"
+            android:textColor="#e7e7e7"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="12dp"
+            android:paddingRight="20dp"
+            android:gravity="center"/>
 
     </RelativeLayout>
 

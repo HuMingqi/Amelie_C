@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.diandian.coolco.emilie.R;
+import com.diandian.coolco.emilie.activity.SrcImgObtainActivity;
 import com.diandian.coolco.emilie.utility.ActionName;
 import com.diandian.coolco.emilie.utility.BitmapStorage;
 import com.diandian.coolco.emilie.utility.Logcat;
@@ -45,6 +46,8 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
     private SurfaceView surfaceView;
     @InjectView(R.id.iv_capture)
     private ImageView captureImageView;
+    @InjectView(R.id.iv_go2gallery)
+    private ImageView go2galleryImageView;
 
     private Camera camera;
     private SurfaceHolder surfaceHolder;
@@ -200,10 +203,6 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
         List<Camera.Size> supportedPreviewSizes = parameters.getSupportedPreviewSizes();
         List<Camera.Size> supportedPictureSizes = parameters.getSupportedPictureSizes();
         int preViewPicSizeIndex = supportedPictureSizes.size() - 1;
-//        for (Camera.Size supportedPreviewSize : supportedPreviewSizes) {
-//
-//        }
-//        int previewWidth, previewHeight;
         parameters.setPreviewSize(supportedPreviewSizes.get(preViewPicSizeIndex).width, supportedPreviewSizes.get(preViewPicSizeIndex).height);
         parameters.setPictureSize(supportedPictureSizes.get(preViewPicSizeIndex).width, supportedPictureSizes.get(preViewPicSizeIndex).height);
         camera.setParameters(parameters);
@@ -211,22 +210,10 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
 
         captureImageView.setImageDrawable(new IconDrawable(context, Iconify.IconValue.md_camera)
                 .colorRes(R.color.ab_icon)
-                .actionBarSize());
+                .sizeDp(27));
         captureImageView.setOnClickListener(this);
 
-//        captureImageView.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                camera.autoFocus(new Camera.AutoFocusCallback() {
-//
-//                    @Override
-//                    public void onAutoFocus(boolean success, Camera camera) {
-//                        CameraFragment.this.camera.takePicture(null, null, pictureCallback);
-//                    }
-//                });
-//            }
-//        });
+        go2galleryImageView.setOnClickListener(this);
     }
 
     @Override
@@ -272,6 +259,9 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
         switch (v.getId()){
             case R.id.iv_capture:
                 capture();
+                break;
+            case R.id.iv_go2gallery:
+                ((SrcImgObtainActivity) getActivity()).go2gallery();
                 break;
         }
     }

@@ -13,7 +13,7 @@ import com.diandian.coolco.emilie.R;
 
 public class ProgressDialog  extends Dialog{
 	
-	private String messageString;
+	private String messageString = "";
 
     public static ProgressDialog show(Context context, String messageString){
         ProgressDialog progressDialog = new ProgressDialog(context);

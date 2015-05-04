@@ -5,4 +5,6 @@ public class ExtraDataName {
     public static final String SRC_IMG_PATH = PACKAGE_PREFIX + "srcImgPath";
     public static final String CROPPED_SRC_IMG_PATH = PACKAGE_PREFIX + "croppedSrcImgPath";
     public static final String SIMILAR_IMG = PACKAGE_PREFIX + "similarImg";
+    public static final String SIMILAR_IMGS = PACKAGE_PREFIX + "similarImgs";
+    public static final String SIMILAR_IMG_INIT_POS = PACKAGE_PREFIX + "similarImgInitPos";
 }
