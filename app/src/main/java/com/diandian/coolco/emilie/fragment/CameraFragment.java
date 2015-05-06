@@ -38,6 +38,7 @@ import roboguice.inject.InjectView;
 /**
  * A simple {@link Fragment} subclass.
  */
+@SuppressWarnings("deprecation")
 public class CameraFragment extends BaseFragment implements View.OnClickListener {
 
     private final static String TAG = CameraFragment.class.getSimpleName();

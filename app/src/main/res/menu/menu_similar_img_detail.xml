@@ -11,11 +11,13 @@
         android:orderInCategory="2"
         app:showAsAction="ifRoom">
         <menu>
+
             <item
-                android:id="@+id/action_share_clothes"
-                android:title="分享"
-                android:orderInCategory="4"
+                android:id="@+id/action_download"
+                android:title="保存到相册"
+                android:orderInCategory="1"
                 app:showAsAction="never" />
+
 
             <item
                 android:id="@+id/action_go_shopping"
@@ -29,12 +31,18 @@
                 android:orderInCategory="3"
                 app:showAsAction="never" />
 
+            <item
+                android:id="@+id/action_share_clothes"
+                android:title="分享"
+                android:orderInCategory="4"
+                app:showAsAction="never" />
 
             <item
-                android:id="@+id/action_download"
-                android:title="保存到相册"
-                android:orderInCategory="1"
+                android:id="@+id/action_add_to_collection"
+                android:title="收藏"
+                android:orderInCategory="5"
                 app:showAsAction="never" />
+
         </menu>
     </item>
     <!--

@@ -3,14 +3,11 @@ package com.diandian.coolco.emilie.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.adapter.CommonFragmentAdapter;
@@ -18,7 +15,7 @@ import com.diandian.coolco.emilie.fragment.CameraFragment;
 import com.diandian.coolco.emilie.fragment.GalleryFragment;
 import com.diandian.coolco.emilie.utility.Dimension;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
-import com.diandian.coolco.emilie.utility.Logcat;
+import com.github.johnpersano.supertoasts.SuperToast;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 
@@ -86,7 +83,7 @@ public class SrcImgObtainActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_src_img_get, menu);
+        getMenuInflater().inflate(R.menu.menu_src_img_obtain, menu);
 
         menu.findItem(R.id.ab_button_list).setIcon(
                 new IconDrawable(this, Iconify.IconValue.md_more_vert)
@@ -104,9 +101,30 @@ public class SrcImgObtainActivity extends BaseActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_app_settings) {
-            startSettingActivity();
-            return true;
+//        if (id == R.id.action_app_settings) {
+//            startSettingActivity();
+//            return true;
+//        }
+
+        switch (id){
+            case R.id.action_app_settings:
+                startSettingActivity();
+                break;
+            case R.id.action_search_history:
+                final SuperToast superToast = new SuperToast(this);
+                superToast.setAnimations(SuperToast.Animations.FADE);
+                superToast.setDuration(SuperToast.Duration.MEDIUM);
+                superToast.setBackground(SuperToast.Background.GRAY);
+                superToast.setTextSize(SuperToast.TextSize.MEDIUM);
+//                superToast.setIcon(new IconDrawable(this, Iconify.IconValue.md_done), SuperToast.IconPosition.LEFT);
+//                superToast.setIcon(R.drawable.test, SuperToast.IconPosition.LEFT);
+                superToast.show();
+
+                startActivity(new Intent(this, TestPullUpDownActivity.class));
+
+
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);

@@ -29,8 +29,10 @@ import com.diandian.coolco.emilie.utility.ActionName;
 import com.diandian.coolco.emilie.utility.BitmapStorage;
 import com.diandian.coolco.emilie.utility.Dimension;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
+import com.diandian.coolco.emilie.utility.OnSwipeTouchListener;
 import com.diandian.coolco.emilie.utility.Preference;
 import com.diandian.coolco.emilie.utility.PreferenceKey;
+import com.diandian.coolco.emilie.widget.DetectSwipeGestureRelativeLayout;
 import com.edmodo.cropper.CropImageView;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
@@ -39,19 +41,21 @@ import roboguice.inject.InjectView;
 
 public class SrcImgCropActivity extends BaseActivity implements View.OnClickListener {
 
-    @InjectView(R.id.crop_image_view)
+//    @InjectView(R.id.crop_image_view)
     private CropImageView cropImageView;
-    @InjectView(R.id.iv_crop)
+//    @InjectView(R.id.iv_crop)
     private ImageView triggleCropImageView;
-    @InjectView(R.id.tv_skip_crop)
+//    @InjectView(R.id.tv_skip_crop)
     private TextView skipCropTextView;
-    @InjectView(R.id.rl_bottom_bar)
+//    @InjectView(R.id.rl_bottom_bar)
     private RelativeLayout bottomBarRelativeLayout;
     private BroadcastReceiver broadcastReceiver;
     private String srcImgPath;
     private ProgressDialog progressDialog;
     private Handler handler;
     private float bottomBarHeight;
+
+    private View rootView;
 
 
     @Override
@@ -63,6 +67,13 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
     }
 
     private void init() {
+        cropImageView = (CropImageView) findViewById(R.id.crop_image_view);
+        triggleCropImageView = (ImageView) findViewById(R.id.iv_crop);
+        skipCropTextView = (TextView) findViewById(R.id.tv_skip_crop);
+        bottomBarRelativeLayout = (RelativeLayout) findViewById(R.id.rl_bottom_bar);
+        rootView = findViewById(R.id.root);
+
+
         bottomBarHeight = Dimension.dp2px(this, 50);
 
         Intent intent = getIntent();
@@ -93,6 +104,18 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
         skipCropTextView.setOnClickListener(this);
         bottomBarRelativeLayout.setVisibility(View.GONE);
         initLayoutAnimation();
+        ((DetectSwipeGestureRelativeLayout) rootView).setListener(new DetectSwipeGestureRelativeLayout.SwipeRightListener() {
+            @Override
+            public void onSwipeRight() {
+                finish();
+            }
+        });
+//        cropImageView.setOnTouchListener(new OnSwipeTouchListener(SrcImgCropActivity.this){
+//            @Override
+//            public void onSwipeRight() {
+//                finish();
+//            }
+//        });
 
     }
 

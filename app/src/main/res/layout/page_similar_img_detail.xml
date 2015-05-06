@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.diandian.coolco.emilie.widget.PullUpDownLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    >
+
+    <include
+        layout="@layout/pud_header"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="#000000"
+        />
+
+    <ImageView
+        android:id="@+id/iv_page_similar_img_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#2b3132"
+        />
+
+    <include
+        layout="@layout/pud_footer"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="#000000"/>
+
+</com.diandian.coolco.emilie.widget.PullUpDownLinearLayout>

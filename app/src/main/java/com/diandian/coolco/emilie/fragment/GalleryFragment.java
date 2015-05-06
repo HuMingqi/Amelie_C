@@ -77,36 +77,39 @@ public class GalleryFragment extends BaseFragment  implements ListImageDirPopupW
         return inflater.inflate(R.layout.fragment_gallery, container, false);
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+//    @Override
+//    public void onViewCreated(View view, Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
 
 //        init();
-    }
+//    }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+//    @Override
+//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
 
 //        init();
-    }
+//    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
+//        if (isVisibleToUser) {
             // load data here
-            if (!initialized) {
-                init();
-            }
-        }else{
+//            if (!initialized) {
+//                init();
+//            }
+//        }else{
             // fragment is no longer visible
+//        }
+        if (isVisibleToUser && !initialized){
+            init();
+            initialized = true;
         }
     }
 
 
     private void init() {
-        initialized = true;
 
         chosenDirTextView.setCompoundDrawables(null, null, new IconDrawable(context, Iconify.IconValue.md_signal_cellular_4_bar)
                 .colorRes(R.color.ab_icon)

@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,8 +29,8 @@ import roboguice.inject.InjectView;
 
 public class SimilarImgDetailActivity extends BaseActivity {
 
-    @InjectView(R.id.iv_similar_img)
-    private ImageView similarImgView;
+//    @InjectView(R.id.iv_similar_img)
+//    private ImageView similarImgView;
     @InjectView(R.id.vp_similar_img)
     private ViewPager similarImgViewPager;
     private Menu mainMenu;
@@ -70,13 +71,17 @@ public class SimilarImgDetailActivity extends BaseActivity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
 //            return super.instantiateItem(container, position);
-            View view = views.get(position);
-            if (view == null) {
-                view = new ImageView(SimilarImgDetailActivity.this);
-                views.set(position, view);
-            }
+//            View view = views.get(position);
+//            if (view == null) {
+//                view = new ImageView(SimilarImgDetailActivity.this);
+              View view = LayoutInflater.from(SimilarImgDetailActivity.this).inflate(R.layout.page_similar_img_detail, container, false);
+//                view = LayoutInflater.from(SimilarImgDetailActivity.this).inflate(R.layout.page_similar_img_detail, container, false);
+//                views.set(position, view);
+//            }
             container.addView(view);
-            ImageLoader.getInstance().displayImage(images.get(position).getDownloadUrl(), (ImageView) view);
+//            container.addView(view, position);
+            ImageLoader.getInstance().displayImage(images.get(position).getDownloadUrl(), (ImageView) (view.findViewById(R.id.iv_page_similar_img_detail)));
+//            ImageLoader.getInstance().displayImage(images.get(position).getDownloadUrl(), (ImageView) view);
             return view;
         }
 
@@ -84,7 +89,8 @@ public class SimilarImgDetailActivity extends BaseActivity {
         public void destroyItem(ViewGroup container, int position, Object object) {
 //            super.destroyItem(container, position, object);
 //            container.removeViewAt(position);
-            container.removeView(views.get(position));
+//            container.removeView(views.get(position));
+            container.removeView((View) object);
         }
 
         @Override

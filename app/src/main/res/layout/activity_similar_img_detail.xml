@@ -1,21 +1,9 @@
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.diandian.coolco.emilie.activity.SimilarImgDetailActivity">
-
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/iv_similar_img"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentEnd="false"
-        android:src="@null"
-        android:layout_centerInParent="true"
-        android:scaleType="centerInside"
-        android:visibility="gone"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_similar_img"
@@ -23,3 +11,33 @@
         android:layout_height="match_parent"
         android:transitionName="@string/similar_img_transtion_dest"/>
 </RelativeLayout>
+
+<!--
+<com.diandian.coolco.emilie.widget.PullUpDownLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.diandian.coolco.emilie.activity.SimilarImgDetailActivity"
+    android:background="#000000">
+
+    <include
+        layout="@layout/pud_header"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="#000000" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_similar_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:transitionName="@string/similar_img_transtion_dest" />
+
+    <include
+        layout="@layout/pud_footer"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="#000000" />
+
+</com.diandian.coolco.emilie.widget.PullUpDownLinearLayout>
+-->

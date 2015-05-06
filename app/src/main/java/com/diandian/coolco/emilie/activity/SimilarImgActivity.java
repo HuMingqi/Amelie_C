@@ -35,6 +35,7 @@ import com.diandian.coolco.emilie.utility.Dimension;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.diandian.coolco.emilie.utility.NetHelper;
 import com.diandian.coolco.emilie.utility.Url;
+import com.diandian.coolco.emilie.widget.DetectSwipeGestureRelativeLayout;
 import com.diandian.coolco.emilie.widget.NumberProgressCircle;
 import com.etsy.android.grid.StaggeredGridView;
 import com.google.gson.Gson;
@@ -63,6 +64,9 @@ import java.util.List;
 import roboguice.inject.InjectView;
 
 public class SimilarImgActivity extends BaseActivity {
+
+    @InjectView(R.id.root)
+    private DetectSwipeGestureRelativeLayout rootView;
 
     @InjectView(R.id.sgv_similar_img)
     private StaggeredGridView similarImgGridView;
@@ -185,6 +189,13 @@ public class SimilarImgActivity extends BaseActivity {
                 if (position >= headerViewsCount && position < datas.size() + headerViewsCount) {
                     startSimilarImgDetailActivity(datas.get(position - headerViewsCount), position - headerViewsCount, view);
                 }
+            }
+        });
+
+        rootView.setListener(new DetectSwipeGestureRelativeLayout.SwipeRightListener() {
+            @Override
+            public void onSwipeRight() {
+                finish();
             }
         });
     }

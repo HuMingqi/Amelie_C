@@ -9,5 +9,6 @@
     <string name="title_activity_similar_img_detail">结果详情</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="similar_img_transtion_dest">similarImgTranstionDest</string>
+    <string name="title_activity_test_pull_up_down">TestPullUpDownActivity</string>
 
 </resources>

@@ -29,6 +29,11 @@ public class BoxView extends View {
     private float halfStrokeWidth;
     private float[] pts2;
     private Paint thinLinePaint;
+    private Paint textPaint;
+    private Rect textRect;
+    private String text;
+    private float textWidth;
+    private float textHeight;
 
     public BoxView(Context context) {
         super(context);
@@ -47,7 +52,7 @@ public class BoxView extends View {
 
     private void init() {
         shadowPaint = new Paint();
-        shadowPaint.setColor(Color.parseColor("#33000000"));
+        shadowPaint.setColor(Color.parseColor("#66000000"));
         clearPaint = new Paint();
         clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 
@@ -63,6 +68,12 @@ public class BoxView extends View {
         thinLinePaint.setColor(Color.parseColor("#cce7e7e7"));
         thinLinePaint.setStrokeWidth(1);
 
+        textPaint = new Paint();
+//        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setTextSize(Dimension.sp2px(getContext(), 16));
+        textPaint.setColor(Color.parseColor("#e7e7e7"));
+
+        text = "请将衣服放入框内，然后拍照";
     }
 
     @Override
@@ -76,6 +87,7 @@ public class BoxView extends View {
             canvas.drawLine(pts.get(i), pts.get(i + 1), pts.get(i + 2), pts.get(i + 3), pathPaint);
         }
         canvas.drawLines(pts2, thinLinePaint);
+        canvas.drawText(text, textRect.centerX()-textWidth*0.5f, textRect.top+textHeight, textPaint);
     }
 
     @Override
@@ -84,6 +96,14 @@ public class BoxView extends View {
         previewRect = new Rect(0, 0, w, h);
         h = (int) (h - Dimension.dp2px(getContext(), 50));
         boxRect = new Rect(w / 4, h / 3, w * 3 / 4, h * 2 / 3);
+
+        Rect textBounds = new Rect();
+        textPaint.getTextBounds(text, 0, text.length(), textBounds);
+        textWidth = textPaint.measureText(text);
+        textHeight = textBounds.height();
+
+        textRect = new Rect(0, ((int) (h * 2 / 3 + Dimension.dp2px(getContext(), 8))), w, h);
+
         int len = (int) Dimension.dp2px(getContext(), 12);
         cornerPath = new Path();
 
