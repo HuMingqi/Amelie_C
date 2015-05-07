@@ -29,7 +29,7 @@
     </style>
 
     <style name="PudHintText" parent="android:TextAppearance.DeviceDefault.Widget.TextView">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">#e7e7e7</item>
     </style>
 

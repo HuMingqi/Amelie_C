@@ -6,6 +6,10 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.RelativeLayout;
 
+import com.diandian.coolco.emilie.utility.Event;
+
+import de.greenrobot.event.EventBus;
+
 
 public class DetectSwipeGestureRelativeLayout extends RelativeLayout {
 
@@ -38,8 +42,8 @@ public class DetectSwipeGestureRelativeLayout extends RelativeLayout {
 
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
-        private static final int SWIPE_THRESHOLD = 100;
-        private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+        private static final int SWIPE_THRESHOLD = 200;
+        private static final int SWIPE_VELOCITY_THRESHOLD = 200;
 
         @Override
         public boolean onDown(MotionEvent e) {
@@ -79,9 +83,10 @@ public class DetectSwipeGestureRelativeLayout extends RelativeLayout {
     }
 
     public void onSwipeRight() {
-        if (listener != null){
-            listener.onSwipeRight();
-        }
+//        if (listener != null){
+//            listener.onSwipeRight();
+//        }
+        EventBus.getDefault().post(new Event.SwipeRightEvent());
     }
 
     public void onSwipeLeft() {

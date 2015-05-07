@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.model.Image;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
+import com.diandian.coolco.emilie.utility.SuperToastUtil;
+import com.diandian.coolco.emilie.widget.PullUpDownLinearLayout;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -78,6 +80,17 @@ public class SimilarImgDetailActivity extends BaseActivity {
 //                view = LayoutInflater.from(SimilarImgDetailActivity.this).inflate(R.layout.page_similar_img_detail, container, false);
 //                views.set(position, view);
 //            }
+            ((PullUpDownLinearLayout) view).setPullListener(new PullUpDownLinearLayout.PullListener() {
+                @Override
+                public void onPullDown() {
+                    SuperToastUtil.showToast(SimilarImgDetailActivity.this, "添加收藏成功！");
+                }
+
+                @Override
+                public void onPullUp() {
+                    SuperToastUtil.showToast(SimilarImgDetailActivity.this, "分享成功！");
+                }
+            });
             container.addView(view);
 //            container.addView(view, position);
             ImageLoader.getInstance().displayImage(images.get(position).getDownloadUrl(), (ImageView) (view.findViewById(R.id.iv_page_similar_img_detail)));
@@ -103,6 +116,10 @@ public class SimilarImgDetailActivity extends BaseActivity {
             return view == object;
         }
     }
+
+//    public void onEvent(String noEvent){
+//
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

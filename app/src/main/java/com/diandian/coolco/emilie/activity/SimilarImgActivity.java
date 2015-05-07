@@ -23,7 +23,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,8 +67,8 @@ import roboguice.inject.InjectView;
 
 public class SimilarImgActivity extends BaseActivity {
 
-    @InjectView(R.id.root)
-    private DetectSwipeGestureRelativeLayout rootView;
+//    @InjectView(R.id.root)
+//    private DetectSwipeGestureRelativeLayout rootView;
 
     @InjectView(R.id.sgv_similar_img)
     private StaggeredGridView similarImgGridView;
@@ -174,10 +176,8 @@ public class SimilarImgActivity extends BaseActivity {
         clothesNumTextView.setPadding(padding, padding, padding, padding);
         similarImgGridView.addHeaderView(clothesNumTextView);
 
-//        adapter = new CommonBaseAdapter<Image>(this, R.layout.grid_item_similar_img, datas, SimilarImgGridViewHolder.class);
         adapter = new CommonBaseAdapter<Image>(context, R.layout.grid_item_similar_img, datas, SimilarImgGridViewHolder.class);
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(adapter);
-
         animationAdapter.setAbsListView(similarImgGridView);
         similarImgGridView.setAdapter(animationAdapter);
 
@@ -185,20 +185,29 @@ public class SimilarImgActivity extends BaseActivity {
         similarImgGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                int headerViewsCount = ((ListView) parent).getHeaderViewsCount();
                 int headerViewsCount = similarImgGridView.getHeaderViewsCount();
-                if (position >= headerViewsCount && position < datas.size() + headerViewsCount) {
-                    startSimilarImgDetailActivity(datas.get(position - headerViewsCount), position - headerViewsCount, view);
+                int calibratedPosition = position - headerViewsCount;
+                if (calibratedPosition >= 0 && calibratedPosition < datas.size()){
+                    startSimilarImgDetailActivity(datas.get(calibratedPosition), calibratedPosition, view);
                 }
+//                if (position >= headerViewsCount && position < datas.size() + headerViewsCount) {
+//                    startSimilarImgDetailActivity(datas.get(position - headerViewsCount), position - headerViewsCount, view);
+//                }
             }
         });
 
-        rootView.setListener(new DetectSwipeGestureRelativeLayout.SwipeRightListener() {
-            @Override
-            public void onSwipeRight() {
-                finish();
-            }
-        });
+//        rootView.setListener(new DetectSwipeGestureRelativeLayout.SwipeRightListener() {
+//            @Override
+//            public void onSwipeRight() {
+//                finish();
+//            }
+//        });
     }
+//
+//    public void onEvent(String noEvent){
+//
+//    }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void startSimilarImgDetailActivity(Image image, int pos, View itemView) {

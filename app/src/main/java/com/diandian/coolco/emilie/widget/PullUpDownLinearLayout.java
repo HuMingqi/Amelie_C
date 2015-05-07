@@ -170,9 +170,11 @@ public class PullUpDownLinearLayout extends LinearLayout {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        headerView.layout(l, t - headerView.getMeasuredHeight(), r, t);
-        contentView.layout(l, t, r, b);
-        footerView.layout(l, b, r, b + footerView.getMeasuredHeight());
+//        super.onLayout(changed, l, t, r, b);
+
+        headerView.layout(0, t - headerView.getMeasuredHeight(), 800, t);
+        contentView.layout(0, t, 800, b);
+        footerView.layout(0, b, 800, b + footerView.getMeasuredHeight());
     }
 
     @Override
@@ -181,7 +183,7 @@ public class PullUpDownLinearLayout extends LinearLayout {
 
         //remeasure content view, let it occupy all the visible space
         contentView.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-//        contentView.measure(MeasureSpec.makeMeasureSpec(getWidth(), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.EXACTLY));
+//        contentView.measure(MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.EXACTLY));
 //        //remeasure footer view, because it has no height in system measure
 //        footerView.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
     }

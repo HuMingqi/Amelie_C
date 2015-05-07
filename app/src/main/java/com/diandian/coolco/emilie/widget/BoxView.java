@@ -70,10 +70,10 @@ public class BoxView extends View {
 
         textPaint = new Paint();
 //        textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setTextSize(Dimension.sp2px(getContext(), 16));
+        textPaint.setTextSize(Dimension.sp2px(getContext(), 14));
         textPaint.setColor(Color.parseColor("#e7e7e7"));
 
-        text = "请将衣服放入框内，然后拍照";
+        text = "请将衣服放入框内";
     }
 
     @Override

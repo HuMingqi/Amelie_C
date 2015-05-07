@@ -1,5 +1,6 @@
 package com.diandian.coolco.emilie.activity;
 
+import android.animation.AnimatorSet;
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
@@ -28,6 +29,7 @@ import com.diandian.coolco.emilie.dialog.ProgressDialog;
 import com.diandian.coolco.emilie.utility.ActionName;
 import com.diandian.coolco.emilie.utility.BitmapStorage;
 import com.diandian.coolco.emilie.utility.Dimension;
+import com.diandian.coolco.emilie.utility.Event;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.diandian.coolco.emilie.utility.OnSwipeTouchListener;
 import com.diandian.coolco.emilie.utility.Preference;
@@ -36,6 +38,7 @@ import com.diandian.coolco.emilie.widget.DetectSwipeGestureRelativeLayout;
 import com.edmodo.cropper.CropImageView;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import roboguice.inject.InjectView;
 
@@ -102,7 +105,7 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
                         .actionBarSize());
         triggleCropImageView.setOnClickListener(this);
         skipCropTextView.setOnClickListener(this);
-        bottomBarRelativeLayout.setVisibility(View.GONE);
+//        bottomBarRelativeLayout.setVisibility(View.GONE);
         initLayoutAnimation();
         ((DetectSwipeGestureRelativeLayout) rootView).setListener(new DetectSwipeGestureRelativeLayout.SwipeRightListener() {
             @Override
@@ -148,20 +151,29 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
     }
 
     private void setupAnimations(LayoutTransition transition) {
+        long animationDuration = 200;
+
         transition.setStagger(LayoutTransition.CHANGE_APPEARING, 0);
         transition.setStagger(LayoutTransition.CHANGE_DISAPPEARING, 0);
         transition.setStartDelay(LayoutTransition.CHANGE_APPEARING, 0);
         transition.setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 0);
         transition.setDuration(LayoutTransition.DISAPPEARING, 0);
-        transition.setDuration(LayoutTransition.APPEARING, 200);
+        transition.setDuration(LayoutTransition.APPEARING, animationDuration);
 
-        ObjectAnimator animIn = ObjectAnimator.ofFloat(null, "translationY", bottomBarHeight, 0).setDuration(
-                transition.getDuration(LayoutTransition.APPEARING));
+        ObjectAnimator slideIn = ObjectAnimator.ofFloat(null, "translationY", bottomBarHeight, 0).setDuration(animationDuration);
+//        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(null, "alpha", 0.2f, 1).setDuration(transition.getDuration(LayoutTransition.APPEARING));
+//        AnimatorSet animInSet = new AnimatorSet();
+//        animInSet.playTogether(slideIn, fadeIn);
+//        animInSet.setDuration(transition.getDuration(LayoutTransition.APPEARING));
 //        animIn.setInterpolator(new AccelerateDecelerateInterpolator());
-        transition.setAnimator(LayoutTransition.APPEARING, animIn);
-    }
+        transition.setAnimator(LayoutTransition.APPEARING, slideIn);
 
-    
+//        AnimatorSet animAppear = new AnimatorSet();
+//        animAppear.setDuration(animationDuration).playTogether(
+//                ObjectAnimator.ofFloat(bottomBarRelativeLayout, "alpha", 0.2f, 1),
+//                ObjectAnimator.ofFloat(bottomBarRelativeLayout, "translationY", bottomBarHeight, 0));
+//        transition.setAnimator(LayoutTransition.APPEARING, animAppear);
+    }
 
     private BroadcastReceiver createBroadcastReceiver(){
         return new BroadcastReceiver() {
@@ -177,6 +189,8 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
 
     private void srcImgStorageCompleted() {
         cropImageView.setImageBitmap(BitmapFactory.decodeFile(srcImgPath));
+//        String uri = String.format("file://%s", srcImgPath);
+//        ImageLoader.getInstance().displayImage(uri, (com.nostra13.universalimageloader.core.imageaware.ImageAware) cropImageView);
 
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
@@ -193,7 +207,7 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_src_img_crop, menu);
+//        getMenuInflater().inflate(R.menu.menu_src_img_crop, menu);
         return true;
     }
 

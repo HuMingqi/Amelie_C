@@ -161,6 +161,13 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
 
     }
 
+    public void onEvent(String empty){
+
+    }
+    public void onEventMainThread(String empty){
+
+    }
+
     private void srcImgStorageCompleted() {
         //set flag
         Preference.setPrefBoolean(context, PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);

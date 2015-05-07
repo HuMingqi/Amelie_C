@@ -17,6 +17,16 @@
         android:verticalSpacing="4dip" >
     </GridView>
 
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="空"
+        android:textColor="#e7e7e7"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:visibility="gone"/>
+
     <RelativeLayout
         android:id="@+id/rl_bottom_bar"
         android:layout_width="match_parent"

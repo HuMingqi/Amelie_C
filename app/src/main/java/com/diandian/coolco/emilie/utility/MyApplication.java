@@ -8,7 +8,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import de.greenrobot.event.util.AsyncExecutor;
+
 public class MyApplication extends Application {
+
+    private AsyncExecutor asyncExecutor;
 
 	public static void initImageLoader(Context paramContext) {
 		ImageLoaderConfiguration localImageLoaderConfiguration = new ImageLoaderConfiguration
@@ -25,6 +29,7 @@ public class MyApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		initImageLoader(getApplicationContext());
+        asyncExecutor = AsyncExecutor.create();
 	}
 
 	public void onLowMemory() {
@@ -35,4 +40,7 @@ public class MyApplication extends Application {
 		super.onTerminate();
 	}
 
+    public AsyncExecutor getAsyncExecutor() {
+        return asyncExecutor;
+    }
 }

@@ -13,6 +13,7 @@ import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.adapter.CommonFragmentAdapter;
 import com.diandian.coolco.emilie.fragment.CameraFragment;
 import com.diandian.coolco.emilie.fragment.GalleryFragment;
+import com.diandian.coolco.emilie.model.Image;
 import com.diandian.coolco.emilie.utility.Dimension;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.github.johnpersano.supertoasts.SuperToast;
@@ -53,33 +54,6 @@ public class SrcImgObtainActivity extends BaseActivity {
         obtainImgViewPager.setAdapter(obtainImgFragmentAdapter);
     }
 
-//    class MyPageTransformer implements ViewPager.PageTransformer {
-
-//        private View cameraBottomBar, galleryBottomBar;
-
-//        @Override
-//        public void transformPage(View page, float position) {
-//            page.findViewById(R.id.rl_bottom_bar).setTranslationY(bottomBarHeight*Math.abs(position));
-//            View captureView = page.findViewById(R.id.iv_capture);
-//            View go2galleyView = page.findViewById(R.id.iv_go2gallery);
-//            View chosenDirView = page.findViewById(R.id.tv_chosen_dir);
-//            View dirImgCountView = page.findViewById(R.id.tv_dir_img_count);
-//            if (captureView != null) {
-//                captureView.setTranslationY(bottomBarHeight*position*-1);
-//            }
-//            if (go2galleyView != null) {
-//                go2galleyView.setTranslationY(bottomBarHeight*position*-1);
-//            }
-//            if (chosenDirView != null) {
-//                chosenDirView.setTranslationY(bottomBarHeight*position);
-//            }
-//            if (dirImgCountView != null) {
-//                dirImgCountView.setTranslationY(bottomBarHeight*position);
-//            }
-//        }
-//    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -106,19 +80,12 @@ public class SrcImgObtainActivity extends BaseActivity {
 //            return true;
 //        }
 
-        switch (id){
+        switch (id) {
             case R.id.action_app_settings:
                 startSettingActivity();
                 break;
             case R.id.action_search_history:
-                final SuperToast superToast = new SuperToast(this);
-                superToast.setAnimations(SuperToast.Animations.FADE);
-                superToast.setDuration(SuperToast.Duration.MEDIUM);
-                superToast.setBackground(SuperToast.Background.GRAY);
-                superToast.setTextSize(SuperToast.TextSize.MEDIUM);
-//                superToast.setIcon(new IconDrawable(this, Iconify.IconValue.md_done), SuperToast.IconPosition.LEFT);
-//                superToast.setIcon(R.drawable.test, SuperToast.IconPosition.LEFT);
-                superToast.show();
+
 
                 startActivity(new Intent(this, TestPullUpDownActivity.class));
 
@@ -129,6 +96,10 @@ public class SrcImgObtainActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+//    public void onEventMainThread(Image image) {
+//
+//    }
 
     private void startSettingActivity() {
         Intent intent = new Intent(this, SettingActivity.class);
@@ -176,16 +147,7 @@ public class SrcImgObtainActivity extends BaseActivity {
     /**
      * called by camera fragment, when go2galleryImageView is clicked.
      */
-    public void go2gallery(){
+    public void go2gallery() {
         obtainImgViewPager.setCurrentItem(1, true);
     }
-
-//    private void toggleMoreMenu() {
-//        if (moreMenuItem.getSubMenu().hasVisibleItems()){
-//
-//        }
-//        onOptionsItemSelected(moreMenuItem);
-//        moreMenuItem.expandActionView();
-//        mainMenu.performIdentifierAction(R.id.ab_button_list, 0);
-//    }
 }

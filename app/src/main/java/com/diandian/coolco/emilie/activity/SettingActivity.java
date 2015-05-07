@@ -47,6 +47,10 @@ public class SettingActivity extends BaseActivity implements OnItemClickListener
 		list2.setOnItemClickListener(this);
 	}
 
+//    public void onEvent(String noEvent){
+//
+//    }
+
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		if (parent == list1) {
