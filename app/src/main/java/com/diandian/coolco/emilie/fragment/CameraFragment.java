@@ -196,25 +196,25 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void init() {
-        if (!checkCameraHardware(context)) {
-            Logcat.e(TAG, "No Camera");
-            return;
-        }
-
-        camera = getCameraInstance();
-
-        surfaceHolder = surfaceView.getHolder();
-        surfaceHolder.addCallback(surfaceHolderCallback);
-
-        Camera.Parameters parameters = camera.getParameters();
-        parameters.setPictureFormat(ImageFormat.JPEG);
-        List<Camera.Size> supportedPreviewSizes = parameters.getSupportedPreviewSizes();
-        List<Camera.Size> supportedPictureSizes = parameters.getSupportedPictureSizes();
-        int preViewPicSizeIndex = supportedPictureSizes.size() - 1;
-        parameters.setPreviewSize(supportedPreviewSizes.get(preViewPicSizeIndex).width, supportedPreviewSizes.get(preViewPicSizeIndex).height);
-        parameters.setPictureSize(supportedPictureSizes.get(preViewPicSizeIndex).width, supportedPictureSizes.get(preViewPicSizeIndex).height);
-        camera.setParameters(parameters);
-        camera.setDisplayOrientation(90);
+//        if (!checkCameraHardware(context)) {
+//            Logcat.e(TAG, "No Camera");
+//            return;
+//        }
+//
+//        camera = getCameraInstance();
+//
+//        surfaceHolder = surfaceView.getHolder();
+//        surfaceHolder.addCallback(surfaceHolderCallback);
+//
+//        Camera.Parameters parameters = camera.getParameters();
+//        parameters.setPictureFormat(ImageFormat.JPEG);
+//        List<Camera.Size> supportedPreviewSizes = parameters.getSupportedPreviewSizes();
+//        List<Camera.Size> supportedPictureSizes = parameters.getSupportedPictureSizes();
+//        int preViewPicSizeIndex = supportedPictureSizes.size() - 1;
+//        parameters.setPreviewSize(supportedPreviewSizes.get(preViewPicSizeIndex).width, supportedPreviewSizes.get(preViewPicSizeIndex).height);
+//        parameters.setPictureSize(supportedPictureSizes.get(preViewPicSizeIndex).width, supportedPictureSizes.get(preViewPicSizeIndex).height);
+//        camera.setParameters(parameters);
+//        camera.setDisplayOrientation(90);
 
         captureImageView.setImageDrawable(new IconDrawable(context, Iconify.IconValue.md_camera)
                 .colorRes(R.color.ab_icon)

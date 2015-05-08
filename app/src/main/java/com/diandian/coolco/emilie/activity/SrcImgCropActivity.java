@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,6 +40,11 @@ import com.edmodo.cropper.CropImageView;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 import roboguice.inject.InjectView;
 
@@ -188,7 +194,11 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
     }
 
     private void srcImgStorageCompleted() {
-        cropImageView.setImageBitmap(BitmapFactory.decodeFile(srcImgPath));
+        try {
+            cropImageView.setImageBitmap(getThumbnail(Uri.fromFile(new File(srcImgPath))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 //        String uri = String.format("file://%s", srcImgPath);
 //        ImageLoader.getInstance().displayImage(uri, (com.nostra13.universalimageloader.core.imageaware.ImageAware) cropImageView);
 
@@ -201,6 +211,45 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
 
         //unregister broadcast receiver
         unregisterReceiver();
+    }
+
+    public Bitmap getThumbnail(Uri uri) throws FileNotFoundException, IOException {
+        InputStream input = getContentResolver().openInputStream(uri);
+
+        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
+        onlyBoundsOptions.inJustDecodeBounds = true;
+//        onlyBoundsOptions.inDither=true;//optional
+//        onlyBoundsOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
+        input.close();
+        if ((onlyBoundsOptions.outWidth == -1) || (onlyBoundsOptions.outHeight == -1))
+            return null;
+
+//        int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
+//        double ratio = (originalSize > THUMBNAIL_SIZE) ? (originalSize / THUMBNAIL_SIZE) : 1.0;
+        int width = Dimension.getScreenWidth(this);
+        int height = Dimension.getScreenHeight(this);
+        double ratio = 1;
+        if (onlyBoundsOptions.outWidth < width && onlyBoundsOptions.outHeight < height){
+            ratio = 1;
+        } else {
+            ratio = Math.min(((float) width)/ ((float) onlyBoundsOptions.outWidth), ((float) height)/ ((float) onlyBoundsOptions.outHeight));
+        }
+
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
+        bitmapOptions.inDither=true;//optional
+        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        input = getContentResolver().openInputStream(uri);
+        Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+        input.close();
+        return bitmap;
+    }
+
+    private static int getPowerOfTwoForSampleRatio(double ratio){
+        int k = Integer.highestOneBit((int)Math.floor(ratio));
+        if(k==0) return 1;
+        else return k;
     }
 
 
@@ -223,11 +272,11 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
             return true;
         }
 
-        if (id == android.R.id.home) {
-//            NavUtils.navigateUpFromSameTask(this);
-            finish();
-            return true;
-        }
+//        if (id == android.R.id.home) {
+////            NavUtils.navigateUpFromSameTask(this);
+//            finish();
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

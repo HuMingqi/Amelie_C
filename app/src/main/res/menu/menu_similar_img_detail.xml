@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.diandian.coolco.emilie.activity.SimilarImgDetailActivity">
 
-
+    <!--
     <item
         android:id="@+id/ab_button_list"
         android:title="更多"
@@ -11,41 +11,42 @@
         android:orderInCategory="2"
         app:showAsAction="ifRoom">
         <menu>
+    -->
+
+            <item
+                android:id="@+id/action_add_to_collection"
+                android:title="收藏"
+                android:orderInCategory="1"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/action_share_clothes"
+                android:title="分享"
+                android:orderInCategory="2"
+                app:showAsAction="never" />
 
             <item
                 android:id="@+id/action_download"
                 android:title="保存到相册"
-                android:orderInCategory="1"
+                android:orderInCategory="3"
                 app:showAsAction="never" />
 
 
             <item
                 android:id="@+id/action_go_shopping"
                 android:title="去购买"
-                android:orderInCategory="2"
+                android:orderInCategory="4"
                 app:showAsAction="never" />
 
             <item
                 android:id="@+id/action_info"
                 android:title="查看服饰信息"
-                android:orderInCategory="3"
-                app:showAsAction="never" />
-
-            <item
-                android:id="@+id/action_share_clothes"
-                android:title="分享"
-                android:orderInCategory="4"
-                app:showAsAction="never" />
-
-            <item
-                android:id="@+id/action_add_to_collection"
-                android:title="收藏"
                 android:orderInCategory="5"
                 app:showAsAction="never" />
 
+    <!--
         </menu>
     </item>
-    <!--
     <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"

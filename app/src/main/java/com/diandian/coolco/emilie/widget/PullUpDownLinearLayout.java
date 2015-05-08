@@ -2,9 +2,11 @@ package com.diandian.coolco.emilie.widget;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -14,15 +16,19 @@ import android.widget.TextView;
 
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.utility.Logcat;
+import com.malinskiy.materialicons.IconDrawable;
+import com.malinskiy.materialicons.Iconify;
 
 /**
  * 重新 measure 和 layout，将 header 和 footer 绘制在屏幕以外
  */
 public class PullUpDownLinearLayout extends LinearLayout {
 
-    private final static float SCROLL_RATIO = 0.35f;
-    private static final long DURATION = 200;
+    private final static float SCROLL_RATIO = 0.5f;
+    private static final long DURATION = 300;
     private static final long ROTATE_ANIM_DURATION = 180;
+    private int touchSlop;
+    private boolean scrolling;
 
     private enum STATE {RELEASE_TO_TRIGGER_PULL_DOWN_ACTION, PULL_TO_TRIGGER_PULL_DOWN_ACTION, PULL_TO_TRIGGER_PULL_UP_ACTION, RELEASE_TO_TRIGGER_PULL_UP_ACTION, NORMAL}
 
@@ -33,6 +39,7 @@ public class PullUpDownLinearLayout extends LinearLayout {
     private View footerView;
 
     private float lastY = -1;
+    private float downY = -1;
 
     private int footerViewHeight;
     private TextView footerTextView;
@@ -70,6 +77,9 @@ public class PullUpDownLinearLayout extends LinearLayout {
                 0.5f);
         rotateDownAnim.setDuration(ROTATE_ANIM_DURATION);
         rotateDownAnim.setFillAfter(true);
+
+        ViewConfiguration viewConfiguration = ViewConfiguration.get(getContext());
+        touchSlop = viewConfiguration.getScaledTouchSlop();
     }
 
     @Override
@@ -87,9 +97,13 @@ public class PullUpDownLinearLayout extends LinearLayout {
 
         headerArrowImageView = (ImageView) findViewById(R.id.iv_pud_header_arrow);
         headerTextView = (TextView) findViewById(R.id.tv_pud_header_operation_hint);
+        headerArrowImageView.setImageDrawable(new IconDrawable(getContext(), Iconify.IconValue.md_flight).actionBarSize().color(Color.parseColor("#e7e7e7")));
+        headerArrowImageView.setRotationY(180);
 
         footerArrowImageView = (ImageView) findViewById(R.id.iv_pud_footer_arrow);
         footerTextView = (TextView) footerView.findViewById(R.id.tv_pud_footer_operation_hint);
+        footerArrowImageView.setImageDrawable(new IconDrawable(getContext(), Iconify.IconValue.md_flight).actionBarSize().color(Color.parseColor("#e7e7e7")));
+        footerArrowImageView.setRotationY(180);
 
         setOnTouchListener(new OnTouchListener() {
             @Override
@@ -108,6 +122,9 @@ public class PullUpDownLinearLayout extends LinearLayout {
     }
 
     private void handleTouchEvent(MotionEvent event) {
+        if (downY == -1) {
+            downY = event.getY();
+        }
         if (lastY == -1) {
             lastY = event.getY();
         }
@@ -117,7 +134,18 @@ public class PullUpDownLinearLayout extends LinearLayout {
             case MotionEvent.ACTION_DOWN:
                 break;
             case MotionEvent.ACTION_MOVE:
-                scrollBy(0, (int) (-dy * SCROLL_RATIO));
+//                scrollBy(0, (int) (-dy * SCROLL_RATIO));
+                if (scrolling) {
+                    float calibratedTotalDy = (event.getY() - downY) * SCROLL_RATIO;
+                    scrollTo(0, (int) -calibratedTotalDy);
+                } else {
+                    float totalDy = event.getY() - downY;
+                    if (Math.abs(totalDy) > touchSlop) {
+                        scrolling = true;
+                        float calibratedTotalDy = totalDy * SCROLL_RATIO;
+                        scrollTo(0, (int) -calibratedTotalDy);
+                    }
+                }
                 updateHeaderFooterView();
                 break;
             case MotionEvent.ACTION_UP:
@@ -128,12 +156,14 @@ public class PullUpDownLinearLayout extends LinearLayout {
                     }
                     Logcat.e("footer trigger");
                 } else if (getScrollY() <= -headerView.getMeasuredHeight()) {
-                    if (pullListener != null){
+                    if (pullListener != null) {
                         pullListener.onPullUp();
                     }
                     Logcat.e("header trigger");
                 }
                 smoothScrollTo(0);
+                lastY = -1;
+                downY = -1;
                 break;
         }
 
@@ -171,10 +201,10 @@ public class PullUpDownLinearLayout extends LinearLayout {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
 //        super.onLayout(changed, l, t, r, b);
-
-        headerView.layout(0, t - headerView.getMeasuredHeight(), 800, t);
-        contentView.layout(0, t, 800, b);
-        footerView.layout(0, b, 800, b + footerView.getMeasuredHeight());
+        int width = r - l;
+        headerView.layout(0, t - headerView.getMeasuredHeight(), width, t);
+        contentView.layout(0, t, width, b);
+        footerView.layout(0, b, width, b + footerView.getMeasuredHeight());
     }
 
     @Override

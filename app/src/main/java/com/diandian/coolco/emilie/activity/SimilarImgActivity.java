@@ -39,6 +39,7 @@ import com.diandian.coolco.emilie.utility.NetHelper;
 import com.diandian.coolco.emilie.utility.Url;
 import com.diandian.coolco.emilie.widget.DetectSwipeGestureRelativeLayout;
 import com.diandian.coolco.emilie.widget.NumberProgressCircle;
+import com.diandian.coolco.emilie.widget.PlaceHolderImageView;
 import com.etsy.android.grid.StaggeredGridView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -253,11 +254,11 @@ public class SimilarImgActivity extends BaseActivity {
             return true;
         }
 
-        if (id == android.R.id.home) {
-//            NavUtils.navigateUpFromSameTask(this);
-            finish();
-            return true;
-        }
+//        if (id == android.R.id.home) {
+////            NavUtils.navigateUpFromSameTask(this);
+//            finish();
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -283,11 +284,15 @@ public class SimilarImgActivity extends BaseActivity {
 //            Drawable placeholderDrawable = new ColorDrawable(Color.parseColor("#e7e7e7"));
 //            placeholderDrawable.setBounds(0, 0, item.getSize().x, item.getSize().y);
 //            imageView.setImageDrawable(placeholderDrawable);
-            Bitmap.Config conf = Bitmap.Config.ARGB_8888;
-            Bitmap bitmap = Bitmap.createBitmap(item.getSize().x, item.getSize().y, conf);
-            bitmap.eraseColor(imageView.getContext().getResources().getColor(R.color.cardview_dark_background));
-//            bitmap.eraseColor(Color.parseColor("#868686"));
-            imageView.setImageBitmap(bitmap);
+//            Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+//            Bitmap.Config conf = Bitmap.Config.RGB_565;
+//            final Bitmap bitmap = Bitmap.createBitmap(item.getSize().x, item.getSize().y, conf);
+//            bitmap.eraseColor(imageView.getContext().getResources().getColor(R.color.cardview_dark_background));
+//            bitmap.eraseColor(Color.parseColor("#2b3132"));
+//            bitmap.reconfigure(item.getSize().x, item.getSize().y, conf);
+//            imageView.setImageBitmap(bitmap);
+            ((PlaceHolderImageView) imageView).setDrawableWidth(item.getSize().x);
+            ((PlaceHolderImageView) imageView).setDrawableHeight(item.getSize().y);
 
             ImageLoader.getInstance().displayImage(item.getDownloadUrl(), imageView, options, new ImageLoadingListener() {
                 @Override

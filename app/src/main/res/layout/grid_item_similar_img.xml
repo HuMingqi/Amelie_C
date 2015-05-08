@@ -4,13 +4,14 @@
     android:layout_height="wrap_content">
 
 
-    <ImageView
+    <com.diandian.coolco.emilie.widget.PlaceHolderImageView
         android:id="@+id/iv_similar_img_grid_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         android:src="@null"
-        android:adjustViewBounds="true" />
+        android:adjustViewBounds="true"
+        android:background="#000000"/>
 
     <view
         android:id="@+id/npc_similar_img_grid_item"

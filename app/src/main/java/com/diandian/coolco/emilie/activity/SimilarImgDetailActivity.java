@@ -1,15 +1,15 @@
 package com.diandian.coolco.emilie.activity;
 
 import android.content.Intent;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,25 +17,24 @@ import android.widget.ImageView;
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.model.Image;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
+import com.diandian.coolco.emilie.utility.Logcat;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
+import com.diandian.coolco.emilie.widget.DetectTapViewPager;
 import com.diandian.coolco.emilie.widget.PullUpDownLinearLayout;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import roboguice.inject.InjectView;
 
-public class SimilarImgDetailActivity extends BaseActivity {
+public class SimilarImgDetailActivity extends BaseActivity{
 
-//    @InjectView(R.id.iv_similar_img)
-//    private ImageView similarImgView;
     @InjectView(R.id.vp_similar_img)
     private ViewPager similarImgViewPager;
-    private Menu mainMenu;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +45,42 @@ public class SimilarImgDetailActivity extends BaseActivity {
     }
 
     private void init() {
+        initViewPager();
+        initActionBar();
+    }
+
+    private void initViewPager() {
         Intent intent = getIntent();
-//        ArrayList<Image> imgs = (ArrayList<Image>) intent.getParcelableExtra(ExtraDataName.SIMILAR_IMGS);
         ArrayList<Image> imgs = intent.getParcelableArrayListExtra(ExtraDataName.SIMILAR_IMGS);
         int initPos = intent.getIntExtra(ExtraDataName.SIMILAR_IMG_INIT_POS, 0);
         PagerAdapter adapter = new SimilarImgViewPagerAdapter(imgs);
         similarImgViewPager.setAdapter(adapter);
         similarImgViewPager.setCurrentItem(initPos, true);
-//        ImageLoader.getInstance().displayImage(img.getDownloadUrl(), similarImgView);
-
     }
 
-    class SimilarImgViewPagerAdapter extends PagerAdapter{
+    /**
+     * make action bar toggle visibility once viewpager get taped
+     */
+    private void initActionBar() {
+        actionBar = getSupportActionBar();
+        actionBar.hide();
+        ((DetectTapViewPager) similarImgViewPager).setTapListener(new DetectTapViewPager.TapListener() {
+            @Override
+            public void onTap() {
+                toggleActionBarVisiblity();
+            }
+        });
+    }
+
+    private void toggleActionBarVisiblity() {
+        if (actionBar.isShowing()){
+            actionBar.hide();
+        } else {
+            actionBar.show();
+        }
+    }
+
+    class SimilarImgViewPagerAdapter extends PagerAdapter {
 
         private List<Image> images;
         private List<View> views;
@@ -76,7 +99,7 @@ public class SimilarImgDetailActivity extends BaseActivity {
 //            View view = views.get(position);
 //            if (view == null) {
 //                view = new ImageView(SimilarImgDetailActivity.this);
-              View view = LayoutInflater.from(SimilarImgDetailActivity.this).inflate(R.layout.page_similar_img_detail, container, false);
+            View view = LayoutInflater.from(SimilarImgDetailActivity.this).inflate(R.layout.page_similar_img_detail, container, false);
 //                view = LayoutInflater.from(SimilarImgDetailActivity.this).inflate(R.layout.page_similar_img_detail, container, false);
 //                views.set(position, view);
 //            }
@@ -125,11 +148,15 @@ public class SimilarImgDetailActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_similar_img_detail, menu);
-        menu.findItem(R.id.ab_button_list).setIcon(
-                new IconDrawable(this, Iconify.IconValue.md_more_vert)
+        menu.findItem(R.id.action_add_to_collection).setIcon(
+                new IconDrawable(this, Iconify.IconValue.md_star)
                         .colorRes(R.color.ab_icon)
                         .actionBarSize());
-        mainMenu = menu;
+        menu.findItem(R.id.action_share_clothes).setIcon(
+                new IconDrawable(this, Iconify.IconValue.md_share)
+                        .colorRes(R.color.ab_icon)
+                        .actionBarSize());
+//        mainMenu = menu;
         return true;
     }
 
@@ -145,11 +172,11 @@ public class SimilarImgDetailActivity extends BaseActivity {
             return true;
         }
 
-        if (id == android.R.id.home) {
-//            NavUtils.navigateUpFromSameTask(this);
-            finish();
-            return true;
-        }
+//        if (id == android.R.id.home) {
+////            NavUtils.navigateUpFromSameTask(this);
+//            finish();
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -157,14 +184,14 @@ public class SimilarImgDetailActivity extends BaseActivity {
     /**
      * open or close the more menu when pressing menu hardware button
      */
-    @Override
-    public boolean onKeyDown(int keycode, KeyEvent e) {
-        switch (keycode) {
-            case KeyEvent.KEYCODE_MENU:
-                mainMenu.performIdentifierAction(R.id.ab_button_list, 0);
-                return true;
-        }
-
-        return super.onKeyDown(keycode, e);
-    }
+//    @Override
+//    public boolean onKeyDown(int keycode, KeyEvent e) {
+//        switch (keycode) {
+//            case KeyEvent.KEYCODE_MENU:
+//                mainMenu.performIdentifierAction(R.id.ab_button_list, 0);
+//                return true;
+//        }
+//
+//        return super.onKeyDown(keycode, e);
+//    }
 }
