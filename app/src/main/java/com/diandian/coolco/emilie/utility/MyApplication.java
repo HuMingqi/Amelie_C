@@ -2,11 +2,14 @@ package com.diandian.coolco.emilie.utility;
 
 import android.app.Application;
 import android.content.Context;
+import android.view.ViewConfiguration;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+
+import java.lang.reflect.Field;
 
 import de.greenrobot.event.util.AsyncExecutor;
 
@@ -30,9 +33,23 @@ public class MyApplication extends Application {
 		super.onCreate();
 		initImageLoader(getApplicationContext());
         asyncExecutor = AsyncExecutor.create();
-	}
+        hack2showOverflow();
+    }
 
-	public void onLowMemory() {
+    private void hack2showOverflow() {
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if(menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception ex) {
+            // Ignore
+        }
+    }
+
+    public void onLowMemory() {
 		super.onLowMemory();
 	}
 

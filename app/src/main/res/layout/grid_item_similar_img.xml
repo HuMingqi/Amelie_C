@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
 
-    <com.diandian.coolco.emilie.widget.PlaceHolderImageView
+    <com.diandian.coolco.emilie.widget.PlaceHolderColorFilterImageView
         android:id="@+id/iv_similar_img_grid_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -3,10 +3,11 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="?attr/actionBarSize"
     tools:context="com.diandian.coolco.emilie.activity.SimilarImgActivity">
 
 
-    <com.etsy.android.grid.StaggeredGridView xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.diandian.coolco.emilie.widget.ColorFilterStaggeredGridView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/sgv_similar_img"
         android:layout_width="match_parent"

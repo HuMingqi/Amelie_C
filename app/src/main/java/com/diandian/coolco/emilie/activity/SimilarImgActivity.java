@@ -1,31 +1,21 @@
 package com.diandian.coolco.emilie.activity;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.NavUtils;
-import android.support.v7.widget.CardView;
-import android.util.Size;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,16 +27,13 @@ import com.diandian.coolco.emilie.utility.Dimension;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.diandian.coolco.emilie.utility.NetHelper;
 import com.diandian.coolco.emilie.utility.Url;
-import com.diandian.coolco.emilie.widget.DetectSwipeGestureRelativeLayout;
 import com.diandian.coolco.emilie.widget.NumberProgressCircle;
-import com.diandian.coolco.emilie.widget.PlaceHolderImageView;
+import com.diandian.coolco.emilie.widget.PlaceHolderColorFilterImageView;
 import com.etsy.android.grid.StaggeredGridView;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
-import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -56,7 +43,6 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -198,7 +184,7 @@ public class SimilarImgActivity extends BaseActivity {
             }
         });
 
-//        rootView.setListener(new DetectSwipeGestureRelativeLayout.SwipeRightListener() {
+//        rootView.setMenuListener(new DetectSwipeGestureRelativeLayout.SwipeRightListener() {
 //            @Override
 //            public void onSwipeRight() {
 //                finish();
@@ -291,8 +277,8 @@ public class SimilarImgActivity extends BaseActivity {
 //            bitmap.eraseColor(Color.parseColor("#2b3132"));
 //            bitmap.reconfigure(item.getSize().x, item.getSize().y, conf);
 //            imageView.setImageBitmap(bitmap);
-            ((PlaceHolderImageView) imageView).setDrawableWidth(item.getSize().x);
-            ((PlaceHolderImageView) imageView).setDrawableHeight(item.getSize().y);
+            ((PlaceHolderColorFilterImageView) imageView).setDrawableWidth(item.getSize().x);
+            ((PlaceHolderColorFilterImageView) imageView).setDrawableHeight(item.getSize().y);
 
             ImageLoader.getInstance().displayImage(item.getDownloadUrl(), imageView, options, new ImageLoadingListener() {
                 @Override

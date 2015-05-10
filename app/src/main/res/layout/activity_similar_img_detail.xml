@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.diandian.coolco.emilie.activity.SimilarImgDetailActivity">
 
-    <com.diandian.coolco.emilie.widget.DetectTapViewPager
+    <com.diandian.coolco.emilie.widget.DetectTapLongPressViewPager
         android:id="@+id/vp_similar_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

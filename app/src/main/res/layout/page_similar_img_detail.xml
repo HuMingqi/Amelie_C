@@ -15,11 +15,13 @@
         android:background="#000000"
         />
 
+
+
     <ImageView
         android:id="@+id/iv_page_similar_img_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#2b3132"
+        android:background="@color/bg_activity"
         />
 
     <include

@@ -121,6 +121,13 @@ public class PullUpDownLinearLayout extends LinearLayout {
         return super.dispatchTouchEvent(ev);
     }
 
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return super.onInterceptTouchEvent(ev);
+    }
+
+
+
     private void handleTouchEvent(MotionEvent event) {
         if (downY == -1) {
             downY = event.getY();

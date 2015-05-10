@@ -28,12 +28,20 @@ public class BaseActivity extends RoboActionBarActivity{
 
         registerEventBus();
     }
+/*
 
     @Override
     protected void onDestroy() {
         unregisterEventBus();
 
         super.onDestroy();
+    }
+
+*/
+    @Override
+    protected void onPause() {
+        unregisterEventBus();
+        super.onPause();
     }
 
     private void registerEventBus() {

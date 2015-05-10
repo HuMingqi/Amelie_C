@@ -8,19 +8,19 @@ import android.widget.ImageView;
  * you can set the drawable's size to this widget, it will set its size according to that.
  * used in stagger grid view, when the image from web has not arrived yet.
  */
-public class PlaceHolderImageView extends ImageView {
+public class PlaceHolderColorFilterImageView extends ColorFilterImageView {
     private int drawableWidth;
     private int drawableHeight;
 
-    public PlaceHolderImageView(Context context) {
+    public PlaceHolderColorFilterImageView(Context context) {
         super(context);
     }
 
-    public PlaceHolderImageView(Context context, AttributeSet attrs) {
+    public PlaceHolderColorFilterImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public PlaceHolderImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PlaceHolderColorFilterImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

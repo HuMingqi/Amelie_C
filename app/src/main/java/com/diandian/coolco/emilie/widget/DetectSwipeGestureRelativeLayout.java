@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.ViewConfiguration;
 import android.widget.RelativeLayout;
 
 import com.diandian.coolco.emilie.utility.Event;
@@ -14,6 +15,8 @@ import de.greenrobot.event.EventBus;
 public class DetectSwipeGestureRelativeLayout extends RelativeLayout {
 
     private GestureDetector gestureDetector;
+    private int minumumFlingVelocity;
+    private int overflingDistance;
 
     public DetectSwipeGestureRelativeLayout(Context context) {
         super(context);
@@ -32,6 +35,9 @@ public class DetectSwipeGestureRelativeLayout extends RelativeLayout {
 
     private void init() {
         gestureDetector = new GestureDetector(getContext(), new GestureListener());
+        ViewConfiguration viewConfiguration = ViewConfiguration.get(getContext());
+        minumumFlingVelocity = viewConfiguration.getScaledMinimumFlingVelocity();
+        overflingDistance = viewConfiguration.getScaledOverflingDistance();
     }
 
     @Override
@@ -43,7 +49,7 @@ public class DetectSwipeGestureRelativeLayout extends RelativeLayout {
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
         private static final int SWIPE_THRESHOLD = 200;
-        private static final int SWIPE_VELOCITY_THRESHOLD = 200;
+        private static final int SWIPE_VELOCITY_THRESHOLD = 400;
 
         @Override
         public boolean onDown(MotionEvent e) {
@@ -58,6 +64,7 @@ public class DetectSwipeGestureRelativeLayout extends RelativeLayout {
                 float diffX = e2.getX() - e1.getX();
                 if (Math.abs(diffX) > Math.abs(diffY)) {
                     if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+//                    if (Math.abs(diffX) > overflingDistance && Math.abs(velocityX) > minumumFlingVelocity) {
                         if (diffX > 0) {
                             onSwipeRight();
                         } else {

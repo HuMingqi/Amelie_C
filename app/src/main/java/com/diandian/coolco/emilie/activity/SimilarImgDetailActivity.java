@@ -5,21 +5,19 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.diandian.coolco.emilie.R;
+import com.diandian.coolco.emilie.dialog.MenuDialog;
 import com.diandian.coolco.emilie.model.Image;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
-import com.diandian.coolco.emilie.utility.Logcat;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
-import com.diandian.coolco.emilie.widget.DetectTapViewPager;
+import com.diandian.coolco.emilie.widget.DetectTapLongPressViewPager;
 import com.diandian.coolco.emilie.widget.PullUpDownLinearLayout;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
@@ -64,12 +62,34 @@ public class SimilarImgDetailActivity extends BaseActivity{
     private void initActionBar() {
         actionBar = getSupportActionBar();
         actionBar.hide();
-        ((DetectTapViewPager) similarImgViewPager).setTapListener(new DetectTapViewPager.TapListener() {
+        ((DetectTapLongPressViewPager) similarImgViewPager).setTapLongPressListener(new DetectTapLongPressViewPager.TapLongPressListener() {
             @Override
             public void onTap() {
                 toggleActionBarVisiblity();
             }
+
+            @Override
+            public void onLongPress() {
+                showContextMenu();
+            }
         });
+    }
+
+    private void showContextMenu() {
+        List<String> menuStrings = new ArrayList<>();
+        menuStrings.add("收藏");
+        menuStrings.add("分享");
+        menuStrings.add("保存到相册");
+        menuStrings.add("去购买");
+        menuStrings.add("查看服饰信息");
+        MenuDialog menuDialog = new MenuDialog(this, menuStrings);
+        menuDialog.setMenuListener(new MenuDialog.MenuListener() {
+            @Override
+            public void onMenuItemClick(int position) {
+                //TODO:
+            }
+        });
+        menuDialog.show();
     }
 
     private void toggleActionBarVisiblity() {
@@ -103,7 +123,16 @@ public class SimilarImgDetailActivity extends BaseActivity{
 //                view = LayoutInflater.from(SimilarImgDetailActivity.this).inflate(R.layout.page_similar_img_detail, container, false);
 //                views.set(position, view);
 //            }
-            ((PullUpDownLinearLayout) view).setPullListener(new PullUpDownLinearLayout.PullListener() {
+            setPullCallback((PullUpDownLinearLayout) view);
+            container.addView(view);
+//            container.addView(view, position);
+            ImageLoader.getInstance().displayImage(images.get(position).getDownloadUrl(), (ImageView) (view.findViewById(R.id.iv_page_similar_img_detail)));
+//            ImageLoader.getInstance().displayImage(images.get(position).getDownloadUrl(), (ImageView) view);
+            return view;
+        }
+
+        private void setPullCallback(PullUpDownLinearLayout view) {
+            view.setPullListener(new PullUpDownLinearLayout.PullListener() {
                 @Override
                 public void onPullDown() {
                     SuperToastUtil.showToast(SimilarImgDetailActivity.this, "添加收藏成功！");
@@ -114,11 +143,6 @@ public class SimilarImgDetailActivity extends BaseActivity{
                     SuperToastUtil.showToast(SimilarImgDetailActivity.this, "分享成功！");
                 }
             });
-            container.addView(view);
-//            container.addView(view, position);
-            ImageLoader.getInstance().displayImage(images.get(position).getDownloadUrl(), (ImageView) (view.findViewById(R.id.iv_page_similar_img_detail)));
-//            ImageLoader.getInstance().displayImage(images.get(position).getDownloadUrl(), (ImageView) view);
-            return view;
         }
 
         @Override

@@ -6,16 +6,16 @@ import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-public class DetectTapViewPager extends ViewPager {
+public class DetectTapLongPressViewPager extends ViewPager {
 
     private GestureDetector tapGestureDetector;
 
-    public DetectTapViewPager(Context context) {
+    public DetectTapLongPressViewPager(Context context) {
         super(context);
         init();
     }
 
-    public DetectTapViewPager(Context context, AttributeSet attrs) {
+    public DetectTapLongPressViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
@@ -24,10 +24,20 @@ public class DetectTapViewPager extends ViewPager {
         tapGestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener(){
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
-                if (tapListener != null) {
-                    tapListener.onTap();
+                if (tapLongPressListener != null) {
+                    tapLongPressListener.onTap();
                 }
                 return super.onSingleTapConfirmed(e);
+            }
+
+
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+                if (tapLongPressListener != null) {
+                    tapLongPressListener.onLongPress();
+                }
+                super.onLongPress(e);
             }
         });
     }
@@ -38,13 +48,14 @@ public class DetectTapViewPager extends ViewPager {
         return super.dispatchTouchEvent(ev);
     }
 
-    private TapListener tapListener;
+    private TapLongPressListener tapLongPressListener;
 
-    public void setTapListener(TapListener tapListener) {
-        this.tapListener = tapListener;
+    public void setTapLongPressListener(TapLongPressListener tapLongPressListener) {
+        this.tapLongPressListener = tapLongPressListener;
     }
 
-    public interface TapListener {
+    public interface TapLongPressListener {
         public void onTap();
+        public void onLongPress();
     }
 }
