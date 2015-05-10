@@ -19,6 +19,10 @@ import java.util.List;
 
 public class BoxView extends View {
 
+    private final static int STROKE_WIDTH_IN_DP = 3;
+    private final static int EDGE_LEN_IN_DP = 18;
+    private final static int TEXT_SIZE_IN_SP = 14;
+
     private Rect previewRect;
     private Rect boxRect;
     private Paint shadowPaint;
@@ -34,6 +38,7 @@ public class BoxView extends View {
     private String text;
     private float textWidth;
     private float textHeight;
+    private float strokWidth;
 
     public BoxView(Context context) {
         super(context);
@@ -56,7 +61,7 @@ public class BoxView extends View {
         clearPaint = new Paint();
         clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 
-        float strokWidth = Dimension.dp2px(getContext(), 2);
+        strokWidth = Dimension.dp2px(getContext(), STROKE_WIDTH_IN_DP);
         halfStrokeWidth = strokWidth * 0.5f;
 
         pathPaint = new Paint();
@@ -65,12 +70,12 @@ public class BoxView extends View {
         pathPaint.setStrokeWidth(strokWidth);
 
         thinLinePaint = new Paint();
-        thinLinePaint.setColor(Color.parseColor("#cce7e7e7"));
-        thinLinePaint.setStrokeWidth(1);
+        thinLinePaint.setColor(Color.parseColor("#88e7e7e7"));
+        thinLinePaint.setStrokeWidth(halfStrokeWidth);
 
         textPaint = new Paint();
 //        textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setTextSize(Dimension.sp2px(getContext(), 14));
+        textPaint.setTextSize(Dimension.sp2px(getContext(), TEXT_SIZE_IN_SP));
         textPaint.setColor(Color.parseColor("#e7e7e7"));
 
         text = "请将衣服放入框内";
@@ -104,7 +109,7 @@ public class BoxView extends View {
 
         textRect = new Rect(0, ((int) (h * 2 / 3 + Dimension.dp2px(getContext(), 8))), w, h);
 
-        int len = (int) Dimension.dp2px(getContext(), 12);
+        int len = (int) Dimension.dp2px(getContext(), EDGE_LEN_IN_DP);
         cornerPath = new Path();
 
         cornerPath.lineTo(len, len);
@@ -132,46 +137,47 @@ public class BoxView extends View {
         pts = new ArrayList<>();
 
 //        pts2 = new float[32];
-
-        pts.add((float) boxRect.left - halfStrokeWidth);
-        pts.add((float) boxRect.top);
+        float offsetB = this.halfStrokeWidth * 0.5f;
+        float offsetA = strokWidth * 0.75f;
+        pts.add((float) boxRect.left - offsetA);
+        pts.add((float) boxRect.top - offsetB);
         pts.add((float) (boxRect.left + len));
-        pts.add((float) boxRect.top);
+        pts.add((float) boxRect.top - offsetB);
 
         pts.add((float) (boxRect.right - len));
-        pts.add((float) boxRect.top);
-        pts.add((float) boxRect.right + halfStrokeWidth);
-        pts.add((float) boxRect.top);
+        pts.add((float) boxRect.top - offsetB);
+        pts.add((float) boxRect.right + offsetA);
+        pts.add((float) boxRect.top - offsetB);
 
-        pts.add((float) boxRect.right);
-        pts.add((float) boxRect.top - halfStrokeWidth);
-        pts.add((float) boxRect.right);
+        pts.add((float) boxRect.right+ offsetB);
+        pts.add((float) boxRect.top - offsetA);
+        pts.add((float) boxRect.right+ offsetB);
         pts.add((float) (boxRect.top + len));
 
-        pts.add((float) boxRect.right);
+        pts.add((float) boxRect.right + offsetB);
         pts.add((float) (boxRect.bottom - len));
-        pts.add((float) boxRect.right);
-        pts.add((float) boxRect.bottom + halfStrokeWidth);
+        pts.add((float) boxRect.right + offsetB);
+        pts.add((float) boxRect.bottom + offsetA);
 
-        pts.add((float) boxRect.right + halfStrokeWidth);
-        pts.add((float) boxRect.bottom);
+        pts.add((float) boxRect.right + offsetA);
+        pts.add((float) boxRect.bottom + offsetB);
         pts.add((float) (boxRect.right - len));
-        pts.add((float) boxRect.bottom);
+        pts.add((float) boxRect.bottom + offsetB);
 
         pts.add((float) (boxRect.left + len));
-        pts.add((float) boxRect.bottom);
-        pts.add((float) boxRect.left - halfStrokeWidth);
-        pts.add((float) boxRect.bottom);
+        pts.add((float) boxRect.bottom + offsetB);
+        pts.add((float) boxRect.left - offsetA);
+        pts.add((float) boxRect.bottom + offsetB);
 
-        pts.add((float) boxRect.left);
-        pts.add((float) boxRect.bottom + halfStrokeWidth);
-        pts.add((float) boxRect.left);
+        pts.add((float) boxRect.left - offsetB);
+        pts.add((float) boxRect.bottom + offsetA);
+        pts.add((float) boxRect.left - offsetB);
         pts.add((float) (boxRect.bottom - len));
 
-        pts.add((float) boxRect.left);
+        pts.add((float) boxRect.left - offsetB);
         pts.add((float) (boxRect.top + len));
-        pts.add((float) boxRect.left);
-        pts.add((float) boxRect.top - halfStrokeWidth);
+        pts.add((float) boxRect.left - offsetB);
+        pts.add((float) boxRect.top - offsetA);
 
         pts2 = new float[16];
         pts2[0] = boxRect.left+len;

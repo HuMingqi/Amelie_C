@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:id="@+id/root"
-
     tools:context="com.diandian.coolco.emilie.activity.SrcImgCropActivity">
 
     <com.edmodo.cropper.CropImageView

@@ -34,7 +34,8 @@
             android:label="@string/title_activity_similar_img"></activity>
         <activity
             android:name=".activity.SimilarImgDetailActivity"
-            android:label="@string/title_activity_similar_img_detail" />
+            android:label="@string/title_activity_similar_img_detail"
+            android:theme="@style/ActionBarOvelayTheme"/>
         <activity
             android:name=".activity.SettingActivity"
             android:label="设置"></activity>

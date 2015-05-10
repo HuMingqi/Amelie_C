@@ -200,7 +200,7 @@ public class SimilarImgActivity extends BaseActivity {
     private void startSimilarImgDetailActivity(Image image, int pos, View itemView) {
         ActivityOptionsCompat options = null;
         if (Build.VERSION.SDK_INT > 21) {
-            options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, similarImgGridView.getChildAt(pos), getResources().getString(R.string.similar_img_transtion_dest));
+            options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, itemView, getResources().getString(R.string.similar_img_transtion_dest));
         } else {
             options = ActivityOptionsCompat.makeScaleUpAnimation(itemView, 0, 0, itemView.getWidth(), itemView.getHeight());
         }

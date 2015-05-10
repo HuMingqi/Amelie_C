@@ -2,6 +2,7 @@ package com.diandian.coolco.emilie.widget;
 
 import android.content.Context;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -29,17 +30,27 @@ public class ColorFilterImageView extends ImageView {
         int action = event.getAction();
 
         switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                getDrawable().setColorFilter(0x80000000, Mode.SRC_ATOP);
+            case MotionEvent.ACTION_DOWN: {
+                Drawable drawable = getDrawable();
+                if (drawable != null) {
+
+                    drawable.setColorFilter(0x80000000, Mode.SRC_ATOP);
+                }
                 invalidate();
                 break;
+            }
             case MotionEvent.ACTION_MOVE:
                 break;
             case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP:
-                getDrawable().clearColorFilter();
+            case MotionEvent.ACTION_UP: {
+                Drawable drawable = getDrawable();
+                if (drawable != null) {
+
+                    getDrawable().clearColorFilter();
+                }
                 invalidate();
                 break;
+            }
 
             default:
                 break;

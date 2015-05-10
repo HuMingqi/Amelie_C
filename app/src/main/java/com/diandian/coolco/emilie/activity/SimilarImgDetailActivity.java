@@ -17,6 +17,7 @@ import com.diandian.coolco.emilie.dialog.MenuDialog;
 import com.diandian.coolco.emilie.model.Image;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
+import com.diandian.coolco.emilie.utility.SystemUiHelper;
 import com.diandian.coolco.emilie.widget.DetectTapLongPressViewPager;
 import com.diandian.coolco.emilie.widget.PullUpDownLinearLayout;
 import com.malinskiy.materialicons.IconDrawable;
@@ -33,6 +34,7 @@ public class SimilarImgDetailActivity extends BaseActivity{
     @InjectView(R.id.vp_similar_img)
     private ViewPager similarImgViewPager;
     private ActionBar actionBar;
+    private SystemUiHelper systemUiHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +63,20 @@ public class SimilarImgDetailActivity extends BaseActivity{
      */
     private void initActionBar() {
         actionBar = getSupportActionBar();
-        actionBar.hide();
+
+        systemUiHelper = new SystemUiHelper(
+                this,
+//                SystemUiHelper.LEVEL_LEAN_BACK,   // Choose from one of the levels
+//                SystemUiHelper.LEVEL_IMMERSIVE,   // Choose from one of the levels
+                SystemUiHelper.LEVEL_HIDE_STATUS_BAR,   // Choose from one of the levels
+//                SystemUiHelper.LEVEL_LOW_PROFILE,   // Choose from one of the levels
+                0);
+
+//        actionBar.hide();
         ((DetectTapLongPressViewPager) similarImgViewPager).setTapLongPressListener(new DetectTapLongPressViewPager.TapLongPressListener() {
             @Override
             public void onTap() {
-                toggleActionBarVisiblity();
+                toggleActionBarAndSystemUiVisiblity();
             }
 
             @Override
@@ -92,11 +103,13 @@ public class SimilarImgDetailActivity extends BaseActivity{
         menuDialog.show();
     }
 
-    private void toggleActionBarVisiblity() {
+    private void toggleActionBarAndSystemUiVisiblity() {
         if (actionBar.isShowing()){
             actionBar.hide();
+            systemUiHelper.hide();
         } else {
             actionBar.show();
+            systemUiHelper.show();
         }
     }
 
