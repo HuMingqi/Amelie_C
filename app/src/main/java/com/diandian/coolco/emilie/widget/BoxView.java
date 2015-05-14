@@ -8,6 +8,7 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.Region;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -84,8 +85,11 @@ public class BoxView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 //        super.onDraw(canvas);
+//        canvas.drawRect(boxRect, clearPaint);
+        canvas.save();
+        canvas.clipRect(boxRect, Region.Op.DIFFERENCE);
         canvas.drawRect(previewRect, shadowPaint);
-        canvas.drawRect(boxRect, clearPaint);
+        canvas.restore();
 //        canvas.drawPath(cornerPath, pathPaint);
 //        canvas.drawLines(((float[]) pts.toArray(new Float[0])), pathPaint);
         for (int i = 0; i < pts.size(); i += 4) {
