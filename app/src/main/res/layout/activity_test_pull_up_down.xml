@@ -6,7 +6,7 @@
     >
 
     <include
-        layout="@layout/pud_header"
+        layout="@layout/custom_widget_pud_header"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         />
@@ -18,7 +18,7 @@
         android:src="@drawable/test"/>
 
     <include
-        layout="@layout/pud_footer"
+        layout="@layout/custom_widget_pud_footer"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"/>
 

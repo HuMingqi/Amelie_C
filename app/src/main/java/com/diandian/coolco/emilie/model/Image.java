@@ -53,6 +53,7 @@ public class Image implements Parcelable {
         this.shoppingUrl = shoppingUrl;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -64,6 +65,7 @@ public class Image implements Parcelable {
         dest.writeString(this.description);
         dest.writeString(this.downloadUrl);
         dest.writeString(this.shoppingUrl);
+        dest.writeParcelable(this.size, 0);
     }
 
     public Image() {
@@ -74,6 +76,7 @@ public class Image implements Parcelable {
         this.description = in.readString();
         this.downloadUrl = in.readString();
         this.shoppingUrl = in.readString();
+        this.size = in.readParcelable(Point.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Image> CREATOR = new Parcelable.Creator<Image>() {

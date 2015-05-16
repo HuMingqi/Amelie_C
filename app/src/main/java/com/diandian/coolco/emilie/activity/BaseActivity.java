@@ -2,13 +2,17 @@ package com.diandian.coolco.emilie.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import com.diandian.coolco.emilie.R;
+import com.diandian.coolco.emilie.dialog.ClothesInfoDialogFragment;
 import com.diandian.coolco.emilie.utility.Event;
+import com.diandian.coolco.emilie.utility.MyApplication;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
+import com.squareup.leakcanary.RefWatcher;
 
 import de.greenrobot.event.EventBus;
 import roboguice.activity.RoboActionBarActivity;
@@ -17,6 +21,7 @@ import roboguice.activity.RoboActionBarActivity;
 public class BaseActivity extends RoboActionBarActivity{
 
     protected Context context;
+    private boolean guideFeedbackDialogIsShowing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,18 @@ public class BaseActivity extends RoboActionBarActivity{
         finish();
     }
 
+    public void onEventMainThread(Event.ShakeEvent event){
+        if (!guideFeedbackDialogIsShowing) {
+            DialogFragment dialogFragment = new ClothesInfoDialogFragment("您遇到什么问题了吗？", this);
+            dialogFragment.show(getSupportFragmentManager(), "shake");
+            guideFeedbackDialogIsShowing = true;
+        }
+    }
+
+    public void onEventMainThread(Event.GuideFeedbackDialogDismissEvent event){
+        guideFeedbackDialogIsShowing = false;
+    }
+
     private void initActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(new IconDrawable(context, Iconify.IconValue.md_arrow_back)
@@ -86,4 +103,11 @@ public class BaseActivity extends RoboActionBarActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = MyApplication.getRefWatcher(this);
+        refWatcher.watch(this);
+
+    }
 }

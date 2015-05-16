@@ -1,14 +1,18 @@
 package com.diandian.coolco.emilie.fragment;
 
 
+import android.annotation.TargetApi;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,20 +25,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.diandian.coolco.emilie.R;
+import com.diandian.coolco.emilie.activity.SrcImgCropActivity;
 import com.diandian.coolco.emilie.adapter.CommonBaseAdapter;
 import com.diandian.coolco.emilie.adapter.LocalImgGridItemViewHolder;
 import com.diandian.coolco.emilie.dialog.ProgressDialog;
 import com.diandian.coolco.emilie.model.ImageFolder;
-import com.diandian.coolco.emilie.tmp.CustomGridAdapter;
 import com.diandian.coolco.emilie.tmp.ListImageDirPopupWindow;
 import com.diandian.coolco.emilie.utility.Dimension;
 import com.diandian.coolco.emilie.utility.Event;
+import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.diandian.coolco.emilie.utility.MyApplication;
 import com.diandian.coolco.emilie.utility.Preference;
 import com.diandian.coolco.emilie.utility.PreferenceKey;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
+import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
+import com.nhaarman.listviewanimations.appearance.simple.ScaleInAnimationAdapter;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -57,7 +64,7 @@ import roboguice.inject.InjectView;
 public class GalleryFragment extends BaseFragment implements ListImageDirPopupWindow.OnImageDirSelected {
 
     @InjectView(R.id.gv_local_img)
-    private GridView imgGridView;
+    private GridView localImgGridView;
     @InjectView(R.id.rl_bottom_bar)
     private RelativeLayout bottomBarRelativeLayout;
     @InjectView(R.id.tv_chosen_dir)
@@ -131,7 +138,10 @@ public class GalleryFragment extends BaseFragment implements ListImageDirPopupWi
         currentFolderImgs = new ArrayList<String>();
         currentFolderImgs.addAll(allImgPaths);
         gridAdapter = new CommonBaseAdapter<String>(getActivity(), R.layout.grid_item_local_img, currentFolderImgs, LocalImgGridItemViewHolder.class);
-        imgGridView.setAdapter(gridAdapter);
+//        SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(gridAdapter);
+        AnimationAdapter animationAdapter = new ScaleInAnimationAdapter(gridAdapter);
+        animationAdapter.setAbsListView(localImgGridView);
+        localImgGridView.setAdapter(animationAdapter);
 
         currImageFolder = allImgFolder;
 
@@ -215,7 +225,7 @@ public class GalleryFragment extends BaseFragment implements ListImageDirPopupWi
         SuperToastUtil.showToast(context, "未发现外部存储");
     }
 
-    public void onEventMainThread(Event.ScanImgCompleted scanImgCompleted) {
+    public void onEventMainThread(Event.ScanImgCompletedEvent scanImgCompletedEvent) {
         onScanImgCompleted();
     }
 
@@ -243,14 +253,37 @@ public class GalleryFragment extends BaseFragment implements ListImageDirPopupWi
             }
         });
 
-        imgGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        localImgGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //set flag
-                Preference.setPrefBoolean(context, PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
-                imgObtained(currentFolderImgs.get(position));
+                startSrcImgCropActivity(currentFolderImgs.get(position), view);
+//                imgObtained(currentFolderImgs.get(position));
             }
         });
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void startSrcImgCropActivity(String srcImgPath, View itemView) {
+        //set flag
+        Preference.setPrefBoolean(context, PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
+
+        //set animation
+        ActivityOptionsCompat options = null;
+        if (Build.VERSION.SDK_INT > 21) {
+            options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), itemView, getResources().getString(R.string.similar_img_transtion_dest));
+        } else {
+            options = ActivityOptionsCompat.makeScaleUpAnimation(itemView, 0, 0, itemView.getWidth(), itemView.getHeight());
+        }
+
+        //add extra data
+        Intent intent = new Intent(getActivity(), SrcImgCropActivity.class);
+        intent.putExtra(ExtraDataName.SRC_IMG_PATH, srcImgPath);
+
+        if (Build.VERSION.SDK_INT > 15) {
+            getActivity().startActivity(intent, options.toBundle());
+        } else {
+            getActivity().startActivity(intent);
+        }
     }
 
     @Override
@@ -339,7 +372,7 @@ public class GalleryFragment extends BaseFragment implements ListImageDirPopupWi
             }
 
             Uri externalContentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-            ContentResolver contentResolver = getActivity().getContentResolver();
+            ContentResolver contentResolver = getActivity().getApplicationContext().getContentResolver();
 
             Cursor cursor = contentResolver.query(externalContentUri, null,
                     MediaStore.Images.Media.MIME_TYPE + "=? or "
@@ -375,7 +408,7 @@ public class GalleryFragment extends BaseFragment implements ListImageDirPopupWi
             }
             cursor.close();
 
-            EventBus.getDefault().post(new Event.ScanImgCompleted());
+            EventBus.getDefault().post(new Event.ScanImgCompletedEvent());
         }
     }
 

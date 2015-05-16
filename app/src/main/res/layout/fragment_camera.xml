@@ -1,56 +1,50 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.diandian.coolco.emilie.fragment.CameraFragment">
+    tools:context="com.diandian.coolco.emilie.fragment.CameraFragment"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/fl_camera"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0">
+
+        <com.diandian.coolco.emilie.widget.BoxView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="50dp"
+        android:background="#cc000000">
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+        <ImageView
+            android:id="@+id/iv_capture"
+            android:layout_width="@dimen/bottom_bar_button_width"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@null"
+            android:scaleType="centerInside"
+            android:src="@android:drawable/ic_menu_camera"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
 
-            <SurfaceView
-                android:id="@+id/sv_camera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.diandian.coolco.emilie.widget.BoxView
-
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </FrameLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_bottom_bar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:background="#cc000000" >
-
-            <ImageView
-                android:id="@+id/iv_capture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:contentDescription="@null"
-                android:src="@android:drawable/ic_menu_camera" />
-            
-            <ImageView
-                android:id="@+id/iv_go2gallery"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/test"
-                android:scaleType="centerCrop"/>
-
-        </RelativeLayout>
+        <com.diandian.coolco.emilie.widget.ColorFilterImageView
+            android:id="@+id/iv_go2gallery"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/test" />
 
     </RelativeLayout>
 
-</FrameLayout>
+
+</LinearLayout>

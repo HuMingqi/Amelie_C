@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.diandian.coolco.emilie.widget.SquareImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.diandian.coolco.emilie.widget.SquareSimpleDraweeView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/iv_local_img_grid_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scaleType="centerCrop"
-    android:src="@android:color/transparent" />
+    fresco:actualImageScaleType="centerCrop"
+    fresco:fadeDuration="200"
+    fresco:pressedStateOverlayImage="@color/press_state_overlay_color"
+     />
 
 
-    <!--
+    <!--android:scaleType="centerCrop"
+    android:src="@android:color/transparent"
     <?xml version="1.0" encoding="utf-8"?>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"

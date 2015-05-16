@@ -1,28 +1,35 @@
 package com.diandian.coolco.emilie.activity;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.diandian.coolco.emilie.R;
-import com.diandian.coolco.emilie.dialog.MenuDialog;
+import com.diandian.coolco.emilie.dialog.ClothesInfoDialogFragment;
 import com.diandian.coolco.emilie.model.Image;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
+import com.diandian.coolco.emilie.utility.IntentUtil;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
 import com.diandian.coolco.emilie.utility.SystemUiHelper;
 import com.diandian.coolco.emilie.widget.DetectTapLongPressViewPager;
 import com.diandian.coolco.emilie.widget.PullUpDownLinearLayout;
+import com.diandian.coolco.emilie.widget.SizeAdjustableSimpleDraweeView;
+import com.diandian.coolco.emilie.widget.WebImageContainer;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +94,7 @@ public class SimilarImgDetailActivity extends BaseActivity{
     }
 
     private void showContextMenu() {
+        /*
         List<String> menuStrings = new ArrayList<>();
         menuStrings.add("收藏");
         menuStrings.add("分享");
@@ -101,6 +109,9 @@ public class SimilarImgDetailActivity extends BaseActivity{
             }
         });
         menuDialog.show();
+        */
+        DialogFragment dialogFragment = new MenuDialogFragment();
+        dialogFragment.show(getSupportFragmentManager(), "menu");
     }
 
     private void toggleActionBarAndSystemUiVisiblity() {
@@ -117,6 +128,7 @@ public class SimilarImgDetailActivity extends BaseActivity{
 
         private List<Image> images;
         private List<View> views;
+        private LayoutInflater inflater;
 
         SimilarImgViewPagerAdapter(List<Image> images) {
             this.images = images;
@@ -124,6 +136,7 @@ public class SimilarImgDetailActivity extends BaseActivity{
             for (int i = 0; i < images.size(); i++) {
                 views.add(null);
             }
+            inflater = LayoutInflater.from(SimilarImgDetailActivity.this);
         }
 
         @Override
@@ -132,15 +145,25 @@ public class SimilarImgDetailActivity extends BaseActivity{
 //            View view = views.get(position);
 //            if (view == null) {
 //                view = new ImageView(SimilarImgDetailActivity.this);
-            View view = LayoutInflater.from(SimilarImgDetailActivity.this).inflate(R.layout.page_similar_img_detail, container, false);
-//                view = LayoutInflater.from(SimilarImgDetailActivity.this).inflate(R.layout.page_similar_img_detail, container, false);
+            Image image = images.get(position);
+            View view = inflater.inflate(R.layout.viewpage_similar_img_detail, container, false);
+//                view = LayoutInflater.from(SimilarImgDetailActivity.this).inflate(R.layout.viewpage_similar_img_detail, container, false);
 //                views.set(position, view);
 //            }
+            WebImageContainer webImageContainer = (WebImageContainer) view.findViewById(R.id.wic_viewpage_similar_img_detail);
+            webImageContainer.setImageUrl(image.getDownloadUrl());
+
             setPullCallback((PullUpDownLinearLayout) view);
+
             container.addView(view);
+//            SizeAdjustableSimpleDraweeView draweeView = (SizeAdjustableSimpleDraweeView) webImageContainer.findViewById(R.id.dv_web_img);
+//            draweeView.setDrawableWidth(1000);
+//            draweeView.setDrawableHeight(2300);
+            //webImageContainer.setImageSize(image.getSize());
 //            container.addView(view, position);
-            ImageLoader.getInstance().displayImage(images.get(position).getDownloadUrl(), (ImageView) (view.findViewById(R.id.iv_page_similar_img_detail)));
+//            ImageLoader.getInstance().displayImage(images.get(position).getDownloadUrl(), (ImageView) (view.findViewById(R.id.iv_page_similar_img_detail)));
 //            ImageLoader.getInstance().displayImage(images.get(position).getDownloadUrl(), (ImageView) view);
+
             return view;
         }
 
@@ -177,9 +200,6 @@ public class SimilarImgDetailActivity extends BaseActivity{
         }
     }
 
-//    public void onEvent(String noEvent){
-//
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -209,6 +229,23 @@ public class SimilarImgDetailActivity extends BaseActivity{
             return true;
         }
 
+        switch (item.getItemId()){
+            case R.id.action_add_to_collection:
+                break;
+            case R.id.action_share_clothes:
+                shareClothes();
+                break;
+            case R.id.action_download:
+                downloadImage();
+                break;
+            case R.id.action_go_shopping:
+                goShopping();
+                break;
+            case R.id.action_info:
+                showClothesInfo();
+                break;
+        }
+
 //        if (id == android.R.id.home) {
 ////            NavUtils.navigateUpFromSameTask(this);
 //            finish();
@@ -216,6 +253,60 @@ public class SimilarImgDetailActivity extends BaseActivity{
 //        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void shareClothes() {
+        String chooserTitle = "分享";
+        String subject = "Amelie";
+        String text = "好漂漂~balabala~[http://myron.sinaapp.com/list]";
+        IntentUtil.startShareActivity(this, chooserTitle, subject, text);
+    }
+
+    private void goShopping() {
+        Intent intent = new Intent(this, WebActivity.class);
+        startActivity(intent);
+    }
+
+    private void downloadImage() {
+
+    }
+
+    private void showClothesInfo() {
+//        AppCompatDialog
+//        AlertDialog alerDialog = new AlertDialog
+        DialogFragment clothesInfoDialog = new ClothesInfoDialogFragment("Lancome 百褶裙 X7Y8902", this);
+        clothesInfoDialog.show(getSupportFragmentManager(), "clothesInfo");
+    }
+
+
+
+    @SuppressLint("ValidFragment")
+    public class MenuDialogFragment extends DialogFragment {
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(SimilarImgDetailActivity.this);
+            builder.setItems(R.array.menu_similar_img_detail, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    switch (i){
+                        case 0:
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            showClothesInfo();
+                            break;
+                    }
+                }
+            });
+            return builder.create();
+        }
     }
 
     /**

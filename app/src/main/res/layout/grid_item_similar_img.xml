@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<com.diandian.coolco.emilie.widget.WebImageContainer xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+
+    <!--
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
 
     <com.diandian.coolco.emilie.widget.PlaceHolderColorFilterImageView
         android:id="@+id/iv_similar_img_grid_item"
@@ -12,6 +20,15 @@
         android:src="@null"
         android:adjustViewBounds="true"
         android:background="#000000"/>
+    <com.diandian.coolco.emilie.widget.SizeAdjustableSimpleDraweeView
+        android:id="@+id/iv_similar_img_grid_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fresco:actualImageScaleType="centerCrop"
+        fresco:fadeDuration="200"
+        fresco:pressedStateOverlayImage="@color/press_state_overlay_color"
+        android:background="#000000"/>
+
 
     <view
         android:id="@+id/npc_similar_img_grid_item"
@@ -21,28 +38,37 @@
         android:layout_centerInParent="true"
         >
 
+
         <ProgressBar
             style="@style/progressBarLightTheme"
             android:layout_width="48dp"
             android:layout_height="48dp"
             />
 
+        <com.pnikosis.materialishprogress.ProgressWheel
+            android:id="@+id/progress_wheel"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            wheel:matProg_barColor="#e7e7e7"
+            wheel:matProg_progressIndeterminate="true" />
         <TextView
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:textSize="12sp"
             android:textColor="@color/global_text_secondary_inverse"
-            android:text="12%"
+            android:text="0%"
             android:gravity="center"/>
 
     </view>
 
 
 </RelativeLayout>
-
-    <!--<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+--><!--
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >--><!--
-
-</android.support.v7.widget.CardView>--><!--android:maxHeight="360dp"-->
+            >
+</android.support.v7.widget.CardView>
+-->

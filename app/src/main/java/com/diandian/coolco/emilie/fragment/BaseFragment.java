@@ -6,6 +6,8 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.diandian.coolco.emilie.activity.SrcImgObtainActivity;
+import com.diandian.coolco.emilie.utility.MyApplication;
+import com.squareup.leakcanary.RefWatcher;
 
 import de.greenrobot.event.EventBus;
 import roboguice.fragment.RoboFragment;
@@ -27,6 +29,10 @@ public class BaseFragment extends RoboFragment {
         super.onDetach();
     }
 
+    public void onEvent(String empty){
+
+    }
+
     /**
      * Called by CameraFragment or GalleyFragment
      * @param imgPath
@@ -42,5 +48,12 @@ public class BaseFragment extends RoboFragment {
 
     private void unregisterEventBus() {
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = MyApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 }

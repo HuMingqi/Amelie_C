@@ -9,10 +9,12 @@
     <com.edmodo.cropper.CropImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/rl_bottom_bar"
         android:id="@+id/crop_image_view"
         android:src="@drawable/ic_launcher"
         android:layout_centerInParent="true"
         android:scaleType="centerCrop"
+        android:transitionName="@string/src_img_transtion_dest"
         />
 <!--
 
@@ -35,16 +37,18 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="#aa000000"
-        android:visibility="gone">
+        android:visibility="invisible">
 
         <ImageView
             android:id="@+id/iv_crop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/bottom_bar_button_width"
+            android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:contentDescription="@null"
-            android:src="@android:drawable/ic_menu_crop" />
+            android:src="@android:drawable/ic_menu_crop"
+            android:scaleType="centerInside"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
 
         <TextView
             android:id="@+id/tv_skip_crop"
@@ -55,9 +59,10 @@
             android:textColor="#e7e7e7"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:paddingLeft="12dp"
+            android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
 
     </RelativeLayout>
 

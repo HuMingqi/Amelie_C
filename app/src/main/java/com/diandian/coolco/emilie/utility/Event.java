@@ -6,5 +6,9 @@ package com.diandian.coolco.emilie.utility;
 public class Event {
     public static class SwipeRightEvent{}
     public static class NoExternalStorageException extends Exception{}
-    public static class ScanImgCompleted{}
+    public static class ScanImgCompletedEvent {}
+    public static class SrcImgSavedEvent {}
+    public static class ShakeEvent {}
+    public static class GuideFeedbackDialogDismissEvent {}
+
 }

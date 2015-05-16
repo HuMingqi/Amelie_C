@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.adapter.CommonBaseAdapter;
+import com.diandian.coolco.emilie.adapter.SimilarImgGridViewHolder;
 import com.diandian.coolco.emilie.dialog.ProgressDialog;
 import com.diandian.coolco.emilie.model.Image;
 import com.diandian.coolco.emilie.utility.Dimension;
@@ -91,7 +92,7 @@ public class SimilarImgActivity extends BaseActivity {
 
         datas = new ArrayList<Image>();
 
-        // this is very bad coding style, it may call memory leak
+
         Image image1 = new Image();
         Image image2 = new Image();
         Image image3 = new Image();
@@ -112,7 +113,8 @@ public class SimilarImgActivity extends BaseActivity {
         datas.add(image3);
         datas.add(image4);
         datas.add(image5);
-        /*
+
+        /*// this is very bad coding style, it may call memory leak
         datas.add(new Image() {
             {
                 setDownloadUrl("http://myron-mydomain.stor.sinaapp.com/1114163041364330.png");
@@ -249,65 +251,6 @@ public class SimilarImgActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    static class SimilarImgGridViewHolder extends CommonBaseAdapter.CommonViewHolder<Image> {
-        private ImageView imageView;
-        private NumberProgressCircle numberProgressCircle;
-//        private IconDrawable defaultDrawable;
-
-        public SimilarImgGridViewHolder(View convertView) {
-//            ((CardView)convertView).setPreventCornerOverlap(false);
-//            imageView = (ImageView) convertView.findViewById(R.id.iv_similar_img_grid_item);
-            imageView = (ImageView) convertView.findViewById(R.id.iv_similar_img_grid_item);
-            numberProgressCircle = (NumberProgressCircle) convertView.findViewById(R.id.npc_similar_img_grid_item);
-//            imageView.setMinimumHeight(imageView.getHeight());
-//            imageView.setImageResource(R.drawable.similar_img_grid_item_empty_grey);
-//            defaultDrawable = new IconDrawable(convertView.getContext(), Iconify.IconValue.md_filter_drama).color(Color.parseColor("#474747")).sizeDp(120);
-//            imageView.setImageDrawable(defaultDrawable);
-        }
-
-        @Override
-        public void setItem(Image item) {
-//            Drawable placeholderDrawable = new ColorDrawable(Color.parseColor("#e7e7e7"));
-//            placeholderDrawable.setBounds(0, 0, item.getSize().x, item.getSize().y);
-//            imageView.setImageDrawable(placeholderDrawable);
-//            Bitmap.Config conf = Bitmap.Config.ARGB_8888;
-//            Bitmap.Config conf = Bitmap.Config.RGB_565;
-//            final Bitmap bitmap = Bitmap.createBitmap(item.getSize().x, item.getSize().y, conf);
-//            bitmap.eraseColor(imageView.getContext().getResources().getColor(R.color.cardview_dark_background));
-//            bitmap.eraseColor(Color.parseColor("#2b3132"));
-//            bitmap.reconfigure(item.getSize().x, item.getSize().y, conf);
-//            imageView.setImageBitmap(bitmap);
-            ((PlaceHolderColorFilterImageView) imageView).setDrawableWidth(item.getSize().x);
-            ((PlaceHolderColorFilterImageView) imageView).setDrawableHeight(item.getSize().y);
-
-            ImageLoader.getInstance().displayImage(item.getDownloadUrl(), imageView, options, new ImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String s, View view) {
-                    numberProgressCircle.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onLoadingFailed(String s, View view, FailReason failReason) {
-                    numberProgressCircle.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-                    numberProgressCircle.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onLoadingCancelled(String s, View view) {
-                    numberProgressCircle.setVisibility(View.GONE);
-                }
-            }, new ImageLoadingProgressListener() {
-                @Override
-                public void onProgressUpdate(String s, View view, int current, int total) {
-                    numberProgressCircle.setProgress(current * 1.0f / total);
-                }
-            });
-        }
-    }
 
     class SearchSimilarImgAysncTask extends AsyncTask<String, ObjectUtils.Null, Integer> {
 

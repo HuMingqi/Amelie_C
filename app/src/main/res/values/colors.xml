@@ -38,4 +38,9 @@
     <color name="divider">#d5d5d5</color>
 
     <color name="bg_activity">#242424</color>
+	<color name="progress_bar_determine_webview">#45c01a</color>
+	<color name="main">#2fcaa2</color>
+	<color name="press_state_overlay_color">#80000000</color>
+
+	<color name="actionbar_title">#e7e7e7</color>
 </resources>

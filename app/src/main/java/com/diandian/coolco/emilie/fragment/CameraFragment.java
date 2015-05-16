@@ -2,37 +2,40 @@ package com.diandian.coolco.emilie.fragment;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.activity.SrcImgObtainActivity;
-import com.diandian.coolco.emilie.utility.ActionName;
 import com.diandian.coolco.emilie.utility.BitmapStorage;
-import com.diandian.coolco.emilie.utility.Logcat;
+import com.diandian.coolco.emilie.utility.Event;
+import com.diandian.coolco.emilie.utility.MyApplication;
 import com.diandian.coolco.emilie.utility.Preference;
 import com.diandian.coolco.emilie.utility.PreferenceKey;
+import com.diandian.coolco.emilie.utility.SuperToastUtil;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.util.AsyncExecutor;
 import roboguice.inject.InjectView;
 
 /**
@@ -43,144 +46,78 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
 
     private final static String TAG = CameraFragment.class.getSimpleName();
 
-    @InjectView(R.id.sv_camera)
-    private SurfaceView surfaceView;
+    @InjectView(R.id.fl_camera)
+    private FrameLayout cameraFrameLayout;
     @InjectView(R.id.iv_capture)
     private ImageView captureImageView;
     @InjectView(R.id.iv_go2gallery)
     private ImageView go2galleryImageView;
 
     private Camera camera;
-    private SurfaceHolder surfaceHolder;
-
-    private SurfaceHolder.Callback surfaceHolderCallback = new SurfaceHolder.Callback() {
-
-        @Override
-        public void surfaceDestroyed(SurfaceHolder holder) {
-        }
-
-        @Override
-        public void surfaceCreated(SurfaceHolder holder) {
-            try {
-                camera.setPreviewDisplay(holder);
-                camera.startPreview();
-            } catch (IOException e) {
-                Logcat.e(TAG, "surfaceCreated Fail");
-            }
-        }
-
-        @Override
-        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            if (surfaceHolder.getSurface() == null) {
-                return;
-            }
-
-            try {
-                camera.stopPreview();
-            } catch (Exception e) {
-                Logcat.e(TAG, "camera.stopPreview Fail");
-            }
-
-            try {
-                camera.setPreviewDisplay(surfaceHolder);
-                camera.startPreview();
-            } catch (Exception e) {
-                Logcat.e(TAG, "camera.startPreview Fail");
-            }
-        }
-    };
 
     private Camera.PictureCallback pictureCallback = new Camera.PictureCallback() {
 
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
-            CameraFragment.this.camera.stopPreview();
+            camera.startPreview();
 
-            String imgName = System.currentTimeMillis() + ".jpg";
-            String imgPath = BitmapStorage.getImgDir(context) + "/" +imgName;
+            File pictureFile = BitmapStorage.getOutputMediaFile(context, BitmapStorage.MEDIA_TYPE_IMAGE);
+            if (pictureFile == null) {
+                Log.d(TAG, "Error creating media file, check storage permissions: ");
+                return;
+            }
 
-            rotateStoreSrcImgInBg(data, imgName);
-//            rotateStoreSrcImgInBg();
-
-            imgObtained(imgPath);
-
-//            Logcat.e(TAG, System.currentTimeMillis()+"");
-
-            //rotate the pic
-
-//            try {
-//                FileOutputStream fos = getActivity().openFileOutput(imgName, Context.MODE_PRIVATE);
-//                BufferedOutputStream bos = new BufferedOutputStream(fos);
-//                bm.compress(Bitmap.CompressFormat.JPEG, 10, bos);
-//                bos.flush();
-//                bos.close();
-//            } catch (Exception e) {
-//                Logcat.e(TAG, "Save Picture Fail");
-//            }
-//            Logcat.e(TAG, System.currentTimeMillis()+"");
-//            Logcat.e(TAG, System.currentTimeMillis()+"");
-//            Logcat.e(TAG, imgPath);
+            rotateAndSavePicInBg(data, pictureFile);
+//            saveBitmap(data, pictureFile);
+//            srcImgStorageCompleted();
+            imgObtained(pictureFile.getAbsolutePath());
         }
     };
 
-    private void rotateStoreSrcImgInBg(final byte[] data, final String imgName) {
-        new Thread(new Runnable() {
+    private void rotateAndSavePicInBg(final byte[] data, final File pictureFile) {
+        ((MyApplication) getActivity().getApplication()).getAsyncExecutor().execute(new AsyncExecutor.RunnableEx() {
             @Override
-            public void run() {
-                Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
-                Matrix matrix = new Matrix();
-                matrix.postRotate(90);
-                bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, false);
-
-                BitmapStorage.storeImg(context, bm, imgName);
-
+            public void run() throws Exception {
+                byte[] rotatedBitmapData = rotateBitmap(data);
+                saveBitmap(rotatedBitmapData, pictureFile);
                 srcImgStorageCompleted();
             }
-        }).start();
-
-    }
-    private void rotateStoreSrcImgInBg() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-//                Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
-//                Matrix matrix = new Matrix();
-//                matrix.postRotate(90);
-//                bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, false);
-//
-//                BitmapStorage.storeImg(context, bm, imgName);
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                srcImgStorageCompleted();
-            }
-        }).start();
-
+        });
     }
 
-    public void onEvent(String empty){
-
+    private void saveBitmap(byte[] data, File pictureFile) {
+        try {
+            FileOutputStream fos = new FileOutputStream(pictureFile);
+            fos.write(data);
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.d(TAG, "File not found: " + e.getMessage());
+        } catch (IOException e) {
+            Log.d(TAG, "Error accessing file: " + e.getMessage());
+        }
     }
-    public void onEventMainThread(String empty){
 
+    private byte[] rotateBitmap(final byte[] data) {
+        Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, false);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return stream.toByteArray();
     }
 
     private void srcImgStorageCompleted() {
         //set flag
         Preference.setPrefBoolean(context, PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
 
-        //send broadcast
-        Intent intent = new Intent(ActionName.SRC_IMG_STORAGE_COMPLETED);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        //send event
+        EventBus.getDefault().post(new Event.SrcImgSavedEvent());
     }
 
     public CameraFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -196,54 +133,47 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void init() {
-//        if (!checkCameraHardware(context)) {
-//            Logcat.e(TAG, "No Camera");
-//            return;
-//        }
-//
-//        camera = getCameraInstance();
-//
-//        surfaceHolder = surfaceView.getHolder();
-//        surfaceHolder.addCallback(surfaceHolderCallback);
-//
-//        Camera.Parameters parameters = camera.getParameters();
-//        parameters.setPictureFormat(ImageFormat.JPEG);
-//        List<Camera.Size> supportedPreviewSizes = parameters.getSupportedPreviewSizes();
-//        List<Camera.Size> supportedPictureSizes = parameters.getSupportedPictureSizes();
-//        int preViewPicSizeIndex = supportedPictureSizes.size() - 1;
-//        parameters.setPreviewSize(supportedPreviewSizes.get(preViewPicSizeIndex).width, supportedPreviewSizes.get(preViewPicSizeIndex).height);
-//        parameters.setPictureSize(supportedPictureSizes.get(preViewPicSizeIndex).width, supportedPictureSizes.get(preViewPicSizeIndex).height);
-//        camera.setParameters(parameters);
-//        camera.setDisplayOrientation(90);
-
         captureImageView.setImageDrawable(new IconDrawable(context, Iconify.IconValue.md_camera)
                 .colorRes(R.color.ab_icon)
-                .sizeDp(27));
-        captureImageView.setOnClickListener(this);
-
+                .actionBarSize());
         go2galleryImageView.setOnClickListener(this);
+
+        if (!checkCameraHardware(context)) {
+            SuperToastUtil.showToast(context, "摄像头不可用");
+            return;
+        }
+
+        camera = getCameraInstance();
+        if (camera == null) {
+            SuperToastUtil.showToast(context, "打开摄像头失败，请重试");
+            return;
+        }
+        SurfaceView cameraPreviewSurfaceView = new CameraPreviewSurfaceView(context, camera);
+        cameraFrameLayout.addView(cameraPreviewSurfaceView, 0);
+
+        captureImageView.setOnClickListener(this);
     }
 
     @Override
     public void onDestroyView() {
+        releaseCamera();
         super.onDestroyView();
+    }
+
+//    @Override
+//    public void onPause() {
+//        releaseCamera();
+//        super.onPause();
+//    }
+
+    private void releaseCamera() {
         if (camera != null) {
             camera.stopPreview();
             camera.release();
             camera = null;
         }
     }
-//
-//    @Override
-//    protected void onDestroy() {
-//        if (camera != null) {
-//            camera.stopPreview();
-//            camera.release();
-//            camera = null;
-//        }
-//        super.onDestroy();
-//    }
-//
+
     private boolean checkCameraHardware(Context context) {
         if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             return true;
@@ -264,7 +194,7 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_capture:
                 capture();
                 break;
@@ -275,11 +205,22 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void capture() {
+//        camera.takePicture(new Camera.ShutterCallback() {
+//            @Override
+//            public void onShutter() {
+//                //TODO:make a sound, tell user capture success
+//            }
+//        }, null, pictureCallback);
         camera.autoFocus(new Camera.AutoFocusCallback() {
 
             @Override
             public void onAutoFocus(boolean success, Camera camera) {
-                CameraFragment.this.camera.takePicture(null, null, pictureCallback);
+                CameraFragment.this.camera.takePicture(new Camera.ShutterCallback() {
+                    @Override
+                    public void onShutter() {
+                        //TODO:make a sound, tell user capture success
+                    }
+                }, null, pictureCallback);
             }
         });
     }

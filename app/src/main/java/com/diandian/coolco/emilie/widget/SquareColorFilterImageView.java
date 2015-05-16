@@ -2,19 +2,18 @@ package com.diandian.coolco.emilie.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
-public class SquareImageView extends ImageView {
+public class SquareColorFilterImageView extends ColorFilterImageView {
 
-	public SquareImageView(Context context) {
+	public SquareColorFilterImageView(Context context) {
 		this(context, null, 0);
 	}
 
-	public SquareImageView(Context context, AttributeSet attrs) {
+	public SquareColorFilterImageView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
-	public SquareImageView(Context context, AttributeSet attrs, int defStyle) {
+	public SquareColorFilterImageView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 

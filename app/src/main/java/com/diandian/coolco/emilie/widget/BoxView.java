@@ -85,11 +85,12 @@ public class BoxView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 //        super.onDraw(canvas);
-//        canvas.drawRect(boxRect, clearPaint);
-        canvas.save();
-        canvas.clipRect(boxRect, Region.Op.DIFFERENCE);
         canvas.drawRect(previewRect, shadowPaint);
-        canvas.restore();
+        canvas.drawRect(boxRect, clearPaint);
+//        canvas.save();
+//        canvas.clipRect(boxRect, Region.Op.DIFFERENCE);
+//        canvas.drawColor(Color.parseColor("#66000000"));
+//        canvas.restore();
 //        canvas.drawPath(cornerPath, pathPaint);
 //        canvas.drawLines(((float[]) pts.toArray(new Float[0])), pathPaint);
         for (int i = 0; i < pts.size(); i += 4) {
@@ -103,8 +104,9 @@ public class BoxView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         previewRect = new Rect(0, 0, w, h);
-        h = (int) (h - Dimension.dp2px(getContext(), 50));
+//        h = (int) (h - Dimension.dp2px(getContext(), 50));
         boxRect = new Rect(w / 4, h / 3, w * 3 / 4, h * 2 / 3);
+
 
         Rect textBounds = new Rect();
         textPaint.getTextBounds(text, 0, text.length(), textBounds);
@@ -113,10 +115,17 @@ public class BoxView extends View {
 
         textRect = new Rect(0, ((int) (h * 2 / 3 + Dimension.dp2px(getContext(), 8))), w, h);
 
-        int len = (int) Dimension.dp2px(getContext(), EDGE_LEN_IN_DP);
+        int edgeLen = (int) Dimension.dp2px(getContext(), EDGE_LEN_IN_DP);
         cornerPath = new Path();
 
-        cornerPath.lineTo(len, len);
+//        Region frameRegion = new Region(((int) (boxRect.left - strokWidth)),
+//                ((int) (boxRect.top - strokWidth)),
+//                ((int) (boxRect.right + strokWidth)),
+//                ((int) (boxRect.bottom + strokWidth)));
+//        frameRegion.op(boxRect, Region.Op.DIFFERENCE);
+
+
+        cornerPath.lineTo(edgeLen, edgeLen);
 //        cornerPath.moveTo(boxRect.left, boxRect.top);
 //        cornerPath.lineTo(boxRect.left + len, boxRect.top);
 //        cornerPath.moveTo(boxRect.right - len, boxRect.top);
@@ -145,10 +154,10 @@ public class BoxView extends View {
         float offsetA = strokWidth * 0.75f;
         pts.add((float) boxRect.left - offsetA);
         pts.add((float) boxRect.top - offsetB);
-        pts.add((float) (boxRect.left + len));
+        pts.add((float) (boxRect.left + edgeLen));
         pts.add((float) boxRect.top - offsetB);
 
-        pts.add((float) (boxRect.right - len));
+        pts.add((float) (boxRect.right - edgeLen));
         pts.add((float) boxRect.top - offsetB);
         pts.add((float) boxRect.right + offsetA);
         pts.add((float) boxRect.top - offsetB);
@@ -156,19 +165,19 @@ public class BoxView extends View {
         pts.add((float) boxRect.right+ offsetB);
         pts.add((float) boxRect.top - offsetA);
         pts.add((float) boxRect.right+ offsetB);
-        pts.add((float) (boxRect.top + len));
+        pts.add((float) (boxRect.top + edgeLen));
 
         pts.add((float) boxRect.right + offsetB);
-        pts.add((float) (boxRect.bottom - len));
+        pts.add((float) (boxRect.bottom - edgeLen));
         pts.add((float) boxRect.right + offsetB);
         pts.add((float) boxRect.bottom + offsetA);
 
         pts.add((float) boxRect.right + offsetA);
         pts.add((float) boxRect.bottom + offsetB);
-        pts.add((float) (boxRect.right - len));
+        pts.add((float) (boxRect.right - edgeLen));
         pts.add((float) boxRect.bottom + offsetB);
 
-        pts.add((float) (boxRect.left + len));
+        pts.add((float) (boxRect.left + edgeLen));
         pts.add((float) boxRect.bottom + offsetB);
         pts.add((float) boxRect.left - offsetA);
         pts.add((float) boxRect.bottom + offsetB);
@@ -176,33 +185,33 @@ public class BoxView extends View {
         pts.add((float) boxRect.left - offsetB);
         pts.add((float) boxRect.bottom + offsetA);
         pts.add((float) boxRect.left - offsetB);
-        pts.add((float) (boxRect.bottom - len));
+        pts.add((float) (boxRect.bottom - edgeLen));
 
         pts.add((float) boxRect.left - offsetB);
-        pts.add((float) (boxRect.top + len));
+        pts.add((float) (boxRect.top + edgeLen));
         pts.add((float) boxRect.left - offsetB);
         pts.add((float) boxRect.top - offsetA);
 
         pts2 = new float[16];
-        pts2[0] = boxRect.left+len;
+        pts2[0] = boxRect.left+edgeLen;
         pts2[1] = boxRect.top;
-        pts2[2] = boxRect.right-len;
+        pts2[2] = boxRect.right-edgeLen;
         pts2[3] = boxRect.top;
 
         pts2[4] = boxRect.right;
-        pts2[5] = boxRect.top+len;
+        pts2[5] = boxRect.top+edgeLen;
         pts2[6] = boxRect.right;
-        pts2[7] = boxRect.bottom-len;
+        pts2[7] = boxRect.bottom-edgeLen;
 
-        pts2[8] = boxRect.right-len;
+        pts2[8] = boxRect.right-edgeLen;
         pts2[9] = boxRect.bottom;
-        pts2[10] = boxRect.left+len;
+        pts2[10] = boxRect.left+edgeLen;
         pts2[11] = boxRect.bottom;
 
         pts2[12] = boxRect.left;
-        pts2[13] = boxRect.bottom-len;
+        pts2[13] = boxRect.bottom-edgeLen;
         pts2[14] = boxRect.left;
-        pts2[15] = boxRect.top+len;
+        pts2[15] = boxRect.top+edgeLen;
 
     }
 }

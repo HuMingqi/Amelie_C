@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Emilie</string>
+    <string name="app_name">Amelie</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_src_img_crop">裁剪</string>
@@ -9,6 +9,21 @@
     <string name="title_activity_similar_img_detail">结果详情</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="similar_img_transtion_dest">similarImgTranstionDest</string>
+    <string name="src_img_transtion_dest">srcImgTranstionDest</string>
     <string name="title_activity_test_pull_up_down">TestPullUpDownActivity</string>
+    <string name="dialog_positive_button">确定</string>
+
+    <string-array name="menu_similar_img_detail">
+        <item>收藏</item>
+        <item>分享</item>
+        <item>保存到相册</item>
+        <item>去购买</item>
+        <item>查看服饰信息</item>
+    </string-array>
+
+    <string name="title_activity_web">正在加载...</string>
+    <string name="title_activity_splash">Amelie</string>
+    <string name="app_copyright">Amelie © 2015 Liva</string>
+    <string name="title_activity_main">首页</string>
 
 </resources>

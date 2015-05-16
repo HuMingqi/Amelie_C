@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.diandian.coolco.emilie">
+    package="com.diandian.coolco.emilie" >
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -16,10 +16,35 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".activity.SrcImgObtainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".activity.SrcImgCropActivity"
+            android:label="@string/title_activity_src_img_crop" />
+        <activity
+            android:name=".activity.SimilarImgActivity"
+            android:label="@string/title_activity_similar_img" />
+        <activity
+            android:name=".activity.SimilarImgDetailActivity"
+            android:label="@string/title_activity_similar_img_detail"
+            android:theme="@style/ActionBarOvelayTheme" />
+        <activity
+            android:name=".activity.SettingActivity"
+            android:label="设置" />
+        <activity
+            android:name=".activity.TestPullUpDownActivity"
+            android:label="@string/title_activity_test_pull_up_down" />
+        <activity
+            android:name=".activity.WebActivity"
+            android:label="@string/title_activity_web" />
+        <activity
+            android:name=".activity.SplashActivity"
+            android:label="@string/title_activity_splash"
+            android:theme="@style/SplashTheme"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,21 +52,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.SrcImgCropActivity"
-            android:label="@string/title_activity_src_img_crop"></activity>
-        <activity
-            android:name=".activity.SimilarImgActivity"
-            android:label="@string/title_activity_similar_img"></activity>
-        <activity
-            android:name=".activity.SimilarImgDetailActivity"
-            android:label="@string/title_activity_similar_img_detail"
-            android:theme="@style/ActionBarOvelayTheme"/>
-        <activity
-            android:name=".activity.SettingActivity"
-            android:label="设置"></activity>
-        <activity
-            android:name=".activity.TestPullUpDownActivity"
-            android:label="@string/title_activity_test_pull_up_down">
+            android:name=".activity.MainActivity"
+            android:label="@string/title_activity_main" >
 
         </activity>
     </application>
