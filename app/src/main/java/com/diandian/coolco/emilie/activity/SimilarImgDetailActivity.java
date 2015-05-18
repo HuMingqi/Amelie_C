@@ -20,13 +20,13 @@ import android.view.ViewGroup;
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.dialog.ClothesInfoDialogFragment;
 import com.diandian.coolco.emilie.model.Image;
+import com.diandian.coolco.emilie.utility.BitmapStorage;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.diandian.coolco.emilie.utility.IntentUtil;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
 import com.diandian.coolco.emilie.utility.SystemUiHelper;
 import com.diandian.coolco.emilie.widget.DetectTapLongPressViewPager;
 import com.diandian.coolco.emilie.widget.PullUpDownLinearLayout;
-import com.diandian.coolco.emilie.widget.SizeAdjustableSimpleDraweeView;
 import com.diandian.coolco.emilie.widget.WebImageContainer;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
@@ -150,10 +150,11 @@ public class SimilarImgDetailActivity extends BaseActivity{
 //                view = LayoutInflater.from(SimilarImgDetailActivity.this).inflate(R.layout.viewpage_similar_img_detail, container, false);
 //                views.set(position, view);
 //            }
+            view.setTag(position);
             WebImageContainer webImageContainer = (WebImageContainer) view.findViewById(R.id.wic_viewpage_similar_img_detail);
             webImageContainer.setImageUrl(image.getDownloadUrl());
 
-            setPullCallback((PullUpDownLinearLayout) view);
+//            setPullCallback((PullUpDownLinearLayout) view);
 
             container.addView(view);
 //            SizeAdjustableSimpleDraweeView draweeView = (SizeAdjustableSimpleDraweeView) webImageContainer.findViewById(R.id.dv_web_img);
@@ -268,7 +269,11 @@ public class SimilarImgDetailActivity extends BaseActivity{
     }
 
     private void downloadImage() {
-
+//        View currentPage = similarImgViewPager.getChildAt(similarImgViewPager.getCurrentItem());
+        View currentPage = similarImgViewPager.findViewWithTag(similarImgViewPager.getCurrentItem());
+        WebImageContainer webImageContainer = (WebImageContainer) currentPage.findViewById(R.id.wic_viewpage_similar_img_detail);
+        webImageContainer.saveWebImage();
+        SuperToastUtil.showToast(this, "图片已保存到相册");
     }
 
     private void showClothesInfo() {

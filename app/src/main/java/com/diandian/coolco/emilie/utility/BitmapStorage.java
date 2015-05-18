@@ -41,8 +41,13 @@ public class BitmapStorage {
     }
 
     public static String saveImg(Context context, Bitmap bitmap) {
+        if (bitmap == null){
+            Logcat.e("bitmap == null");
+            return null;
+        }
         File imgFile = getOutputMediaFile(context, MEDIA_TYPE_IMAGE);
         if (imgFile == null) {
+            Logcat.e("saveImg imgFile == null");
             return null;
         }
         try {

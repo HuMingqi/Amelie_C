@@ -13,7 +13,7 @@
         layout="@layout/custom_widget_pud_header"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:background="#000000"
+
         />
 
 
@@ -24,10 +24,11 @@
         android:layout_height="match_parent"
         android:background="@color/bg_activity"
         />
+        android:background="@color/bg_activity"
+        android:background="#000000"
     -->
     <com.diandian.coolco.emilie.widget.WebImageContainer
         android:id="@+id/wic_viewpage_similar_img_detail"
-        android:background="@color/bg_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -35,6 +36,6 @@
         layout="@layout/custom_widget_pud_footer"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:background="#000000"/>
+        />
 
 </com.diandian.coolco.emilie.widget.PullUpDownLinearLayout>

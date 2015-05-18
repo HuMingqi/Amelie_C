@@ -4,6 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="actionBarStyle">@style/MyActionBar</item>
+        <!--<item name="android:windowBackground">@color/bg_activity</item>-->
 
     </style>
 
@@ -43,6 +44,12 @@
         <item name="android:textColor">#e7e7e7</item>
     </style>
 
+    <!-- used in main activity-->
+    <style name="MainEntryText" parent="android:TextAppearance.DeviceDefault.Widget.TextView">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/main_entry</item>
+    </style>
+
     <style name="Fade">
         <item name="android:windowEnterAnimation">@anim/fade_in</item>
         <item name="android:windowExitAnimation">@null</item>
@@ -61,6 +68,7 @@
         <!-- 模糊 -->
         <item name="android:backgroundDimAmount">0.5</item>
     </style>
+
 
 
 </resources>

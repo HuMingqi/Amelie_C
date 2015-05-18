@@ -38,9 +38,12 @@ public class SplashActivity extends Activity {
     private AnimatorSet logoAnimatorSet;
     private ObjectAnimator logoTranslateAnimator;
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().getDecorView().setBackgroundDrawable(null);
 
         setContentView(R.layout.activity_splash);
 

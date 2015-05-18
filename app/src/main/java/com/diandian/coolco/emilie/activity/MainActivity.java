@@ -6,21 +6,54 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.diandian.coolco.emilie.R;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 
-public class MainActivity extends BaseActivity {
+import org.w3c.dom.Text;
+
+import roboguice.inject.InjectView;
+
+public class MainActivity extends BaseActivity implements View.OnClickListener {
+
+    @InjectView(R.id.tv_go2camera)
+    private TextView go2cameraTextView;
+    @InjectView(R.id.tv_go2gallery)
+    private TextView go2galleryTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         setContentView(R.layout.activity_main);
+
+        init();
     }
 
+    private void init() {
+        int iconSizeInDp = 80;
+        IconDrawable cameraIconDrawable = new IconDrawable(this, Iconify.IconValue.md_photo_camera).colorRes(R.color.main_entry).sizeDp(iconSizeInDp);
+        IconDrawable galleryIconDrawable = new IconDrawable(this, Iconify.IconValue.md_photo).colorRes(R.color.main_entry).sizeDp(iconSizeInDp);
+        go2cameraTextView.setCompoundDrawables(null, cameraIconDrawable, null, null);
+        go2galleryTextView.setCompoundDrawables(null, galleryIconDrawable, null, null);
+        go2cameraTextView.setOnClickListener(this);
+        go2galleryTextView.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.tv_go2camera:
+                break;
+            case R.id.tv_go2gallery:
+                break;
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
