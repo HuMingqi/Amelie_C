@@ -10,7 +10,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="similar_img_transtion_dest">similarImgTranstionDest</string>
     <string name="src_img_transtion_dest">srcImgTranstionDest</string>
-    <string name="title_activity_test_pull_up_down">TestPullUpDownActivity</string>
     <string name="dialog_positive_button">确定</string>
 
     <string-array name="menu_similar_img_detail">

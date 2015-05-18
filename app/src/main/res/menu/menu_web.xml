@@ -2,6 +2,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.diandian.coolco.emilie.activity.WebActivity">
-    <item android:id="@+id/action_copy_url_to_clipboard" android:title="复制链接"
-        android:orderInCategory="100" app:showAsAction="never" />
+
+    <item
+        android:id="@+id/ab_button_list"
+        android:icon="@android:drawable/ic_menu_more"
+        android:orderInCategory="2"
+        android:title="更多"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item android:id="@+id/action_copy_url_to_clipboard" android:title="复制链接"
+                android:orderInCategory="100" app:showAsAction="never" />
+
+        </menu>
+    </item>
+
 </menu>

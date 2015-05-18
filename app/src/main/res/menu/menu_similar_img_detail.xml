@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.diandian.coolco.emilie.activity.SimilarImgDetailActivity">
 
-    <!--
     <item
         android:id="@+id/ab_button_list"
         android:title="更多"
@@ -11,7 +10,6 @@
         android:orderInCategory="2"
         app:showAsAction="ifRoom">
         <menu>
-    -->
 
             <item
                 android:id="@+id/action_add_to_collection"
@@ -44,13 +42,7 @@
                 android:orderInCategory="5"
                 app:showAsAction="never" />
 
-    <!--
         </menu>
     </item>
-    <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-    -->
+
 </menu>

@@ -5,7 +5,6 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -28,11 +27,6 @@ import com.diandian.coolco.emilie.utility.PreferenceKey;
 import com.edmodo.cropper.CropImageView;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 
 import roboguice.inject.InjectView;
 
@@ -118,18 +112,7 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
         transition.setDuration(LayoutTransition.APPEARING, animationDuration);
 
         ObjectAnimator slideIn = ObjectAnimator.ofFloat(null, "translationY", Dimension.dp2px(this, 50), 0).setDuration(animationDuration);
-//        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(null, "alpha", 0.2f, 1).setDuration(transition.getDuration(LayoutTransition.APPEARING));
-//        AnimatorSet animInSet = new AnimatorSet();
-//        animInSet.playTogether(slideIn, fadeIn);
-//        animInSet.setDuration(transition.getDuration(LayoutTransition.APPEARING));
-//        animIn.setInterpolator(new AccelerateDecelerateInterpolator());
         transition.setAnimator(LayoutTransition.APPEARING, slideIn);
-
-//        AnimatorSet animAppear = new AnimatorSet();
-//        animAppear.setDuration(animationDuration).playTogether(
-//                ObjectAnimator.ofFloat(bottomBarRelativeLayout, "alpha", 0.2f, 1),
-//                ObjectAnimator.ofFloat(bottomBarRelativeLayout, "translationY", bottomBarHeight, 0));
-//        transition.setAnimator(LayoutTransition.APPEARING, animAppear);
     }
 
     public void onEventMainThread(Event.SrcImgSavedEvent event) {
@@ -137,15 +120,7 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
     }
 
     private void srcImgStorageCompleted() {
-//        try {
-//            Uri imageUri = Uri.parse(String.format("file://%s", srcImgPath));
-//            Uri imageUri = Uri.fromFile(new File(srcImgPath));
         cropImageView.setImageBitmap(getThumbnail(srcImgPath));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        String uri = String.format("file://%s", srcImgPath);
-//        ImageLoader.getInstance().displayImage(uri, (com.nostra13.universalimageloader.core.imageaware.ImageAware) cropImageView);
 
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
@@ -165,59 +140,27 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
         if (options.outWidth < width && options.outHeight < height) {
             ratio = 1;
         } else {
-//            ratio = Math.min(((float) width)/ ((float) options.outWidth), ((float) height)/ ((float) options.outHeight));
-//            ratio = Math.min((float) options.outWidth / width, (float) options.outHeight / height);
             ratio = Math.max((float) options.outWidth / width, (float) options.outHeight / height);
         }
         options.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
         options.inJustDecodeBounds = false;
-        Bitmap src = BitmapFactory.decodeFile(srcImgPath, options);
+        Bitmap sampledBitmap = BitmapFactory.decodeFile(srcImgPath, options);
 
         if (ratio == 1){
-            return src;
+            return sampledBitmap;
         }
-        // create scaled bitmap
-        Bitmap dst = null;
+
+        Bitmap scaledBitmap = null;
         if ((float) options.outWidth / width > (float) options.outHeight / height){
-            dst = Bitmap.createScaledBitmap(src, width, ((int) (((float) width) * options.outHeight / options.outWidth)), false);
+            scaledBitmap = Bitmap.createScaledBitmap(sampledBitmap, width, ((int) (((float) width) * options.outHeight / options.outWidth)), false);
         } else {
-            dst = Bitmap.createScaledBitmap(src, ((int) (((float) height) * options.outWidth / options.outHeight)), height, false);
+            scaledBitmap = Bitmap.createScaledBitmap(sampledBitmap, ((int) (((float) height) * options.outWidth / options.outHeight)), height, false);
         }
-        if (src != dst) {
-            src.recycle();
+        if (sampledBitmap != scaledBitmap) {
+            sampledBitmap.recycle();
         }
-        return dst;
+        return scaledBitmap;
 
-    }
-
-    public Bitmap getThumbnail(Uri uri) throws FileNotFoundException, IOException {
-        InputStream input = getContentResolver().openInputStream(uri);
-
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(input, null, options);
-//        input.close();
-        if ((options.outWidth == -1) || (options.outHeight == -1))
-            return null;
-
-        int width = cropImageView.getMeasuredWidth();
-        int height = cropImageView.getMeasuredHeight();
-        double ratio = 1;
-        if (options.outWidth < width && options.outHeight < height) {
-            ratio = 1;
-        } else {
-            ratio = Math.min(((float) width) / ((float) options.outWidth), ((float) height) / ((float) options.outHeight));
-        }
-
-//        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-        options.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
-        options.inJustDecodeBounds = false;
-//        bitmapOptions.inDither=true;//optional
-//        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
-//        input = getContentResolver().openInputStream(uri);
-        Bitmap bitmap = BitmapFactory.decodeStream(input, null, options);
-        input.close();
-        return bitmap;
     }
 
     private static int getPowerOfTwoForSampleRatio(double ratio) {
@@ -225,7 +168,6 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
         if (k == 0) return 1;
         else return k;
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

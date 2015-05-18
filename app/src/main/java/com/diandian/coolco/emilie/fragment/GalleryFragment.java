@@ -30,7 +30,7 @@ import com.diandian.coolco.emilie.adapter.CommonBaseAdapter;
 import com.diandian.coolco.emilie.adapter.LocalImgGridItemViewHolder;
 import com.diandian.coolco.emilie.dialog.ProgressDialog;
 import com.diandian.coolco.emilie.model.ImageFolder;
-import com.diandian.coolco.emilie.tmp.ListImageDirPopupWindow;
+import com.diandian.coolco.emilie.popupWindow.ImageDirListPopupWindow;
 import com.diandian.coolco.emilie.utility.Dimension;
 import com.diandian.coolco.emilie.utility.Event;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
@@ -61,7 +61,7 @@ import roboguice.inject.InjectView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GalleryFragment extends BaseFragment implements ListImageDirPopupWindow.OnImageDirSelected {
+public class GalleryFragment extends BaseFragment{
 
     @InjectView(R.id.gv_local_img)
     private GridView localImgGridView;
@@ -86,7 +86,7 @@ public class GalleryFragment extends BaseFragment implements ListImageDirPopupWi
      * store current image folder, do nothing when user switch to the same folder
      */
     private ImageFolder currImageFolder;
-    private ListImageDirPopupWindow mListImageDirPopupWindow;
+    private ImageDirListPopupWindow mImageDirListPopupWindow;
 
     public GalleryFragment() {
         // Required empty public constructor
@@ -150,21 +150,6 @@ public class GalleryFragment extends BaseFragment implements ListImageDirPopupWi
 
 
     private void initImgFoldersPopupWindow() {
-        //sort every folder's images, but don't store it ,because it can be very large
-        /*u can't del element in for-each loop, it will arise concurrentModificationException, but iterator.remove is safe
-        for (ImageFolder imageFolder : imageFolders){
-            if (imageFolder.getDir().equals("/所有图片")){
-                continue;
-            }
-
-            List<String> imgs = getImgs(imageFolder);
-
-            sortImg(imgs);
-
-            imageFolder.setFirstImagePath(imgs.get(0));
-            imageFolder.setCount(imgs.size());
-        }
-        */
         for (Iterator<ImageFolder> iterator = imageFolders.iterator(); iterator.hasNext(); ) {
             ImageFolder imageFolder = iterator.next();
 
@@ -183,7 +168,7 @@ public class GalleryFragment extends BaseFragment implements ListImageDirPopupWi
 
             sortImg(imgs);
 
-            if (imgs.size() > 0 ) {
+            if (imgs.size() > 0) {
                 imageFolder.setFirstImagePath(imgs.get(0));
             } else {
                 imageFolder.setFirstImagePath(null);
@@ -192,12 +177,14 @@ public class GalleryFragment extends BaseFragment implements ListImageDirPopupWi
         }
 
 
-        mListImageDirPopupWindow = new ListImageDirPopupWindow(
-                ViewGroup.LayoutParams.MATCH_PARENT, (int) (Dimension.getScreenHeight(getActivity()) * 0.7),
-                imageFolders, LayoutInflater.from(context)
-                .inflate(R.layout.popup_window_img_dir_list, null));
-        mListImageDirPopupWindow.setAnimationStyle(R.style.anim_popup_dir);
-        mListImageDirPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        View contentView = LayoutInflater.from(context).inflate(R.layout.popup_window_img_dir_list, null);
+        mImageDirListPopupWindow = new ImageDirListPopupWindow(
+                contentView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                (int) (Dimension.getScreenHeight(getActivity()) * 0.7),
+                imageFolders);
+        mImageDirListPopupWindow.setAnimationStyle(R.style.anim_popup_dir);
+        mImageDirListPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
             @Override
             public void onDismiss() {
@@ -206,8 +193,8 @@ public class GalleryFragment extends BaseFragment implements ListImageDirPopupWi
                 setWindowAlpha(1.0f);
             }
         });
-        mListImageDirPopupWindow.setOnImageDirSelected(this);
     }
+
 
     private void setWindowAlpha(float alpha) {
         WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
@@ -219,6 +206,11 @@ public class GalleryFragment extends BaseFragment implements ListImageDirPopupWi
     private void scanImages() {
         progressDialog = ProgressDialog.show(getActivity(), "正在加载...");
         ((MyApplication) getActivity().getApplication()).getAsyncExecutor().execute(new ScanImageTask());
+    }
+
+
+    public void onEventMainThread(ImageFolder imageFolder){
+        onImageFolderSelected(imageFolder);
     }
 
     public void onEventMainThread(Event.NoExternalStorageException noExternalStorageException) {
@@ -245,7 +237,7 @@ public class GalleryFragment extends BaseFragment implements ListImageDirPopupWi
             @Override
             public void onClick(View v) {
 
-                mListImageDirPopupWindow.showAsDropDown(bottomBarRelativeLayout, 0, 0);
+                mImageDirListPopupWindow.showAsDropDown(bottomBarRelativeLayout, 0, 0);
 
                 setWindowAlpha(0.5f);
                 chosenDirTextView.setTextColor(Color.parseColor("#ffffff"));
@@ -257,7 +249,6 @@ public class GalleryFragment extends BaseFragment implements ListImageDirPopupWi
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 startSrcImgCropActivity(currentFolderImgs.get(position), view);
-//                imgObtained(currentFolderImgs.get(position));
             }
         });
     }
@@ -286,9 +277,8 @@ public class GalleryFragment extends BaseFragment implements ListImageDirPopupWi
         }
     }
 
-    @Override
-    public void imgDirSelected(ImageFolder selectedFolder) {
-        mListImageDirPopupWindow.dismiss();
+    public void onImageFolderSelected(ImageFolder selectedFolder) {
+        mImageDirListPopupWindow.dismiss();
 
         if (selectedFolder.equals(currImageFolder)) {
             return;

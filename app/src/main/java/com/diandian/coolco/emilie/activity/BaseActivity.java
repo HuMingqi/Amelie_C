@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
+import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.diandian.coolco.emilie.R;
@@ -22,16 +24,14 @@ public class BaseActivity extends RoboActionBarActivity{
 
     protected Context context;
     private boolean guideFeedbackDialogIsShowing;
+    private Menu mainMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         context = getApplicationContext();
-
         initActionBar();
-
-//        registerEventBus();
     }
 
     @Override
@@ -40,16 +40,6 @@ public class BaseActivity extends RoboActionBarActivity{
         registerEventBus();
     }
 
-    /*
-
-        @Override
-        protected void onDestroy() {
-            unregisterEventBus();
-
-            super.onDestroy();
-        }
-
-    */
     @Override
     protected void onPause() {
         unregisterEventBus();
@@ -88,6 +78,19 @@ public class BaseActivity extends RoboActionBarActivity{
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
+
+    protected void initMenu(Menu menu) {
+        MenuItem moreMenuItem = menu.findItem(R.id.ab_button_list);
+        if (moreMenuItem != null) {
+            moreMenuItem.setIcon(
+                    new IconDrawable(this, Iconify.IconValue.md_more_vert)
+                            .colorRes(R.color.ab_icon)
+                            .actionBarSize());
+            mainMenu = menu;
+        }
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -101,6 +104,23 @@ public class BaseActivity extends RoboActionBarActivity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * open or close the more menu when pressing menu hardware button
+     */
+    @Override
+    public boolean onKeyDown(int keycode, KeyEvent e) {
+        switch (keycode) {
+            case KeyEvent.KEYCODE_MENU:
+                if (mainMenu != null) {
+                    mainMenu.performIdentifierAction(R.id.ab_button_list, 0);
+                    return true;
+                }
+                break;
+        }
+
+        return super.onKeyDown(keycode, e);
     }
 
     @Override

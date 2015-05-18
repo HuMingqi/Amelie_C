@@ -1,9 +1,7 @@
 package com.diandian.coolco.emilie.activity;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,8 +10,6 @@ import android.widget.TextView;
 import com.diandian.coolco.emilie.R;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
-
-import org.w3c.dom.Text;
 
 import roboguice.inject.InjectView;
 
@@ -58,11 +54,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        menu.findItem(R.id.ab_button_list).setIcon(
-                new IconDrawable(this, Iconify.IconValue.md_more_vert)
-                        .colorRes(R.color.ab_icon)
-                        .actionBarSize());
+        initMenu(menu);
         return true;
     }
 

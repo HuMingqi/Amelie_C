@@ -9,13 +9,11 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,20 +26,10 @@ import com.diandian.coolco.emilie.utility.Dimension;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.diandian.coolco.emilie.utility.NetHelper;
 import com.diandian.coolco.emilie.utility.Url;
-import com.diandian.coolco.emilie.widget.NumberProgressCircle;
-import com.diandian.coolco.emilie.widget.PlaceHolderColorFilterImageView;
 import com.etsy.android.grid.StaggeredGridView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.malinskiy.materialicons.IconDrawable;
-import com.malinskiy.materialicons.Iconify;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.json.JSONException;
@@ -55,16 +43,11 @@ import roboguice.inject.InjectView;
 
 public class SimilarImgActivity extends BaseActivity {
 
-//    @InjectView(R.id.root)
-//    private DetectSwipeGestureRelativeLayout rootView;
-
     @InjectView(R.id.sgv_similar_img)
     private StaggeredGridView similarImgGridView;
 
     private List<Image> datas;
     private BaseAdapter adapter;
-    private Menu mainMenu;
-    private static DisplayImageOptions options;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,19 +62,7 @@ public class SimilarImgActivity extends BaseActivity {
 //        String croppedSrcImgPath = intent.getStringExtra(ExtraDataName.CROPPED_SRC_IMG_PATH);
 //        new SearchSimilarImgAysncTask().execute(croppedSrcImgPath);
 
-        options = new DisplayImageOptions.Builder()
-//                .showImageOnLoading(R.drawable.ic_stub)
-//                .showImageForEmptyUri(R.drawable.ic_empty)
-//                .showImageOnFail(R.drawable.ic_error)
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .considerExifParams(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .displayer(new FadeInBitmapDisplayer(300))
-                .build();
-
         datas = new ArrayList<Image>();
-
 
         Image image1 = new Image();
         Image image2 = new Image();
@@ -114,53 +85,10 @@ public class SimilarImgActivity extends BaseActivity {
         datas.add(image4);
         datas.add(image5);
 
-        /*// this is very bad coding style, it may call memory leak
-        datas.add(new Image() {
-            {
-                setDownloadUrl("http://myron-mydomain.stor.sinaapp.com/1114163041364330.png");
-            }
-        });
-        datas.add(new Image() {
-            {
-                setDownloadUrl("http://myron-mydomain.stor.sinaapp.com/14148082703290.png");
-            }
-        });
-        datas.add(new Image() {
-            {
-                setDownloadUrl("http://myron-mydomain.stor.sinaapp.com/14148082653051.png");
-            }
-        });
-        datas.add(new Image() {
-            {
-                setDownloadUrl("http://myron-mydomain.stor.sinaapp.com/14148324678681.png");
-            }
-        });
-        datas.add(new Image() {
-            {
-                setDownloadUrl("http://myron-mydomain.stor.sinaapp.com/14148324678680.png");
-            }
-        });
-
-        datas.add(new Image() {
-            {
-                setDownloadUrl("http://myron-mydomain.stor.sinaapp.com/14148502153040.png");
-            }
-        });
-        datas.add(new Image() {
-            {
-                setDownloadUrl("http://myron-mydomain.stor.sinaapp.com/14148503848361.png");
-            }
-        });
-        datas.add(new Image() {
-            {
-                setDownloadUrl("http://myron-mydomain.stor.sinaapp.com/14148503848362.png");
-            }
-        });
-        */
         TextView clothesNumTextView = new TextView(this);
         clothesNumTextView.setText("找到2,123件服饰");
         clothesNumTextView.setTextSize(14);
-        clothesNumTextView.setTextColor(getResources().getColor(android.R.color.secondary_text_dark_nodisable));
+        clothesNumTextView.setTextColor(getResources().getColor(android.R.color.secondary_text_light_nodisable));
         int padding = (int) Dimension.dp2px(this, 12);
         clothesNumTextView.setPadding(padding, padding, padding, padding);
         similarImgGridView.addHeaderView(clothesNumTextView);
@@ -174,29 +102,15 @@ public class SimilarImgActivity extends BaseActivity {
         similarImgGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                int headerViewsCount = ((ListView) parent).getHeaderViewsCount();
                 int headerViewsCount = similarImgGridView.getHeaderViewsCount();
                 int calibratedPosition = position - headerViewsCount;
                 if (calibratedPosition >= 0 && calibratedPosition < datas.size()){
                     startSimilarImgDetailActivity(datas.get(calibratedPosition), calibratedPosition, view);
                 }
-//                if (position >= headerViewsCount && position < datas.size() + headerViewsCount) {
-//                    startSimilarImgDetailActivity(datas.get(position - headerViewsCount), position - headerViewsCount, view);
-//                }
+
             }
         });
-
-//        rootView.setMenuListener(new DetectSwipeGestureRelativeLayout.SwipeRightListener() {
-//            @Override
-//            public void onSwipeRight() {
-//                finish();
-//            }
-//        });
     }
-//
-//    public void onEvent(String noEvent){
-//
-//    }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void startSimilarImgDetailActivity(Image image, int pos, View itemView) {
@@ -221,12 +135,7 @@ public class SimilarImgActivity extends BaseActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_similar_img, menu);
 
-        menu.findItem(R.id.ab_button_list).setIcon(
-                new IconDrawable(this, Iconify.IconValue.md_more_vert)
-                        .colorRes(R.color.ab_icon)
-                        .actionBarSize());
-        mainMenu = menu;
-
+        initMenu(menu);
         return true;
     }
 
@@ -241,12 +150,6 @@ public class SimilarImgActivity extends BaseActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
-//        if (id == android.R.id.home) {
-////            NavUtils.navigateUpFromSameTask(this);
-//            finish();
-//            return true;
-//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -304,19 +207,5 @@ public class SimilarImgActivity extends BaseActivity {
             }
             adapter.notifyDataSetChanged();
         }
-    }
-
-    /**
-     * open or close the more menu when pressing menu hardware button
-     */
-    @Override
-    public boolean onKeyDown(int keycode, KeyEvent e) {
-        switch (keycode) {
-            case KeyEvent.KEYCODE_MENU:
-                mainMenu.performIdentifierAction(R.id.ab_button_list, 0);
-                return true;
-        }
-
-        return super.onKeyDown(keycode, e);
     }
 }
