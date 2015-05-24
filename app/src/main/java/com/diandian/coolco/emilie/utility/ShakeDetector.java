@@ -22,7 +22,7 @@ public class ShakeDetector implements SensorEventListener {
 	SensorManager mSensorManager;
 	ArrayList<OnShakeListener> mListeners;
 
-	public int shakeThreshold = 2000;
+	public int shakeThreshold = 4000;
 
 	public ShakeDetector(Context context) {
 		mContext = context;

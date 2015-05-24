@@ -16,7 +16,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.diandian.coolco.emilie.R;
+import com.diandian.coolco.emilie.utility.IntentUtil;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
+import com.diandian.coolco.emilie.widget.FireworkText;
 
 import roboguice.inject.InjectView;
 
@@ -39,6 +41,11 @@ public class WebActivity extends BaseActivity {
     }
 
     private void init() {
+        final FireworkText animatedTitle = new FireworkText(getSupportActionBar());
+        animatedTitle.setAnimationTextScope(4, 10);
+        animatedTitle.setDuration(2400);
+        animatedTitle.startAnimationIndefinitely();
+
         progressClipDrawable = (ClipDrawable) progressImageView.getDrawable();
 
         webview.getSettings().setJavaScriptEnabled(true);
@@ -60,6 +67,7 @@ public class WebActivity extends BaseActivity {
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
+                animatedTitle.stopAnimation();
                 getSupportActionBar().setTitle(title);
             }
         });
@@ -69,7 +77,7 @@ public class WebActivity extends BaseActivity {
             }
         });
 
-        webview.loadUrl("http://myron.sinaapp.com/list");
+        webview.loadUrl("http://item.jd.com/1462879267.html");
     }
 
 
@@ -83,9 +91,12 @@ public class WebActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_copy_url_to_clipboard:
                 copyUrl2clipboard();
+                break;
+            case R.id.action_open_with_browser:
+                openWithBrowser();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -97,5 +108,9 @@ public class WebActivity extends BaseActivity {
         ClipData clip = ClipData.newPlainText("simple text", url);
         clipboard.setPrimaryClip(clip);
         SuperToastUtil.showToast(this, "复制链接成功");
+    }
+
+    private void openWithBrowser() {
+        IntentUtil.startWebActivity(this, webview.getUrl());
     }
 }

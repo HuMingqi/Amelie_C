@@ -29,6 +29,10 @@ public class PullUpDownLinearLayout extends LinearLayout {
     private static final long ROTATE_ANIM_DURATION = 180;
     private int touchSlop;
     private boolean scrolling;
+    private String releasePullDownHint;
+    private String pullDownHint;
+    private String pullUpHint;
+    private String releasePullUpHint;
 
     private enum STATE {RELEASE_TO_TRIGGER_PULL_DOWN_ACTION, PULL_TO_TRIGGER_PULL_DOWN_ACTION, PULL_TO_TRIGGER_PULL_UP_ACTION, RELEASE_TO_TRIGGER_PULL_UP_ACTION, NORMAL}
 
@@ -159,14 +163,12 @@ public class PullUpDownLinearLayout extends LinearLayout {
             case MotionEvent.ACTION_CANCEL:
                 if (getScrollY() >= footerView.getMeasuredHeight()) {
                     if (pullListener != null) {
-                        pullListener.onPullDown();
-                    }
-                    Logcat.e("footer trigger");
-                } else if (getScrollY() <= -headerView.getMeasuredHeight()) {
-                    if (pullListener != null) {
                         pullListener.onPullUp();
                     }
-                    Logcat.e("header trigger");
+                } else if (getScrollY() <= -headerView.getMeasuredHeight()) {
+                    if (pullListener != null) {
+                        pullListener.onPullDown();
+                    }
                 }
                 smoothScrollTo(0);
                 lastY = -1;
@@ -176,29 +178,36 @@ public class PullUpDownLinearLayout extends LinearLayout {
 
     }
 
+    public void setHint(String pullDownHint, String releasePullDownHint, String pullUpHint, String releasePullUpHint){
+        this.pullDownHint = pullDownHint;
+        this.releasePullDownHint = releasePullDownHint;
+        this.pullUpHint = pullUpHint;
+        this.releasePullUpHint = releasePullUpHint;
+    }
+
     private void updateHeaderFooterView() {
         int scrollY = getScrollY();
         if (scrollY < -headerView.getMeasuredHeight()) {//[-infinite, -headerViewHeight]
             if (state != STATE.RELEASE_TO_TRIGGER_PULL_DOWN_ACTION) {
-                headerTextView.setText("松开立即分享");
+                headerTextView.setText(releasePullDownHint);
                 headerArrowImageView.startAnimation(rotateUpAnim);
                 state = STATE.RELEASE_TO_TRIGGER_PULL_DOWN_ACTION;
             }
         } else if (scrollY < 0) {//[-headerViewHeight, 0]
             if (state != STATE.PULL_TO_TRIGGER_PULL_DOWN_ACTION) {
-                headerTextView.setText("下拉快速分享");
+                headerTextView.setText(pullDownHint);
                 headerArrowImageView.startAnimation(rotateDownAnim);
                 state = STATE.PULL_TO_TRIGGER_PULL_DOWN_ACTION;
             }
         } else if (scrollY < footerView.getMeasuredHeight()) {//[0, footerViewHeight]
             if (state != STATE.PULL_TO_TRIGGER_PULL_UP_ACTION) {
-                footerTextView.setText("上拉快速收藏");
+                footerTextView.setText(pullUpHint);
                 footerArrowImageView.startAnimation(rotateUpAnim);
                 state = STATE.PULL_TO_TRIGGER_PULL_UP_ACTION;
             }
         } else {//[footerViewHeight, infinite]
             if (state != STATE.RELEASE_TO_TRIGGER_PULL_UP_ACTION) {
-                footerTextView.setText("松开立即收藏");
+                footerTextView.setText(releasePullUpHint);
                 footerArrowImageView.startAnimation(rotateDownAnim);
                 state = STATE.RELEASE_TO_TRIGGER_PULL_UP_ACTION;
             }

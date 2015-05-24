@@ -8,8 +8,15 @@
 
     </style>
 
-    <style name="ActionBarOvelayTheme" parent="AppTheme">
-        <item name="windowActionBarOverlay">true</item>
+    <style name="MyAppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="actionBarStyle">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+
+    <style name="NoActionBarTheme" parent="Theme.AppCompat.Light">
+        <item name="android:windowActionBar">false</item>
     </style>
 
     <style name="SplashTheme" parent="AppTheme">
@@ -69,6 +76,15 @@
         <item name="android:backgroundDimAmount">0.5</item>
     </style>
 
+    <style name="SimilarImageCardTextView" parent="android:TextAppearance.DeviceDefault.Widget.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#e7e7e7</item>
+        <item name="android:background">@android:color/holo_blue_dark</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:drawablePadding">-8dp</item>
+    </style>
 
 
 </resources>

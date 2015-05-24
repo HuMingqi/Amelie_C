@@ -58,10 +58,18 @@ public class SrcImgObtainActivity extends BaseActivity {
             case R.id.action_search_history:
 
                 break;
+            case R.id.action_my_collection:
+                startCollectionActivity();
+                break;
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startCollectionActivity(){
+        Intent intent = new Intent(this, CollectionActivity.class);
+        startActivity(intent);
     }
 
     private void startSettingActivity() {

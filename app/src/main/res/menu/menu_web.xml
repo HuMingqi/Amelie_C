@@ -13,6 +13,8 @@
             <item android:id="@+id/action_copy_url_to_clipboard" android:title="复制链接"
                 android:orderInCategory="100" app:showAsAction="never" />
 
+            <item android:id="@+id/action_open_with_browser" android:title="用浏览器打开"
+                android:orderInCategory="100" app:showAsAction="never" />
         </menu>
     </item>
 

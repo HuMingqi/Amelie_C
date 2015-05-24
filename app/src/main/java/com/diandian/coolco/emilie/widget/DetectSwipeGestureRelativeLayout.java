@@ -49,7 +49,7 @@ public class DetectSwipeGestureRelativeLayout extends RelativeLayout {
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
         private static final int SWIPE_THRESHOLD = 200;
-        private static final int SWIPE_VELOCITY_THRESHOLD = 400;
+        private static final int SWIPE_VELOCITY_THRESHOLD = 800;
 
         @Override
         public boolean onDown(MotionEvent e) {

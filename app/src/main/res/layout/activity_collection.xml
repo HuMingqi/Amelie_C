@@ -1,0 +1,19 @@
+<com.diandian.coolco.emilie.widget.DetectSwipeGestureRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.diandian.coolco.emilie.activity.SimilarImgActivity">
+
+
+    <com.etsy.android.grid.StaggeredGridView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/sgv_collection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:column_count="2"
+        app:item_margin="8dp" />
+
+
+</com.diandian.coolco.emilie.widget.DetectSwipeGestureRelativeLayout>
+

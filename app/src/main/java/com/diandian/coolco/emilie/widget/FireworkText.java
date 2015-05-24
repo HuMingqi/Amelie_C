@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Parcel;
+import android.support.v7.app.ActionBar;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -11,13 +12,19 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Property;
 import android.widget.TextView;
 
+import com.diandian.coolco.emilie.R;
+
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class FireworkText {
 
+    private ActionBar supportActionBar;
     private TextView textView;
+
+    private ObjectAnimator objectAnimator;
     private long duration;
+    private int animationTextBeg = -1;
+    private int animationTextEnd = -1;
 
     private static final Property<FireworksSpanGroup, Float> FIREWORKS_GROUP_PROGRESS_PROPERTY =
             new Property<FireworksSpanGroup, Float>(Float.class, "FIREWORKS_GROUP_PROGRESS_PROPERTY") {
@@ -32,27 +39,54 @@ public class FireworkText {
                     return spanGroup.getAlpha();
                 }
             };
-    private ObjectAnimator objectAnimator;
+
 
     public FireworkText(TextView textView) {
         this.textView = textView;
     }
 
-    public void setDuration(long duration) {
-        this.duration = duration;
-        initAnimation();
+    public FireworkText(ActionBar supportActionBar) {
+        this.supportActionBar = supportActionBar;
     }
 
-    private void initAnimation() {
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    public void setAnimationTextScope(int beg, int end) {
+        this.animationTextBeg = beg;
+        this.animationTextEnd = end;
+    }
+
+    private void setUpAnimation() {
         final FireworksSpanGroup spanGroup = new FireworksSpanGroup(0);
         //init the group with multiple spans
         //set spans on the ActionBar spannable title
-        CharSequence plainString = textView.getText();
-        final SpannableString mActionBarTitleSpannableString = new SpannableString(plainString);
-        for (int i = 0; i < plainString.length(); i++) {
-            MutableForegroundColorSpan span = new MutableForegroundColorSpan(0, textView.getTextColors().getDefaultColor());
+        CharSequence plainString = null;
+        if (textView != null) {
+            plainString = textView.getText();
+        }
+        if (supportActionBar != null) {
+            plainString = supportActionBar.getTitle();
+        }
+        final SpannableString spannableString = new SpannableString(plainString);
+        if (animationTextBeg == -1) {
+            animationTextBeg = 0;
+        }
+        if (animationTextEnd == -1) {
+            animationTextEnd = plainString.length();
+        }
+        for (int i = animationTextBeg; i < animationTextEnd; i++) {
+            int color = Color.parseColor("#ffffff");
+            if (textView != null) {
+                color = textView.getTextColors().getDefaultColor();
+            }
+            if (supportActionBar != null) {
+                color = supportActionBar.getThemedContext().getResources().getColor(R.color.actionbar_title);
+            }
+            MutableForegroundColorSpan span = new MutableForegroundColorSpan(0, color);
             spanGroup.addSpan(span);
-            mActionBarTitleSpannableString.setSpan(span, i, i+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(span, i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         }
         spanGroup.init();
@@ -60,16 +94,33 @@ public class FireworkText {
         objectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                //refresh the ActionBar title
-
-                textView.setText(mActionBarTitleSpannableString);
+                if (textView != null) {
+                    textView.setText(spannableString);
+                }
+                if (supportActionBar != null) {
+                    supportActionBar.setTitle(spannableString);
+                }
             }
         });
         objectAnimator.setDuration(duration);
     }
 
-    public void startAnimation(){
+    public void startAnimation() {
+        setUpAnimation();
         objectAnimator.start();
+    }
+
+    public void startAnimationIndefinitely() {
+        setUpAnimation();
+        objectAnimator.setRepeatCount(ObjectAnimator.INFINITE);
+        objectAnimator.setRepeatMode(ObjectAnimator.RESTART);
+        objectAnimator.start();
+    }
+
+    public void stopAnimation() {
+        objectAnimator.end();
+        supportActionBar = null;
+        textView = null;
     }
 
     private static final class FireworksSpanGroup {

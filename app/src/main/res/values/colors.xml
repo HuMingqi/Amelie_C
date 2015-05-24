@@ -50,4 +50,10 @@
 	<color name="drawee_view_press_state_overlay_color">#80000000</color>
 
 	<color name="main_entry">#37393B</color>
+
+	<color name="color_primary">#2fcaa2</color>
+	<color name="color_primary_dark">#5D4037</color>
+	<color name="color_accent">#FF5722</color>
+	<color name="drawer_item_icon">#1D6462</color>
+
 </resources>

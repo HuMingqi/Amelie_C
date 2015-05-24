@@ -20,9 +20,22 @@
         <item>查看服饰信息</item>
     </string-array>
 
-    <string name="title_activity_web">正在加载...</string>
+    <string name="title_activity_web">正在加载......</string>
     <string name="title_activity_splash">Amelie</string>
     <string name="app_copyright">Amelie © 2015 Liva</string>
     <string name="title_activity_main">首页</string>
+    <string name="title_activity_collection">我的收藏</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+    <string name="drawer_open">Fun</string>
+    <string name="drawer_close">Smile</string>
 
 </resources>

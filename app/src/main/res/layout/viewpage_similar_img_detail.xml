@@ -10,6 +10,7 @@
     <!--android:paddingTop="?attr/actionBarSize"-->
 
     <include
+        android:id="@+id/pud_header"
         layout="@layout/custom_widget_pud_header"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

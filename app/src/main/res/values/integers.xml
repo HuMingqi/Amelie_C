@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="drawee_view_fade_duration">300</integer>
+    <integer name="drawee_view_fade_duration">200</integer>
 </resources>

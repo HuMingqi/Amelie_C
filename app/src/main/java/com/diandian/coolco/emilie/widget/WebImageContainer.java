@@ -67,11 +67,11 @@ public class WebImageContainer extends RelativeLayout {
         loadingProgressTextView = (TextView) findViewById(R.id.tv_loading_progress);
     }
 
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent ev) {
-//        requestDisallowInterceptTouchEvent(true);
-//        return super.dispatchTouchEvent(ev);
-//    }
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        draweeView.dispatchTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
+    }
 
     public void setImageSize(Point imageSize) {
         setDraweeViewDrawableSize(imageSize.x, imageSize.y);

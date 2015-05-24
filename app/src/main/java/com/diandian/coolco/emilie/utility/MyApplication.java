@@ -5,10 +5,6 @@ import android.content.Context;
 import android.view.ViewConfiguration;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -28,21 +24,21 @@ public class MyApplication extends Application {
 
     private RefWatcher refWatcher;
 
-    public static void initImageLoader(Context paramContext) {
-		ImageLoaderConfiguration localImageLoaderConfiguration = new ImageLoaderConfiguration
-				.Builder(paramContext)
-				.threadPriority(3)
-				.denyCacheImageMultipleSizesInMemory()
-				.discCacheFileNameGenerator(new Md5FileNameGenerator())
-				.tasksProcessingOrder(QueueProcessingType.LIFO)
-				.writeDebugLogs()
-				.build();
-		ImageLoader.getInstance().init(localImageLoaderConfiguration);
-	}
+//    public static void initImageLoader(Context paramContext) {
+//		ImageLoaderConfiguration localImageLoaderConfiguration = new ImageLoaderConfiguration
+//				.Builder(paramContext)
+//				.threadPriority(3)
+//				.denyCacheImageMultipleSizesInMemory()
+//				.discCacheFileNameGenerator(new Md5FileNameGenerator())
+//				.tasksProcessingOrder(QueueProcessingType.LIFO)
+//				.writeDebugLogs()
+//				.build();
+//		ImageLoader.getInstance().init(localImageLoaderConfiguration);
+//	}
 
 	public void onCreate() {
 		super.onCreate();
-		initImageLoader(getApplicationContext());
+//		initImageLoader(getApplicationContext());
         asyncExecutor = AsyncExecutor.create();
 //        hack2showOverflow();
         startShakeDetection();
