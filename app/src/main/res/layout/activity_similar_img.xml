@@ -53,4 +53,5 @@
             style="@style/SimilarImageCardTextView"
             android:background="@android:color/holo_green_dark"/>
     </LinearLayout>
+
 </com.diandian.coolco.emilie.widget.DetectSwipeGestureRelativeLayout>

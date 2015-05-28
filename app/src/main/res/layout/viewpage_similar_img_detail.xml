@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-
     >
     <!--android:paddingTop="?attr/actionBarSize"-->
 
@@ -31,7 +30,8 @@
     <com.diandian.coolco.emilie.widget.WebImageContainer
         android:id="@+id/wic_viewpage_similar_img_detail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@color/drawee_view_place_holder"/>
 
     <include
         layout="@layout/custom_widget_pud_footer"

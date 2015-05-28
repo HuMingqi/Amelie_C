@@ -1,0 +1,96 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.diandian.coolco.emilie.fragment.AccountFragment"
+    android:orientation="vertical"
+    android:background="#dddddd">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <ImageView
+            android:id="@+id/iv_avatar_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/header"
+            android:scaleType="matrix"/>
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.diandian.coolco.emilie.widget.CircleImageView
+                android:layout_gravity="center"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/smile"/>
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="myron_loop"
+                android:textColor="#e7e7e7"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="#E8E6E7"
+        android:padding="8dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/SecondaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="成长值：234"/>
+
+        <TextView
+            style="@style/SecondaryText"
+            android:id="@+id/tv_time_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="5"/>
+
+        <TextView
+            style="@style/SecondaryText"
+            android:id="@+id/tv_time_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tv_time_collection"
+            android:layout_marginRight="24dp"
+            android:text="6"/>
+
+        <TextView
+            style="@style/SecondaryText"
+            android:id="@+id/tv_time_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tv_time_share"
+            android:layout_marginRight="24dp"
+            android:text="7"/>
+
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="#f2f2f2"
+        android:textColor="@color/global_text_primary"
+        android:textSize="18sp"
+        android:text="我的勋章"
+        android:paddingTop="16dp"
+        android:paddingLeft="8dp"/>
+
+</LinearLayout>

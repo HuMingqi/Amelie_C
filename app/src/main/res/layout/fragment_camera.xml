@@ -33,7 +33,7 @@
             android:scaleType="centerInside"
             android:src="@android:drawable/ic_menu_camera"
             android:background="?attr/selectableItemBackgroundBorderless"/>
-
+        <!--
         <com.diandian.coolco.emilie.widget.ColorFilterImageView
             android:id="@+id/iv_go2gallery"
             android:layout_width="25dp"
@@ -43,6 +43,7 @@
             android:layout_marginRight="20dp"
             android:scaleType="centerCrop"
             android:src="@drawable/test" />
+        -->
 
     </RelativeLayout>
 

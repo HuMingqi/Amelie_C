@@ -112,6 +112,6 @@ public class DetectSwipeGestureRelativeLayout extends RelativeLayout {
     }
 
     public interface SwipeRightListener {
-        public void onSwipeRight();
+        void onSwipeRight();
     }
 }

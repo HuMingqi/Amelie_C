@@ -107,7 +107,7 @@ public class PullUpDownLinearLayout extends LinearLayout {
         footerArrowImageView = (ImageView) findViewById(R.id.iv_pud_footer_arrow);
         footerTextView = (TextView) footerView.findViewById(R.id.tv_pud_footer_operation_hint);
         footerArrowImageView.setImageDrawable(new IconDrawable(getContext(), Iconify.IconValue.md_flight).actionBarSize().color(Color.parseColor("#e7e7e7")));
-        footerArrowImageView.setRotationY(180);
+//        footerArrowImageView.setRotationY(180);
 
         setOnTouchListener(new OnTouchListener() {
             @Override
@@ -190,25 +190,25 @@ public class PullUpDownLinearLayout extends LinearLayout {
         if (scrollY < -headerView.getMeasuredHeight()) {//[-infinite, -headerViewHeight]
             if (state != STATE.RELEASE_TO_TRIGGER_PULL_DOWN_ACTION) {
                 headerTextView.setText(releasePullDownHint);
-                headerArrowImageView.startAnimation(rotateUpAnim);
+                headerArrowImageView.startAnimation(rotateDownAnim);
                 state = STATE.RELEASE_TO_TRIGGER_PULL_DOWN_ACTION;
             }
         } else if (scrollY < 0) {//[-headerViewHeight, 0]
             if (state != STATE.PULL_TO_TRIGGER_PULL_DOWN_ACTION) {
                 headerTextView.setText(pullDownHint);
-                headerArrowImageView.startAnimation(rotateDownAnim);
+                headerArrowImageView.startAnimation(rotateUpAnim);
                 state = STATE.PULL_TO_TRIGGER_PULL_DOWN_ACTION;
             }
         } else if (scrollY < footerView.getMeasuredHeight()) {//[0, footerViewHeight]
             if (state != STATE.PULL_TO_TRIGGER_PULL_UP_ACTION) {
                 footerTextView.setText(pullUpHint);
-                footerArrowImageView.startAnimation(rotateUpAnim);
+                footerArrowImageView.startAnimation(rotateDownAnim);
                 state = STATE.PULL_TO_TRIGGER_PULL_UP_ACTION;
             }
         } else {//[footerViewHeight, infinite]
             if (state != STATE.RELEASE_TO_TRIGGER_PULL_UP_ACTION) {
                 footerTextView.setText(releasePullUpHint);
-                footerArrowImageView.startAnimation(rotateDownAnim);
+                footerArrowImageView.startAnimation(rotateUpAnim);
                 state = STATE.RELEASE_TO_TRIGGER_PULL_UP_ACTION;
             }
         }
@@ -254,9 +254,9 @@ public class PullUpDownLinearLayout extends LinearLayout {
         this.pullListener = pullListener;
     }
 
-    public static interface PullListener {
-        public void onPullDown();
+    public interface PullListener {
+        void onPullDown();
 
-        public void onPullUp();
+        void onPullUp();
     }
 }

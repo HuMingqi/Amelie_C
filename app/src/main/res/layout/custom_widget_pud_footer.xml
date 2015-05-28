@@ -4,25 +4,6 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     >
-    <!--
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:id="/linearLayout">
-            <TextView
-                style="@style/PudHintText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="下一篇：心动"
-                android:id="@+id/tv_ptr_content_hint"
-                android:layout_gravity="center_horizontal" />
-
-
-        </LinearLayout>
-    -->
     <TextView
         style="@style/PudHintText"
         android:layout_width="wrap_content"
@@ -32,10 +13,11 @@
         android:layout_centerInParent="true" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/pull_indicator"
+        android:layout_height="wrap_content"
         android:id="@+id/iv_pud_footer_arrow"
         android:layout_marginLeft="16dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/default_pud_flip"/>
+        android:src="@drawable/pull_indicator"
+        />
 </RelativeLayout>

@@ -130,4 +130,5 @@ public class BaseActivity extends RoboActionBarActivity{
         refWatcher.watch(this);
 
     }
+
 }

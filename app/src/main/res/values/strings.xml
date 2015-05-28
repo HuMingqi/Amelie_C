@@ -25,7 +25,7 @@
     <string name="app_copyright">Amelie © 2015 Liva</string>
     <string name="title_activity_main">首页</string>
     <string name="title_activity_collection">我的收藏</string>
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_home">首页</string>
 
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
@@ -37,5 +37,10 @@
     <string name="action_example">Example action</string>
     <string name="drawer_open">Fun</string>
     <string name="drawer_close">Smile</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="account">帐户</string>
+    <string name="setting">设置</string>
+    <string name="title_activity_camera">拍照</string>
+    <string name="title_activity_gallery">选择图片</string>
 
 </resources>

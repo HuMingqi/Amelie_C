@@ -1,35 +1,68 @@
 package com.diandian.coolco.emilie.fragment;
 
-import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.diandian.coolco.emilie.R;
+import com.malinskiy.materialicons.IconDrawable;
+import com.malinskiy.materialicons.Iconify;
+
+import roboguice.fragment.RoboFragment;
+import roboguice.inject.InjectView;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NavigationDrawerFragment extends Fragment {
+public class NavigationDrawerFragment extends RoboFragment implements View.OnClickListener {
+
+    @InjectView(R.id.icon_search)
+    private ImageView searchIcon;
+    @InjectView(R.id.icon_collection)
+    private ImageView collectionIcon;
+    @InjectView(R.id.icon_history)
+    private ImageView historyIcon;
+    @InjectView(R.id.icon_recommend)
+    private ImageView recommendIcon;
+    @InjectView(R.id.icon_hot)
+    private ImageView hotIcon;
+    @InjectView(R.id.icon_account)
+    private ImageView accountIcon;
+    @InjectView(R.id.icon)
+    private ImageView settingIcon;
+
+    @InjectView(R.id.rl_collection)
+    private View collectionSection;
+    @InjectView(R.id.rl_search)
+    private View searchSection;
+    @InjectView(R.id.rl_history)
+    private View historySection;
+    @InjectView(R.id.rl_recommend)
+    private View recommendSection;
+    @InjectView(R.id.rl_hot)
+    private View hotSection;
+    @InjectView(R.id.rl_setting)
+    private View settingSection;
+    @InjectView(R.id.rl_account)
+    private View accountSection;
 
     /**
      * Remember the position of the selected item.
@@ -56,7 +89,7 @@ public class NavigationDrawerFragment extends Fragment {
     private ListView mDrawerListView;
     private View mFragmentContainerView;
 
-    private int mCurrentSelectedPosition = 0;
+    private int selectedSectionViewId = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
@@ -73,25 +106,25 @@ public class NavigationDrawerFragment extends Fragment {
         mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
         if (savedInstanceState != null) {
-            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
+            selectedSectionViewId = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
         }
 
         // Select either the default item (0) or the last selected item.
-        selectItem(mCurrentSelectedPosition);
+        selectItem(selectedSectionViewId);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // Indicate that this fragment would like to influence the set of actions in the action bar.
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
+/*        mDrawerListView = (ListView) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -100,7 +133,8 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
+//                getActionBar().getThemedContext(),
+                getActivity(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 new String[]{
@@ -108,8 +142,43 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section2),
                         getString(R.string.title_section3),
                 }));
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
+        mDrawerListView.setItemChecked(selectedSectionViewId, true);
+        return mDrawerListView;*/
+        return inflater.inflate(
+                R.layout.fragment_drawer_new, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initIcon();
+        initEvent();
+    }
+
+    private void initIcon() {
+        searchIcon.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.md_search).actionBarSize().colorRes(R.color.drawer_item_icon));
+        collectionIcon.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.md_favorite_outline).actionBarSize().colorRes(R.color.drawer_item_icon));
+        historyIcon.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.md_bookmark_outline).actionBarSize().colorRes(R.color.drawer_item_icon));
+        recommendIcon.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.md_filter_vintage).actionBarSize().colorRes(R.color.drawer_item_icon));
+        hotIcon.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.md_explore).actionBarSize().colorRes(R.color.drawer_item_icon));
+        accountIcon.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.md_filter_drama).actionBarSize().colorRes(R.color.drawer_item_icon));
+        settingIcon.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.md_settings).actionBarSize().colorRes(R.color.drawer_item_icon));
+    }
+
+    private void initEvent(){
+        collectionSection.setOnClickListener(this);
+        searchSection.setOnClickListener(this);
+        settingSection.setOnClickListener(this);
+        accountSection.setOnClickListener(this);
+        historySection.setOnClickListener(this);
+        recommendSection.setOnClickListener(this);
+        hotSection.setOnClickListener(this);
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        selectItem(view.getId());
     }
 
     public boolean isDrawerOpen() {
@@ -122,7 +191,7 @@ public class NavigationDrawerFragment extends Fragment {
      * @param fragmentId   The android:id of this fragment in its activity's layout.
      * @param drawerLayout The DrawerLayout containing this fragment's UI.
      */
-    public void setUp(int fragmentId, DrawerLayout drawerLayout) {
+    public void setUp(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar) {
         mFragmentContainerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
 
@@ -139,7 +208,7 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerToggle = new ActionBarDrawerToggle(
                 getActivity(),                    /* host Activity */
                 mDrawerLayout,                    /* DrawerLayout object */
-                R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
+                toolbar,             /* nav drawer image to replace 'Up' caret */
                 R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
                 R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
         ) {
@@ -190,16 +259,16 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    private void selectItem(int position) {
-        mCurrentSelectedPosition = position;
-        if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(position, true);
-        }
+    private void selectItem(int sectionViewId) {
+        selectedSectionViewId = sectionViewId;
+//        if (mDrawerListView != null) {
+//            mDrawerListView.setItemChecked(position, true);
+//        }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
         if (mCallbacks != null) {
-            mCallbacks.onNavigationDrawerItemSelected(position);
+            mCallbacks.onNavigationDrawerItemSelected(sectionViewId);
         }
     }
 
@@ -222,7 +291,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
+        outState.putInt(STATE_SELECTED_POSITION, selectedSectionViewId);
     }
 
     @Override
@@ -249,10 +318,10 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_example) {
-            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
-            return true;
-        }
+//        if (item.getItemId() == R.id.action_example) {
+//            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -270,12 +339,13 @@ public class NavigationDrawerFragment extends Fragment {
 
     private ActionBar getActionBar() {
         return ((ActionBarActivity) getActivity()).getSupportActionBar();
+//        return ((AppCompatActivity) getActivity()).getSupportActionBar();
     }
 
     /**
      * Callbacks interface that all activities using this fragment must implement.
      */
-    public static interface NavigationDrawerCallbacks {
+    public interface NavigationDrawerCallbacks {
         /**
          * Called when an item in the navigation drawer is selected.
          */

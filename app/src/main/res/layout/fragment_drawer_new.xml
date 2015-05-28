@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f9f9f9"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="16dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                    <ImageView
+                        android:id="@+id/account_header_drawer_background"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="matrix"
+                        android:src="@drawable/header" />
+
+                    <RelativeLayout
+                        android:id="@+id/account_header_drawer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.diandian.coolco.emilie.widget.CircleImageView
+                            android:id="@+id/account_header_drawer_current"
+                            android:layout_width="@dimen/material_drawer_account_header_selected"
+                            android:layout_height="@dimen/material_drawer_account_header_selected"
+                            android:layout_margin="20dp"
+                            android:clickable="true"
+                            android:elevation="2dp"
+                            android:src="@drawable/smile" />
+
+                        <LinearLayout
+                            android:id="@+id/account_header_drawer_text_section"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/account_header_drawer_current"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginTop="-4dp"
+                            android:layout_toLeftOf="@+id/account_header_drawer_text_switcher"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/account_header_drawer_name"
+                                style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/material_drawer_vertical_padding"
+                                android:layout_marginStart="@dimen/material_drawer_vertical_padding"
+                                android:fontFamily="sans-serif-medium"
+                                android:paddingBottom="4dp"
+                                android:singleLine="true"
+                                android:text="myron_loop"
+                                android:textColor="#f9f9f9"
+                                android:textSize="20sp" />
+
+
+                            <TextView
+                                android:id="@+id/account_header_drawer_email"
+                                style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:layout_marginLeft="@dimen/material_drawer_vertical_padding"
+                                android:layout_marginStart="@dimen/material_drawer_vertical_padding"
+                                android:fontFamily="sans-serif"
+                                android:singleLine="true"
+                                android:text="All's well that ends." />
+
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/Base.TextAppearance.AppCompat.Body2"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentLeft="false"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentStart="false"
+                            android:layout_alignParentTop="true"
+                            android:layout_margin="32dp"
+                            android:background="@drawable/md_more_background"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:text="+2"
+                            android:textColor="#3d3d3d"
+                            android:visibility="gone"/>
+
+
+                    </RelativeLayout>
+                </FrameLayout>
+
+                <TextView
+                    style="@style/SecondaryText"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_drawer_item_primary"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center_vertical|left"
+                    android:lines="1"
+                    android:paddingEnd="@dimen/material_drawer_vertical_padding"
+                    android:paddingLeft="@dimen/material_drawer_vertical_padding"
+                    android:paddingRight="@dimen/material_drawer_vertical_padding"
+                    android:singleLine="true"
+                    android:text="我的部落"
+                    android:textSize="@dimen/material_drawer_item_section_text" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_drawer_item_secondary"
+                    android:background="?attr/selectableItemBackground"
+                    android:paddingEnd="@dimen/material_drawer_vertical_padding"
+                    android:paddingLeft="@dimen/material_drawer_vertical_padding"
+                    android:paddingRight="@dimen/material_drawer_vertical_padding"
+                    android:paddingStart="@dimen/material_drawer_vertical_padding">
+
+                    <ImageView
+                        android:id="@+id/icon_search"
+                        android:layout_width="@dimen/material_drawer_item_secondary_icon"
+                        android:layout_height="@dimen/material_drawer_item_secondary"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/material_drawer_item_padding"
+                        android:layout_marginRight="@dimen/material_drawer_item_padding"
+                        android:paddingBottom="@dimen/material_drawer_item_secondary_icon_padding"
+                        android:paddingEnd="@dimen/material_drawer_item_secondary_icon_padding_right"
+                        android:paddingRight="@dimen/material_drawer_item_secondary_icon_padding_right"
+                        android:paddingTop="@dimen/material_drawer_item_secondary_icon_padding" />
+
+                    <TextView
+                        android:id="@+id/name_search"
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@id/icon_search"
+                        android:layout_toLeftOf="@+id/badge_search"
+                        android:layout_toRightOf="@id/icon_search"
+                        android:layout_toStartOf="@+id/badge_search"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center_vertical|left"
+                        android:singleLine="true"
+                        android:text="搜索" />
+
+                    <TextView
+                        android:id="@+id/badge_search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center_vertical|end"
+                        android:lines="1"
+                        android:singleLine="true"
+                        android:textSize="@dimen/material_drawer_item_secondary_text"
+                        tools:text="99" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_collection"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_drawer_item_secondary"
+                    android:background="?attr/selectableItemBackground"
+                    android:paddingEnd="@dimen/material_drawer_vertical_padding"
+                    android:paddingLeft="@dimen/material_drawer_vertical_padding"
+                    android:paddingRight="@dimen/material_drawer_vertical_padding"
+                    android:paddingStart="@dimen/material_drawer_vertical_padding">
+
+                    <ImageView
+                        android:id="@+id/icon_collection"
+                        android:layout_width="@dimen/material_drawer_item_secondary_icon"
+                        android:layout_height="@dimen/material_drawer_item_secondary"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/material_drawer_item_padding"
+                        android:layout_marginRight="@dimen/material_drawer_item_padding"
+                        android:paddingBottom="@dimen/material_drawer_item_secondary_icon_padding"
+                        android:paddingEnd="@dimen/material_drawer_item_secondary_icon_padding_right"
+                        android:paddingRight="@dimen/material_drawer_item_secondary_icon_padding_right"
+                        android:paddingTop="@dimen/material_drawer_item_secondary_icon_padding" />
+
+                    <TextView
+                        android:id="@+id/name_collection"
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@id/icon_collection"
+                        android:layout_toLeftOf="@+id/badge_collection"
+                        android:layout_toRightOf="@id/icon_collection"
+                        android:layout_toStartOf="@+id/badge_collection"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center_vertical|left"
+                        android:singleLine="true"
+                        android:text="我的收藏" />
+
+                    <TextView
+                        android:id="@+id/badge_collection"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center_vertical|end"
+                        android:lines="1"
+                        android:singleLine="true"
+                        android:textSize="@dimen/material_drawer_item_secondary_text"
+                        tools:text="99" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_drawer_item_secondary"
+                    android:paddingEnd="@dimen/material_drawer_vertical_padding"
+                    android:paddingLeft="@dimen/material_drawer_vertical_padding"
+                    android:paddingRight="@dimen/material_drawer_vertical_padding"
+                    android:paddingStart="@dimen/material_drawer_vertical_padding"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:id="@+id/rl_history">
+
+                    <ImageView
+                        android:id="@+id/icon_history"
+                        android:layout_width="@dimen/material_drawer_item_secondary_icon"
+                        android:layout_height="@dimen/material_drawer_item_secondary"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/material_drawer_item_padding"
+                        android:layout_marginRight="@dimen/material_drawer_item_padding"
+                        android:paddingBottom="@dimen/material_drawer_item_secondary_icon_padding"
+                        android:paddingEnd="@dimen/material_drawer_item_secondary_icon_padding_right"
+                        android:paddingRight="@dimen/material_drawer_item_secondary_icon_padding_right"
+                        android:paddingTop="@dimen/material_drawer_item_secondary_icon_padding" />
+
+                    <TextView
+                        android:id="@+id/name_history"
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@id/icon_history"
+                        android:layout_toLeftOf="@+id/badge_history"
+                        android:layout_toRightOf="@id/icon_history"
+                        android:layout_toStartOf="@+id/badge_history"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center_vertical|left"
+                        android:singleLine="true"
+                        android:text="历史记录" />
+
+                    <TextView
+                        android:id="@+id/badge_history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center_vertical|end"
+                        android:lines="1"
+                        android:singleLine="true"
+                        android:textSize="@dimen/material_drawer_item_secondary_text"
+                        tools:text="99" />
+                </RelativeLayout>
+
+                <TextView
+                    style="@style/SecondaryText"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_drawer_item_primary"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center_vertical|left"
+                    android:lines="1"
+                    android:paddingEnd="@dimen/material_drawer_vertical_padding"
+                    android:paddingLeft="@dimen/material_drawer_vertical_padding"
+                    android:paddingRight="@dimen/material_drawer_vertical_padding"
+                    android:singleLine="true"
+                    android:text="美丽天地"
+                    android:textSize="@dimen/material_drawer_item_section_text" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_drawer_item_primary"
+                    android:paddingEnd="@dimen/material_drawer_vertical_padding"
+                    android:paddingLeft="@dimen/material_drawer_vertical_padding"
+                    android:paddingRight="@dimen/material_drawer_vertical_padding"
+                    android:paddingStart="@dimen/material_drawer_vertical_padding"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:id="@+id/rl_recommend">
+
+                    <ImageView
+                        android:id="@+id/icon_recommend"
+                        android:layout_width="@dimen/material_drawer_item_primary_icon"
+                        android:layout_height="@dimen/material_drawer_item_primary_icon"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/material_drawer_item_padding"
+                        android:layout_marginRight="@dimen/material_drawer_item_padding"
+                        android:paddingBottom="@dimen/material_drawer_item_primary_icon_padding"
+                        android:paddingEnd="@dimen/material_drawer_item_primary_icon_padding_right"
+                        android:paddingRight="@dimen/material_drawer_item_primary_icon_padding_right"
+                        android:paddingTop="@dimen/material_drawer_item_primary_icon_padding" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:layout_toEndOf="@id/icon_recommend"
+                        android:layout_toLeftOf="@+id/badge_recommend"
+                        android:layout_toRightOf="@id/icon_recommend"
+                        android:layout_toStartOf="@+id/badge_recommend"
+                        android:gravity="center_vertical|start"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/name_recommend"
+                            style="@style/TextAppearance.AppCompat.Subhead"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:gravity="center_vertical|left"
+                            android:singleLine="true"
+                            android:text="猜你喜欢" />
+                        <TextView
+                            android:id="@+id/description_recommend"
+                            style="@style/SecondaryText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:gravity="center_vertical|left"
+                            android:singleLine="true"
+                            android:text="为你贴心推荐" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/badge_recommend"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center_vertical|end"
+                        android:lines="1"
+                        android:singleLine="true"
+                        android:textSize="@dimen/material_drawer_item_primary_text"
+                        tools:text="99" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_drawer_item_primary"
+                    android:paddingEnd="@dimen/material_drawer_vertical_padding"
+                    android:paddingLeft="@dimen/material_drawer_vertical_padding"
+                    android:paddingRight="@dimen/material_drawer_vertical_padding"
+                    android:paddingStart="@dimen/material_drawer_vertical_padding"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:id="@+id/rl_hot">
+
+                    <ImageView
+                        android:id="@+id/icon_hot"
+                        android:layout_width="@dimen/material_drawer_item_primary_icon"
+                        android:layout_height="@dimen/material_drawer_item_primary_icon"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/material_drawer_item_padding"
+                        android:layout_marginRight="@dimen/material_drawer_item_padding"
+                        android:paddingBottom="@dimen/material_drawer_item_primary_icon_padding"
+                        android:paddingEnd="@dimen/material_drawer_item_primary_icon_padding_right"
+                        android:paddingRight="@dimen/material_drawer_item_primary_icon_padding_right"
+                        android:paddingTop="@dimen/material_drawer_item_primary_icon_padding" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:layout_toEndOf="@id/icon_hot"
+                        android:layout_toLeftOf="@+id/badge_hot"
+                        android:layout_toRightOf="@id/icon_hot"
+                        android:layout_toStartOf="@+id/badge_hot"
+                        android:gravity="center_vertical|start"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/name_hot"
+                            style="@style/TextAppearance.AppCompat.Subhead"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:gravity="center_vertical|left"
+                            android:singleLine="true"
+                            android:text="潮流趋势" />
+                        <TextView
+                            android:id="@+id/description_hot"
+                            style="@style/SecondaryText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:gravity="center_vertical|left"
+                            android:singleLine="true"
+                            android:text="就是要你好看" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/badge_hot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center_vertical|end"
+                        android:lines="1"
+                        android:singleLine="true"
+                        android:textSize="@dimen/material_drawer_item_primary_text"
+                        tools:text="99" />
+                </RelativeLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/md_fixed_list_shadow" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_account"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/material_drawer_item_secondary"
+            android:paddingEnd="@dimen/material_drawer_vertical_padding"
+            android:paddingLeft="@dimen/material_drawer_vertical_padding"
+            android:paddingRight="@dimen/material_drawer_vertical_padding"
+            android:paddingStart="@dimen/material_drawer_vertical_padding"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/icon_account"
+                android:layout_width="@dimen/material_drawer_item_secondary_icon"
+                android:layout_height="@dimen/material_drawer_item_secondary"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/material_drawer_item_padding"
+                android:layout_marginRight="@dimen/material_drawer_item_padding"
+                android:paddingBottom="@dimen/material_drawer_item_secondary_icon_padding"
+                android:paddingEnd="@dimen/material_drawer_item_secondary_icon_padding_right"
+                android:paddingRight="@dimen/material_drawer_item_secondary_icon_padding_right"
+                android:paddingTop="@dimen/material_drawer_item_secondary_icon_padding" />
+
+            <TextView
+                android:id="@+id/name_account"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@id/icon_account"
+                android:layout_toLeftOf="@+id/badge_account"
+                android:layout_toRightOf="@id/icon_account"
+                android:layout_toStartOf="@+id/badge_account"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_vertical|left"
+                android:singleLine="true"
+                android:text="用户" />
+
+            <TextView
+                android:id="@+id/badge_account"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center_vertical|end"
+                android:lines="1"
+                android:singleLine="true"
+                android:textSize="@dimen/material_drawer_item_secondary_text"
+                tools:text="99" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider" />
+
+        <RelativeLayout
+            android:id="@+id/rl_setting"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/material_drawer_item_secondary"
+            android:background="?attr/selectableItemBackground"
+            android:paddingEnd="@dimen/material_drawer_vertical_padding"
+            android:paddingLeft="@dimen/material_drawer_vertical_padding"
+            android:paddingRight="@dimen/material_drawer_vertical_padding"
+            android:paddingStart="@dimen/material_drawer_vertical_padding">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="@dimen/material_drawer_item_secondary_icon"
+                android:layout_height="@dimen/material_drawer_item_secondary"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/material_drawer_item_padding"
+                android:layout_marginRight="@dimen/material_drawer_item_padding"
+                android:paddingBottom="@dimen/material_drawer_item_secondary_icon_padding"
+                android:paddingEnd="@dimen/material_drawer_item_secondary_icon_padding_right"
+                android:paddingRight="@dimen/material_drawer_item_secondary_icon_padding_right"
+                android:paddingTop="@dimen/material_drawer_item_secondary_icon_padding" />
+
+            <TextView
+                android:id="@+id/name"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@id/icon"
+                android:layout_toLeftOf="@+id/badge"
+                android:layout_toRightOf="@id/icon"
+                android:layout_toStartOf="@+id/badge"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_vertical|left"
+                android:singleLine="true"
+                android:text="@string/setting" />
+
+            <TextView
+                android:id="@+id/badge"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center_vertical|end"
+                android:lines="1"
+                android:singleLine="true"
+                android:textSize="@dimen/material_drawer_item_secondary_text"
+                tools:text="99" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

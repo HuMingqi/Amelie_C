@@ -171,11 +171,7 @@ public class NetHelper {
             ConnectivityManager connManager = (ConnectivityManager) context
                     .getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkinfo = connManager.getActiveNetworkInfo();
-            if (networkinfo == null || !networkinfo.isAvailable()) {
-                return false;
-            } else {
-                return true;
-            }
+            return !(networkinfo == null || !networkinfo.isAvailable());
         } catch (Exception e) {
             e.printStackTrace();
         }

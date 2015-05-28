@@ -1,12 +1,38 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.diandian.coolco.emilie.activity.HomeActivity$PlaceholderFragment">
+    android:layout_height="match_parent"
+    tools:context="com.diandian.coolco.emilie.fragment.HomeFragment">
 
-    <TextView android:id="@+id/section_label" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_go2camera"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            
+            android:drawableTop="@android:drawable/ic_menu_camera"
+            android:gravity="center"
+            android:paddingBottom="@dimen/main_entry_padding"
+            android:paddingTop="@dimen/main_entry_padding"
+            android:text="拍照搜索"
+            android:textAppearance="@style/MainEntryText" />
+        <!--android:background="?attr/selectableItemBackground"-->
+        <TextView
+            android:id="@+id/tv_go2gallery"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableTop="@android:drawable/ic_menu_gallery"
+            android:gravity="center"
+            android:paddingBottom="@dimen/main_entry_padding"
+            android:paddingTop="@dimen/main_entry_padding"
+            android:text="选图搜索"
+            android:textAppearance="@style/MainEntryText" />
+    </LinearLayout>
+
+</FrameLayout>

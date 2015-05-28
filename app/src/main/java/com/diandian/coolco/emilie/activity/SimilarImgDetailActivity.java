@@ -1,5 +1,6 @@
 package com.diandian.coolco.emilie.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -18,6 +19,7 @@ import com.diandian.coolco.emilie.model.Image;
 import com.diandian.coolco.emilie.utility.DBHelper;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.diandian.coolco.emilie.utility.IntentUtil;
+import com.diandian.coolco.emilie.utility.MyApplication;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
 import com.diandian.coolco.emilie.widget.DetectTapLongPressViewPager;
 import com.diandian.coolco.emilie.widget.PullUpDownLinearLayout;
@@ -26,6 +28,7 @@ import com.diandian.coolco.emilie.widget.WebImageContainer;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.util.AsyncExecutor;
 import roboguice.inject.InjectView;
 
 public class SimilarImgDetailActivity extends DbSupportBaseActivity implements PullUpDownLinearLayout.PullListener, ViewPager.OnPageChangeListener {
@@ -191,7 +194,7 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
         updateCollectionMenuText(collected.get(index));
     }
 
-    private void updateCollectionMenuText(boolean collected){
+    private void updateCollectionMenuText(boolean collected) {
         collectionMenu.setTitle(collected ? "取消收藏" : "添加收藏");
     }
 
@@ -253,7 +256,7 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
     private void downloadImage() {
         View currentPage = viewPager.findViewWithTag(viewPager.getCurrentItem());
         WebImageContainer webImageContainer = (WebImageContainer) currentPage.findViewById(R.id.wic_viewpage_similar_img_detail);
-        webImageContainer.saveWebImage();
+        webImageContainer.saveWebImage(this);
         SuperToastUtil.showToast(this, "图片已保存到相册");
     }
 
@@ -270,9 +273,13 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
     }
 
     private void persistentChanges() {
-        final DBHelper dbHelper = new DBHelper(this);
-        dbHelper.insertImage(imagesNeedAdd);
-        dbHelper.removeImage(imagesNeedRemove);
+        ((MyApplication) getApplication()).getAsyncExecutor().execute(
+                new PersistentCollectionChangeTask(
+                        getApplicationContext(),
+                        new ArrayList<Image>(imagesNeedRemove),
+                        new ArrayList<Image>(imagesNeedAdd)
+                )
+        );
     }
 
     private void figureChanges() {
@@ -282,26 +289,47 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
             final Image image = images.get(i);
             final Boolean originFlag = image.isCollected();
             final Boolean currentFlag = collected.get(i);
-            if (originFlag && !currentFlag){
+            if (originFlag && !currentFlag) {
                 imagesNeedRemove.add(image);
                 continue;
             }
-            if (!originFlag && currentFlag){
+            if (!originFlag && currentFlag) {
                 imagesNeedAdd.add(image);
             }
         }
     }
 
-    public void setChangesResult(){
-        Intent intent = new Intent();
-        intent.putParcelableArrayListExtra(ExtraDataName.REMOVE_IMGS, ((ArrayList<Image>) imagesNeedRemove));
-        setResult(RESULT_OK, intent);
+    static class PersistentCollectionChangeTask implements AsyncExecutor.RunnableEx {
+
+        private List<Image> imagesNeedRemove;
+        private List<Image> imagesNeedAdd;
+        private Context context;
+
+        public PersistentCollectionChangeTask(Context context, List<Image> imagesNeedRemove, List<Image> imagesNeedAdd) {
+            this.context = context;
+            this.imagesNeedRemove = imagesNeedRemove;
+            this.imagesNeedAdd = imagesNeedAdd;
+        }
+
+        @Override
+        public void run() throws Exception {
+            final DBHelper dbHelper = new DBHelper(context);
+            dbHelper.insertImage(imagesNeedAdd);
+            dbHelper.removeImage(imagesNeedRemove);
+            dbHelper.close();
+        }
     }
 
-    @Override
-    public void finish() {
-        figureChanges();
-        setChangesResult();
-        super.finish();
-    }
+//    public void setChangesResult(){
+//        Intent intent = new Intent();
+//        intent.putParcelableArrayListExtra(ExtraDataName.REMOVE_IMGS, ((ArrayList<Image>) imagesNeedRemove));
+//        setResult(RESULT_OK, intent);
+//    }
+//
+//    @Override
+//    public void finish() {
+//        figureChanges();
+//        setChangesResult();
+//        super.finish();
+//    }
 }

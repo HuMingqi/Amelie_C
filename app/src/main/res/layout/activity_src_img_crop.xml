@@ -1,35 +1,20 @@
 <com.diandian.coolco.emilie.widget.DetectSwipeGestureRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:id="@+id/root"
     tools:context="com.diandian.coolco.emilie.activity.SrcImgCropActivity">
 
     <com.edmodo.cropper.CropImageView
+        android:id="@+id/crop_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/rl_bottom_bar"
-        android:id="@+id/crop_image_view"
-        android:src="@drawable/ic_launcher"
         android:layout_centerInParent="true"
         android:scaleType="centerCrop"
-        android:transitionName="@string/src_img_transtion_dest"
-        />
-<!--
-
-    <TextView
-        android:text="裁剪"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/tv_crop"
-        android:layout_alignParentBottom="true"
-        android:background="#88000000"
-        android:textSize="16sp"
-        android:textColor="#f9f9f9"
-        android:gravity="center"
-        android:layout_centerInParent="true" />
--->
+        android:src="@drawable/ic_launcher"
+        android:transitionName="@string/src_img_transtion_dest" />
 
     <RelativeLayout
         android:id="@+id/rl_bottom_bar"
@@ -45,24 +30,24 @@
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@null"
-            android:src="@android:drawable/ic_menu_crop"
             android:scaleType="centerInside"
-            android:background="?attr/selectableItemBackgroundBorderless"/>
+            android:src="@android:drawable/ic_menu_crop" />
 
         <TextView
             android:id="@+id/tv_skip_crop"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="跳过"
-            android:textSize="16sp"
-            android:textColor="#e7e7e7"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:gravity="center"
-            android:background="?attr/selectableItemBackgroundBorderless"/>
+            android:text="跳过"
+            android:textColor="#e7e7e7"
+            android:textSize="16sp" />
 
     </RelativeLayout>
 

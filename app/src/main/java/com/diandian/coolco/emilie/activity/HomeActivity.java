@@ -6,7 +6,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,9 +17,17 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 
 import com.diandian.coolco.emilie.R;
+import com.diandian.coolco.emilie.fragment.AccountFragment;
+import com.diandian.coolco.emilie.fragment.BaseFragment;
+import com.diandian.coolco.emilie.fragment.BlankFragment;
+import com.diandian.coolco.emilie.fragment.CollectionFragment;
+import com.diandian.coolco.emilie.fragment.HomeFragment;
 import com.diandian.coolco.emilie.fragment.NavigationDrawerFragment;
+import com.diandian.coolco.emilie.fragment.SettingFragment;
 
-public class HomeActivity extends ActionBarActivity
+import roboguice.activity.RoboActionBarActivity;
+
+public class HomeActivity extends RoboActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
@@ -39,19 +49,73 @@ public class HomeActivity extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitleTextAppearance(this, R.style.ToolBarTitleTextAppearance);
+        setSupportActionBar(toolbar);
+
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, drawerLayout, toolbar);
+
+
+//        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
+//                this,
+//                drawerLayout,
+//                toolbar,
+//                R.string.drawer_open,
+//                R.string.drawer_close
+//        ) {
+//
+//            public void onDrawerClosed(View view) {
+//                invalidateOptionsMenu();
+//            }
+//
+//            public void onDrawerOpened(View drawerView) {
+//                invalidateOptionsMenu();
+//            }
+//        };
+//
+//        drawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.color_primary_dark));
+//        drawerLayout.setDrawerListener(drawerToggle);
+//        drawerLayout.closeDrawer();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.container, BaseFragment.newInstance(HomeFragment.class, "首页"))
+                .commit();
     }
 
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
+    public void onNavigationDrawerItemSelected(int sectionViewId) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+        switch (sectionViewId) {
+            case R.id.rl_collection:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, BaseFragment.newInstance(CollectionFragment.class, "我的收藏"))
+                        .commit();
+                break;
+            case R.id.rl_search:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, BaseFragment.newInstance(HomeFragment.class, "搜索"))
+                        .commit();
+                break;
+            case R.id.rl_account:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, BaseFragment.newInstance(AccountFragment.class, "用户信息"))
+                        .commit();
+                break;
+            case R.id.rl_setting:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, BaseFragment.newInstance(SettingFragment.class, "设置"))
+                        .commit();
+                break;
+            default:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, BaseFragment.newInstance(BlankFragment.class, "coming soon..."))
+                        .commit();
+
+                break;
+        }
+
     }
 
     public void onSectionAttached(int number) {
@@ -72,7 +136,7 @@ public class HomeActivity extends ActionBarActivity
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+//        actionBar.setTitle(mTitle);
     }
 
 

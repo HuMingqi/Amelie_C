@@ -13,7 +13,7 @@ import java.util.List;
  * @param <T>
  */
 public class CommonBaseAdapter<T> extends BaseAdapter {
-    protected static final String TAG = CommonBaseAdapter.class.getSimpleName();;
+    protected static final String TAG = CommonBaseAdapter.class.getSimpleName();
 
     private Context context;
     private int layout;

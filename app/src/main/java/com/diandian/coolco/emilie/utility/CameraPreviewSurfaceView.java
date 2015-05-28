@@ -1,4 +1,4 @@
-package com.diandian.coolco.emilie.fragment;
+package com.diandian.coolco.emilie.utility;
 
 import android.content.Context;
 import android.hardware.Camera;

@@ -1,5 +1,7 @@
 package com.diandian.coolco.emilie.popupWindow;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,6 +27,8 @@ public class ImageDirListPopupWindow extends PopupWindow {
         super(contentView, width, height);
         this.contentView = contentView;
         this.datas = datas;
+        setBackgroundDrawable(new ColorDrawable());
+        setFocusable(true);
         initViews();
         initEvents();
     }

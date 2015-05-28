@@ -55,7 +55,7 @@ public class DetectTapLongPressViewPager extends ViewPager {
     }
 
     public interface TapLongPressListener {
-        public void onTap();
-        public void onLongPress();
+        void onTap();
+        void onLongPress();
     }
 }

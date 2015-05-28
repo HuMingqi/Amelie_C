@@ -1,11 +1,17 @@
 package com.diandian.coolco.emilie.widget;
 
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -33,6 +39,8 @@ import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.memory.PooledByteBuffer;
 import com.facebook.imagepipeline.request.ImageRequest;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
@@ -132,7 +140,7 @@ public class WebImageContainer extends RelativeLayout {
         loadingProgressTextView.setText(String.format("%3d%%", ((int) (level / 100))));
     }
 
-    public void saveWebImage() {
+    public void saveWebImage(final Activity activity) {
         ImageRequest imageRequest = ImageRequest.fromUri(imageUrl);
         ImagePipeline imagePipeline = Fresco.getImagePipeline();
 
@@ -160,14 +168,24 @@ public class WebImageContainer extends RelativeLayout {
             public void onNewResultImpl(@Nullable Bitmap bitmap) {
                 // You can use the bitmap in only limited ways
                 // No need to do any cleanup.
-                BitmapStorage.saveImg(getContext(), bitmap);
+                String imagePath = BitmapStorage.saveImg(getContext(), bitmap);
+//                activity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(
+//                        Environment.DIRECTORY_PICTURES), "Amelie"))));
+//                activity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+                MediaScannerConnection.scanFile(activity, new String[]{imagePath}, null, null);
+//                MediaStore.Images.Media.insertImage(activity.getContentResolver(), bitmap, "title", "description");
+//                try {
+//                    MediaStore.Images.Media.insertImage(contentResolver, imagePath, "title", "description");
+//                } catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                }
             }
 
             @Override
             public void onFailureImpl(DataSource dataSource) {
                 // No cleanup required here.
             }
-        }, new ScheduledThreadPoolExecutor(3));
+        }, new ScheduledThreadPoolExecutor(1));
         return ;
     }
 }

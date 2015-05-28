@@ -86,5 +86,24 @@
         <item name="android:drawablePadding">-8dp</item>
     </style>
 
+    <style name="DrawerItemLinearLayout">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="SecondaryText">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/secondary_text_default_material_light</item>
+    </style>
+
+    <style name="ToolBarTitleTextAppearance">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/actionbar_title</item>
+    </style>
 
 </resources>

@@ -207,7 +207,7 @@ public class SimilarImgActivity extends BaseActivity {
     private void animate() {
         final int scrollY = getScrollY();
 
-        float scaleRatio = ((float) (originalGridSize - scrollY)) / originalGridSize;
+        float scaleRatio = (originalGridSize - scrollY) / originalGridSize;
         scaleRatio = clamp(scaleRatio, srcImageMinScaleRatio, 1.0f);
         srcImageDraweeView.setScaleX(scaleRatio);
         srcImageDraweeView.setScaleY(scaleRatio);

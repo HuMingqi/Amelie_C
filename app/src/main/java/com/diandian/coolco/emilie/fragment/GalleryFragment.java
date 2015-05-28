@@ -72,7 +72,6 @@ public class GalleryFragment extends BaseFragment{
     @InjectView(R.id.tv_dir_img_count)
     private TextView chosenDirImgCountTextView;
 
-    private boolean initialized;
     private ProgressDialog progressDialog;
     /**
      * the data for grid adapter
@@ -100,18 +99,14 @@ public class GalleryFragment extends BaseFragment{
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-
-        if (isVisibleToUser && !initialized) {
-            init();
-            initialized = true;
-        }
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        init();
     }
 
-    private void init() {
 
-        chosenDirTextView.setCompoundDrawables(null, null, new IconDrawable(context, Iconify.IconValue.md_signal_cellular_4_bar)
+    private void init() {
+        chosenDirTextView.setCompoundDrawables(null, null, new IconDrawable(getActivity().getApplicationContext(), Iconify.IconValue.md_signal_cellular_4_bar)
                 .colorRes(R.color.ab_icon)
                 .sizeDp(14), null);
 
@@ -139,9 +134,9 @@ public class GalleryFragment extends BaseFragment{
         currentFolderImgs.addAll(allImgPaths);
         gridAdapter = new CommonBaseAdapter<String>(getActivity(), R.layout.grid_item_local_img, currentFolderImgs, LocalImgGridItemViewHolder.class);
 //        SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(gridAdapter);
-        AnimationAdapter animationAdapter = new ScaleInAnimationAdapter(gridAdapter);
-        animationAdapter.setAbsListView(localImgGridView);
-        localImgGridView.setAdapter(animationAdapter);
+//        AnimationAdapter animationAdapter = new ScaleInAnimationAdapter(gridAdapter);
+//        animationAdapter.setAbsListView(localImgGridView);
+        localImgGridView.setAdapter(gridAdapter);
 
         currImageFolder = allImgFolder;
 
@@ -177,7 +172,7 @@ public class GalleryFragment extends BaseFragment{
         }
 
 
-        View contentView = LayoutInflater.from(context).inflate(R.layout.popup_window_img_dir_list, null);
+        View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.popup_window_img_dir_list, null);
         mImageDirListPopupWindow = new ImageDirListPopupWindow(
                 contentView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -214,7 +209,7 @@ public class GalleryFragment extends BaseFragment{
     }
 
     public void onEventMainThread(Event.NoExternalStorageException noExternalStorageException) {
-        SuperToastUtil.showToast(context, "未发现外部存储");
+        SuperToastUtil.showToast(getActivity().getApplicationContext(), "未发现外部存储");
     }
 
     public void onEventMainThread(Event.ScanImgCompletedEvent scanImgCompletedEvent) {
@@ -256,7 +251,7 @@ public class GalleryFragment extends BaseFragment{
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void startSrcImgCropActivity(String srcImgPath, View itemView) {
         //set flag
-        Preference.setPrefBoolean(context, PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
+        Preference.setPrefBoolean(getActivity().getApplicationContext(), PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
 
         //set animation
         ActivityOptionsCompat options = null;
@@ -305,10 +300,8 @@ public class GalleryFragment extends BaseFragment{
         String[] imgNames = new File(folder.getDir()).list(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String filename) {
-                if (filename.endsWith(".jpg") || filename.endsWith(".png")
-                        || filename.endsWith(".jpeg"))
-                    return true;
-                return false;
+                return filename.endsWith(".jpg") || filename.endsWith(".png")
+                        || filename.endsWith(".jpeg");
             }
         });
 
