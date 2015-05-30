@@ -36,6 +36,7 @@ public class CollectionActivity extends DbSupportBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initActionBar();
         setContentView(R.layout.activity_collection);
         init();
     }

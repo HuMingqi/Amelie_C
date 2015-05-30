@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.drawable.ClipDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.diandian.coolco.emilie.R;
+import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.diandian.coolco.emilie.utility.IntentUtil;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
 import com.diandian.coolco.emilie.widget.FireworkText;
@@ -34,7 +36,7 @@ public class WebActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        initActionBar();
         setContentView(R.layout.activity_web);
 
         init();
@@ -77,7 +79,13 @@ public class WebActivity extends BaseActivity {
             }
         });
 
-        webview.loadUrl("http://item.jd.com/1462879267.html");
+        String url = getIntent().getExtras().getString(ExtraDataName.WEB_ACTIVITY_URL);
+
+        if (TextUtils.isEmpty(url)) {
+            webview.loadUrl("http://item.jd.com/1462879267.html");
+        } else {
+            webview.loadUrl(url);
+        }
     }
 
 

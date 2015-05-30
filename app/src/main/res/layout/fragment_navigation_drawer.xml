@@ -13,9 +13,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never"
-            android:scrollbars="none">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -79,9 +77,9 @@
                                 style="@style/TextAppearance.AppCompat.Subhead.Inverse"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
                                 android:layout_marginLeft="@dimen/material_drawer_vertical_padding"
                                 android:layout_marginStart="@dimen/material_drawer_vertical_padding"
+                                android:layout_marginTop="4dp"
                                 android:fontFamily="sans-serif"
                                 android:singleLine="true"
                                 android:text="All's well that ends." />
@@ -103,7 +101,7 @@
                             android:gravity="center"
                             android:text="+2"
                             android:textColor="#3d3d3d"
-                            android:visibility="gone"/>
+                            android:visibility="visible" />
 
 
                     </RelativeLayout>
@@ -122,6 +120,11 @@
                     android:singleLine="true"
                     android:text="我的部落"
                     android:textSize="@dimen/material_drawer_item_section_text" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider" />
 
                 <RelativeLayout
                     android:id="@+id/rl_search"
@@ -225,7 +228,8 @@
                         android:lines="1"
                         android:singleLine="true"
                         android:textSize="@dimen/material_drawer_item_secondary_text"
-                        tools:text="99" />
+                        android:textColor="@color/secondary_text_default_material_light"
+                        android:text="99" />
                 </RelativeLayout>
 
                 <View
@@ -234,15 +238,15 @@
                     android:background="@color/divider" />
 
                 <RelativeLayout
+                    android:id="@+id/rl_history"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/material_drawer_item_secondary"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
                     android:paddingEnd="@dimen/material_drawer_vertical_padding"
                     android:paddingLeft="@dimen/material_drawer_vertical_padding"
                     android:paddingRight="@dimen/material_drawer_vertical_padding"
-                    android:paddingStart="@dimen/material_drawer_vertical_padding"
-                    android:clickable="true"
-                    android:background="?attr/selectableItemBackground"
-                    android:id="@+id/rl_history">
+                    android:paddingStart="@dimen/material_drawer_vertical_padding">
 
                     <ImageView
                         android:id="@+id/icon_history"
@@ -297,17 +301,20 @@
                     android:singleLine="true"
                     android:text="美丽天地"
                     android:textSize="@dimen/material_drawer_item_section_text" />
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider" />
                 <RelativeLayout
+                    android:id="@+id/rl_recommend"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/material_drawer_item_primary"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
                     android:paddingEnd="@dimen/material_drawer_vertical_padding"
                     android:paddingLeft="@dimen/material_drawer_vertical_padding"
                     android:paddingRight="@dimen/material_drawer_vertical_padding"
-                    android:paddingStart="@dimen/material_drawer_vertical_padding"
-                    android:clickable="true"
-                    android:background="?attr/selectableItemBackground"
-                    android:id="@+id/rl_recommend">
+                    android:paddingStart="@dimen/material_drawer_vertical_padding">
 
                     <ImageView
                         android:id="@+id/icon_recommend"
@@ -342,6 +349,7 @@
                             android:gravity="center_vertical|left"
                             android:singleLine="true"
                             android:text="猜你喜欢" />
+
                         <TextView
                             android:id="@+id/description_recommend"
                             style="@style/SecondaryText"
@@ -364,7 +372,9 @@
                         android:lines="1"
                         android:singleLine="true"
                         android:textSize="@dimen/material_drawer_item_primary_text"
-                        tools:text="99" />
+                        android:textColor="@color/secondary_text_default_material_light"
+
+                        android:text="+1" />
                 </RelativeLayout>
 
                 <View
@@ -373,15 +383,15 @@
                     android:background="@color/divider" />
 
                 <RelativeLayout
+                    android:id="@+id/rl_hot"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/material_drawer_item_primary"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
                     android:paddingEnd="@dimen/material_drawer_vertical_padding"
                     android:paddingLeft="@dimen/material_drawer_vertical_padding"
                     android:paddingRight="@dimen/material_drawer_vertical_padding"
-                    android:paddingStart="@dimen/material_drawer_vertical_padding"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:id="@+id/rl_hot">
+                    android:paddingStart="@dimen/material_drawer_vertical_padding">
 
                     <ImageView
                         android:id="@+id/icon_hot"
@@ -415,7 +425,8 @@
                             android:fontFamily="sans-serif-medium"
                             android:gravity="center_vertical|left"
                             android:singleLine="true"
-                            android:text="潮流趋势" />
+                            android:text="潮流前线" />
+
                         <TextView
                             android:id="@+id/description_hot"
                             style="@style/SecondaryText"
@@ -437,8 +448,9 @@
                         android:gravity="center_vertical|end"
                         android:lines="1"
                         android:singleLine="true"
-                        android:textSize="@dimen/material_drawer_item_primary_text"
-                        tools:text="99" />
+                        android:textColor="@color/secondary_text_default_material_light"
+                        android:text="+1"
+                        android:textSize="@dimen/material_drawer_item_primary_text" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -461,11 +473,11 @@
             android:id="@+id/rl_account"
             android:layout_width="match_parent"
             android:layout_height="@dimen/material_drawer_item_secondary"
+            android:background="?attr/selectableItemBackground"
             android:paddingEnd="@dimen/material_drawer_vertical_padding"
             android:paddingLeft="@dimen/material_drawer_vertical_padding"
             android:paddingRight="@dimen/material_drawer_vertical_padding"
-            android:paddingStart="@dimen/material_drawer_vertical_padding"
-            android:background="?attr/selectableItemBackground">
+            android:paddingStart="@dimen/material_drawer_vertical_padding">
 
             <ImageView
                 android:id="@+id/icon_account"

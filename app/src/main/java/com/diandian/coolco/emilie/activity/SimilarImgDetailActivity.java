@@ -54,7 +54,7 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_similar_img_detail);
-
+        initActionBar();
         init();
     }
 
@@ -85,20 +85,20 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
     /**
      * make action bar toggle visibility once viewpager get taped
      */
-    private void initActionBar() {
-        actionBar = getSupportActionBar();
-
-        ((DetectTapLongPressViewPager) viewPager).setTapLongPressListener(new DetectTapLongPressViewPager.TapLongPressListener() {
-            @Override
-            public void onTap() {
-//                toggleActionBarAndSystemUiVisiblity();
-            }
-
-            @Override
-            public void onLongPress() {
-            }
-        });
-    }
+//    private void initActionBar() {
+//        actionBar = getSupportActionBar();
+//
+//        ((DetectTapLongPressViewPager) viewPager).setTapLongPressListener(new DetectTapLongPressViewPager.TapLongPressListener() {
+//            @Override
+//            public void onTap() {
+////                toggleActionBarAndSystemUiVisiblity();
+//            }
+//
+//            @Override
+//            public void onLongPress() {
+//            }
+//        });
+//    }
 
     private void toggleActionBarAndSystemUiVisiblity() {
         if (actionBar.isShowing()) {

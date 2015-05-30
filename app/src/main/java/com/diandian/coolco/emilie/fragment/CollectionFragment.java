@@ -2,6 +2,7 @@ package com.diandian.coolco.emilie.fragment;
 
 
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,7 +45,7 @@ public class CollectionFragment extends BaseFragment {
 
     private CommonBaseAdapter<Image> adapter;
     private List<Image> datas;
-    private ProgressDialog progressDialog;
+    private Dialog progressDialog;
 
 
     public CollectionFragment() {

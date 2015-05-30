@@ -1,51 +1,90 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fl_root"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.diandian.coolco.emilie.fragment.CameraFragment"
-    android:orientation="vertical">
+    android:animateLayoutChanges="true">
 
     <FrameLayout
         android:id="@+id/fl_camera"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.0">
+        android:layout_height="match_parent">
+
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/iv_capture"
+        android:layout_width="@dimen/size_float_action_button"
+        android:layout_height="@dimen/size_float_action_button"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="@dimen/margin_float_action_button"
+        android:background="@drawable/selector_bg_float_action_button"
+        android:contentDescription="@null"
+        android:scaleType="centerInside"
+        android:src="@android:drawable/ic_menu_camera"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/iv_camera_retry"
+        android:layout_width="@dimen/size_float_action_button"
+        android:layout_height="@dimen/size_float_action_button"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="@dimen/margin_float_action_button"
+        android:background="@drawable/selector_bg_float_action_button"
+        android:contentDescription="@null"
+        android:scaleType="centerInside"
+        android:src="@android:drawable/ic_menu_camera"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/iv_camera_cancel"
+        android:layout_width="@dimen/size_float_action_button"
+        android:layout_height="@dimen/size_float_action_button"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="@dimen/margin_float_action_button"
+        android:background="@drawable/selector_bg_float_action_button"
+        android:contentDescription="@null"
+        android:scaleType="centerInside"
+        android:src="@android:drawable/ic_menu_camera"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/iv_camera_done"
+        android:layout_width="@dimen/size_float_action_button"
+        android:layout_height="@dimen/size_float_action_button"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="@dimen/margin_float_action_button"
+        android:background="@drawable/selector_bg_float_action_button"
+        android:contentDescription="@null"
+        android:scaleType="centerInside"
+        android:src="@android:drawable/ic_menu_camera"
+        android:visibility="invisible" />
+    <!--
+   <RelativeLayout
+       android:id="@+id/rl_bottom_bar"
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       android:background="@color/bottom_bar">
 
         <com.diandian.coolco.emilie.widget.BoxView
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </FrameLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/bottom_bar">
-
-        <ImageView
-            android:id="@+id/iv_capture"
-            android:layout_width="@dimen/bottom_bar_button_width"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:contentDescription="@null"
-            android:scaleType="centerInside"
-            android:src="@android:drawable/ic_menu_camera"
-            android:background="?attr/selectableItemBackgroundBorderless"/>
-        <!--
-        <com.diandian.coolco.emilie.widget.ColorFilterImageView
-            android:id="@+id/iv_go2gallery"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/test" />
-        -->
-
-    </RelativeLayout>
+  <com.diandian.coolco.emilie.widget.ColorFilterImageView
+           android:id="@+id/iv_go2gallery"
+           android:layout_width="25dp"
+           android:layout_height="25dp"
+           android:layout_alignParentRight="true"
+           android:layout_centerVertical="true"
+           android:layout_marginRight="20dp"
+           android:scaleType="centerCrop"
+           android:src="@drawable/test" />
 
 
-</LinearLayout>
+   </RelativeLayout>
+   -->
+
+</FrameLayout>

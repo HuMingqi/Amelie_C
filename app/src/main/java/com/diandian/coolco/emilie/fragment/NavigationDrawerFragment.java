@@ -89,7 +89,7 @@ public class NavigationDrawerFragment extends RoboFragment implements View.OnCli
     private ListView mDrawerListView;
     private View mFragmentContainerView;
 
-    private int selectedSectionViewId = 0;
+    private int selectedSectionViewId;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
@@ -124,28 +124,8 @@ public class NavigationDrawerFragment extends RoboFragment implements View.OnCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-/*        mDrawerListView = (ListView) inflater.inflate(
-                R.layout.fragment_navigation_drawer, container, false);
-        mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-//                getActionBar().getThemedContext(),
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                }));
-        mDrawerListView.setItemChecked(selectedSectionViewId, true);
-        return mDrawerListView;*/
         return inflater.inflate(
-                R.layout.fragment_drawer_new, container, false);
+                R.layout.fragment_navigation_drawer, container, false);
     }
 
     @Override
@@ -261,9 +241,7 @@ public class NavigationDrawerFragment extends RoboFragment implements View.OnCli
 
     private void selectItem(int sectionViewId) {
         selectedSectionViewId = sectionViewId;
-//        if (mDrawerListView != null) {
-//            mDrawerListView.setItemChecked(position, true);
-//        }
+
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
@@ -318,11 +296,6 @@ public class NavigationDrawerFragment extends RoboFragment implements View.OnCli
             return true;
         }
 
-//        if (item.getItemId() == R.id.action_example) {
-//            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
-//            return true;
-//        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -339,7 +312,6 @@ public class NavigationDrawerFragment extends RoboFragment implements View.OnCli
 
     private ActionBar getActionBar() {
         return ((ActionBarActivity) getActivity()).getSupportActionBar();
-//        return ((AppCompatActivity) getActivity()).getSupportActionBar();
     }
 
     /**

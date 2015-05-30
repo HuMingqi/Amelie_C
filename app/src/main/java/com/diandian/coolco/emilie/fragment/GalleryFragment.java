@@ -2,6 +2,7 @@ package com.diandian.coolco.emilie.fragment;
 
 
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -25,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.diandian.coolco.emilie.R;
+import com.diandian.coolco.emilie.activity.SimilarImgActivity;
 import com.diandian.coolco.emilie.activity.SrcImgCropActivity;
 import com.diandian.coolco.emilie.adapter.CommonBaseAdapter;
 import com.diandian.coolco.emilie.adapter.LocalImgGridItemViewHolder;
@@ -72,7 +74,7 @@ public class GalleryFragment extends BaseFragment{
     @InjectView(R.id.tv_dir_img_count)
     private TextView chosenDirImgCountTextView;
 
-    private ProgressDialog progressDialog;
+    private Dialog progressDialog;
     /**
      * the data for grid adapter
      */
@@ -243,7 +245,8 @@ public class GalleryFragment extends BaseFragment{
         localImgGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startSrcImgCropActivity(currentFolderImgs.get(position), view);
+//                startSrcImgCropActivity(currentFolderImgs.get(position), view);
+                startSimilarImgActivity(currentFolderImgs.get(position));
             }
         });
     }
@@ -270,6 +273,12 @@ public class GalleryFragment extends BaseFragment{
         } else {
             getActivity().startActivity(intent);
         }
+    }
+
+    private void startSimilarImgActivity(String srcImgPath){
+        Intent intent = new Intent(getActivity(), SimilarImgActivity.class);
+        intent.putExtra(ExtraDataName.CROPPED_SRC_IMG_PATH, srcImgPath);
+        startActivity(intent);
     }
 
     public void onImageFolderSelected(ImageFolder selectedFolder) {

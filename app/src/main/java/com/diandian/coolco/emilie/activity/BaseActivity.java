@@ -1,6 +1,7 @@
 package com.diandian.coolco.emilie.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.dialog.ClothesInfoDialogFragment;
+import com.diandian.coolco.emilie.dialog.Go2FeedBackDialogFragment;
 import com.diandian.coolco.emilie.utility.Event;
 import com.diandian.coolco.emilie.utility.MyApplication;
 import com.malinskiy.materialicons.IconDrawable;
@@ -31,7 +33,7 @@ public class BaseActivity extends RoboActionBarActivity{
         super.onCreate(savedInstanceState);
 
         context = getApplicationContext();
-        initActionBar();
+//        initActionBar();
     }
 
     @Override
@@ -60,17 +62,22 @@ public class BaseActivity extends RoboActionBarActivity{
 
     public void onEventMainThread(Event.ShakeEvent event){
         if (!guideFeedbackDialogIsShowing) {
-            DialogFragment dialogFragment = new ClothesInfoDialogFragment("您遇到什么问题了吗？", this);
+            DialogFragment dialogFragment = new Go2FeedBackDialogFragment("您遇到什么问题了吗？", this);
             dialogFragment.show(getSupportFragmentManager(), "shake");
             guideFeedbackDialogIsShowing = true;
         }
     }
 
-    public void onEventMainThread(Event.GuideFeedbackDialogDismissEvent event){
+    public void onEventMainThread(Event.GoFeedbackDialogDismissEvent event){
         guideFeedbackDialogIsShowing = false;
     }
 
-    private void initActionBar() {
+    public void onEventMainThread(Event.GoFeedbackEvent event){
+        Intent intent = new Intent(this, FeedbackActivity.class);
+        startActivity(intent);
+    }
+
+    protected void initActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(new IconDrawable(context, Iconify.IconValue.md_arrow_back)
                 .colorRes(R.color.ab_icon)

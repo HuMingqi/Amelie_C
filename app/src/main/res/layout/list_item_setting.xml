@@ -5,6 +5,8 @@
     android:gravity="center_vertical"
     android:paddingLeft="8dp"
     android:text="意见反馈"
-    android:textSize="16sp" >
+    android:textSize="16sp"
+    android:textColor="@color/primary_text_default_material_light"
+    android:background="@drawable/selector_bg_list_item_new">
 
 </TextView>

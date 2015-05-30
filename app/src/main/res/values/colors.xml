@@ -38,7 +38,7 @@
     <color name="ab_icon">#e7e7e7</color>
     <!--<color name="divider">#d5d5d5</color>-->
 
-    <color name="bg_activity">#242827</color>
+    <color name="bg_activity">#2b2b2b</color>
 	<color name="progress_bar_determine_webview">#45c01a</color>
 	<!--<color name="main">#2b3132</color>-->
 	<color name="main">#2fcaa2</color>
@@ -52,9 +52,12 @@
 	<color name="main_entry">#37393B</color>
 
 	<color name="color_primary">#2fcaa2</color>
-	<color name="color_primary_dark">#5D4037</color>
+	<color name="color_primary_dark">@color/md_teal_800</color>
 	<color name="color_accent">#FF5722</color>
+
+	<!--<color name="drawer_item_icon">@color/md_teal_800</color>-->
 	<!--<color name="drawer_item_icon">#1D6462</color>-->
 	<color name="drawer_item_icon">@color/global_text_primary</color>
+	<color name="main_transparent">#802fcaa2</color>
 
 </resources>

@@ -39,7 +39,7 @@ public class ClothesInfoDialogFragment extends DialogFragment {
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                EventBus.getDefault().post(new Event.GuideFeedbackDialogDismissEvent());
+                EventBus.getDefault().post(new Event.GoFeedbackDialogDismissEvent());
             }
         });
         return builder.create();

@@ -12,6 +12,7 @@ public class GalleryActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initActionBar();
         setContentView(R.layout.activity_gallery);
     }
 

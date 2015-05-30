@@ -42,5 +42,6 @@
     <string name="setting">设置</string>
     <string name="title_activity_camera">拍照</string>
     <string name="title_activity_gallery">选择图片</string>
+    <string name="title_activity_feedback">反馈</string>
 
 </resources>

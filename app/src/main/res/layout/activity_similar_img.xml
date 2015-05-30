@@ -15,43 +15,87 @@
         app:column_count="2"
         app:item_margin="8dp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/padding_header">
+        android:layout_height="wrap_content">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/dv_src_image"
-            android:layout_width="@dimen/size_src_image"
-            android:layout_height="@dimen/size_src_image"
-            android:paddingTop="0dp"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp"
-            android:paddingBottom="0dp"
-            fresco:placeholderImage="@drawable/test"
-            fresco:placeholderImageScaleType="centerCrop"
-            fresco:actualImageScaleType="centerCrop"
-            fresco:pressedStateOverlayImage="@color/drawee_view_press_state_overlay_color"
-            fresco:roundAsCircle="false"
-            fresco:roundedCornerRadius="0dp" />
+<!--        <View
+            android:id="@+id/card_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/ll_card_container"
+            android:layout_alignBottom="@+id/ll_card_container"
+            android:background="@color/bg_activity"
+            />-->
 
-        <TextView
-            android:id="@+id/tv_similar_image_number"
-            android:layout_width="@dimen/size_src_image"
-            android:layout_height="@dimen/size_src_image"
-            android:text="找到2,123件"
-            android:drawableTop="@drawable/ic_launcher"
-            style="@style/SimilarImageCardTextView"
-            />
+        <LinearLayout
+            android:id="@+id/ll_card_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_header">
 
-        <TextView
-            android:id="@+id/tv_search_use_time"
-            android:layout_width="@dimen/size_src_image"
-            android:layout_height="@dimen/size_src_image"
-            android:drawableTop="@drawable/ic_launcher"
-            android:text="用时1.34秒"
-            style="@style/SimilarImageCardTextView"
-            android:background="@android:color/holo_green_dark"/>
-    </LinearLayout>
+            <com.diandian.coolco.emilie.widget.SquareFrameLayout
+                android:id="@+id/fl_src_image"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
+                <com.diandian.coolco.emilie.widget.SquareSimpleDraweeView
+                    android:id="@+id/dv_src_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    fresco:actualImageScaleType="centerCrop"
+                    fresco:placeholderImage="@color/drawee_view_place_holder"
+                    fresco:placeholderImageScaleType="centerCrop"
+                    fresco:pressedStateOverlayImage="@color/drawee_view_press_state_overlay_color"
+                    fresco:roundAsCircle="false"
+                    fresco:roundedCornerRadius="@dimen/simialr_image_card_radius" />
+
+                <ImageView
+                    android:id="@+id/iv_crop_image_again"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:src="@android:drawable/ic_menu_edit" />
+            </com.diandian.coolco.emilie.widget.SquareFrameLayout>
+
+
+            <com.diandian.coolco.emilie.widget.SquareFrameLayout
+                android:id="@+id/fl_similar_image_number"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_similar_clothes_num">
+
+                <TextView
+                    android:id="@+id/tv_similar_image_number"
+                    style="@style/SimilarImageCardTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableTop="@drawable/ic_launcher"
+                    android:text="找到2,123件" />
+            </com.diandian.coolco.emilie.widget.SquareFrameLayout>
+
+            <com.diandian.coolco.emilie.widget.SquareFrameLayout
+                android:id="@+id/fl_search_use_time"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_search_use_time">
+
+                <TextView
+                    android:id="@+id/tv_search_use_time"
+                    style="@style/SimilarImageCardTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableTop="@drawable/ic_launcher"
+                    android:text="用时1.34秒" />
+            </com.diandian.coolco.emilie.widget.SquareFrameLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
 </com.diandian.coolco.emilie.widget.DetectSwipeGestureRelativeLayout>

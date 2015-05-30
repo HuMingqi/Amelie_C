@@ -124,6 +124,7 @@
     <color name="md_cyan_400">#26c6da</color>
     <color name="md_cyan_500">#00bcd4</color>
     <color name="md_cyan_600">#00acc1</color>
+    <color name="md_cyan_600_transparent">#8000acc1</color>
     <color name="md_cyan_700">#0097a7</color>
     <color name="md_cyan_800">#00838f</color>
     <color name="md_cyan_900">#006064</color>
@@ -252,6 +253,7 @@
     <color name="md_deep_orange_400">#ff7043</color>
     <color name="md_deep_orange_500">#ff5722</color>
     <color name="md_deep_orange_600">#f4511e</color>
+    <color name="md_deep_orange_600_transparent">#80f4511e</color>
     <color name="md_deep_orange_700">#e64a19</color>
     <color name="md_deep_orange_800">#d84315</color>
     <color name="md_deep_orange_900">#bf360c</color>

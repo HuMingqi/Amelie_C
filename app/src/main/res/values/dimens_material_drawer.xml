@@ -25,14 +25,14 @@
     <!-- General profileIcon margins for the drawer item -->
     <dimen name="material_drawer_item_padding">8dp</dimen>
     <!-- Definition for the primary item -->
-    <dimen name="material_drawer_item_primary">56dp</dimen>
+    <dimen name="material_drawer_item_primary">64dp</dimen>
     <dimen name="material_drawer_item_primary_icon_padding">12dp</dimen>
     <dimen name="material_drawer_item_primary_icon_padding_right">24dp</dimen>
     <dimen name="material_drawer_item_primary_text">14sp</dimen>
     <dimen name="material_drawer_item_primary_description">14sp</dimen>
     <!-- Definition for the secondary item -->
     <!--<dimen name="material_drawer_item_secondary">42dp</dimen>-->
-    <dimen name="material_drawer_item_secondary">56dp</dimen>
+    <dimen name="material_drawer_item_secondary">64dp</dimen>
     <dimen name="material_drawer_item_secondary_icon">48dp</dimen>
     <dimen name="material_drawer_item_secondary_icon_padding">12dp</dimen>
     <dimen name="material_drawer_item_secondary_icon_padding_right">24dp</dimen>

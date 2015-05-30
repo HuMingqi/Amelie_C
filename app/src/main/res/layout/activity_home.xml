@@ -22,13 +22,7 @@
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
         <!-- As the main content view, the view below consumes the entire
-             space available using match_parent in both dimensions.
-        <fragment
-            android:id="@+id/container"
-            android:name="com.diandian.coolco.emilie.fragment.HomeFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout="@layout/fragment_home" /> -->
+             space available using match_parent in both dimensions.-->
         <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"

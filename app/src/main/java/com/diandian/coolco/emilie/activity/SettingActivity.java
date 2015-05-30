@@ -60,14 +60,14 @@ public class SettingActivity extends BaseActivity implements OnItemClickListener
 			case 1:{
 //				Intent intent = new Intent(this, WebViewActivity.class);
 //				intent.putExtra("title", "用户协议");
-//				intent.putExtra("url", URL.AGREEMENT);
+//				intent.putExtra("url", WEB_ACTIVITY_URL.AGREEMENT);
 //				startActivity(intent);
 				break;
 			}
 			case 2:{
 //				Intent intent = new Intent(this, WebViewActivity.class);
 //				intent.putExtra("title", "常见问题");
-//				intent.putExtra("url", URL.PROBLEM);
+//				intent.putExtra("url", WEB_ACTIVITY_URL.PROBLEM);
 //				startActivity(intent);
 				break;
 			}
@@ -100,7 +100,7 @@ public class SettingActivity extends BaseActivity implements OnItemClickListener
 			case 4: {
 //				Intent intent = new Intent(this, WebViewActivity.class);
 //				intent.putExtra("title", "关于我们");
-//				intent.putExtra("url", URL.ABOUT_US);
+//				intent.putExtra("url", WEB_ACTIVITY_URL.ABOUT_US);
 //				startActivity(intent);
 				break;
 			}

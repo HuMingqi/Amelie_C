@@ -17,4 +17,10 @@
     <dimen name="navigation_drawer_width">320dp</dimen>
     <dimen name="material_drawer_item_primary_icon">48dp</dimen>
     <dimen name="pull_indicator">40dp</dimen>
+    <dimen name="simialr_image_card_radius">4dp</dimen>
+    <dimen name="size_float_action_button">64dp</dimen>
+    <dimen name="margin_float_action_button">12dp</dimen>
+    <dimen name="ring_thickness">2dp</dimen>
+    <dimen name="height_divider">1px</dimen>
+    <dimen name="size_search_fragment_button">100dp</dimen>
 </resources>

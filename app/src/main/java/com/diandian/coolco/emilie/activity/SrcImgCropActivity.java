@@ -2,9 +2,11 @@ package com.diandian.coolco.emilie.activity;
 
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +26,7 @@ import com.diandian.coolco.emilie.utility.Event;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.diandian.coolco.emilie.utility.Preference;
 import com.diandian.coolco.emilie.utility.PreferenceKey;
+import com.diandian.coolco.emilie.utility.SystemUiHelper;
 import com.edmodo.cropper.CropImageView;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
@@ -36,24 +39,26 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
     private CropImageView cropImageView;
     @InjectView(R.id.iv_crop)
     private ImageView triggleCropImageView;
-    @InjectView(R.id.tv_skip_crop)
-    private TextView skipCropTextView;
-    @InjectView(R.id.rl_bottom_bar)
-    private RelativeLayout bottomBarRelativeLayout;
+//    @InjectView(R.id.tv_skip_crop)
+//    private TextView skipCropTextView;
+//    @InjectView(R.id.rl_bottom_bar)
+//    private RelativeLayout bottomBarRelativeLayout;
 
     private String srcImgPath;
 
-    private Handler handler;
-    private ProgressDialog progressDialog;
+//    private Handler handler;
+    private Dialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_src_img_crop);
+//        initActionBar();
         init();
     }
 
     private void init() {
+        getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bg_activity)));
         Intent intent = getIntent();
         srcImgPath = intent.getStringExtra(ExtraDataName.SRC_IMG_PATH);
 
@@ -65,34 +70,44 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
             progressDialog = ProgressDialog.show(this, "正在加载...");
         }
 
+        int iconSize = getResources().getDimensionPixelOffset(R.dimen.size_float_action_button)/2;
         triggleCropImageView.setImageDrawable(
                 new IconDrawable(context, Iconify.IconValue.md_crop)
                         .colorRes(R.color.ab_icon)
                         .actionBarSize());
+//                        .sizePx(iconSize));
         triggleCropImageView.setOnClickListener(this);
-        skipCropTextView.setOnClickListener(this);
+//        skipCropTextView.setOnClickListener(this);
         initLayoutAnimation();
+        triggleCropImageView.post(new Runnable() {
+            @Override
+            public void run() {
+                triggleCropImageView.setVisibility(View.VISIBLE);
+            }
+        });
+        SystemUiHelper systemUiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_HIDE_STATUS_BAR, 0);
+        systemUiHelper.hide();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        handler = new Handler(new Handler.Callback() {
-
-            @Override
-            public boolean handleMessage(Message message) {
-                switch (message.what) {
-                    case 0:
-                        bottomBarRelativeLayout.setVisibility(View.VISIBLE);
-                        break;
-
-                    default:
-                        break;
-                }
-                return false;
-            }
-        });
-        handler.sendEmptyMessageDelayed(0, 100);
+//        handler = new Handler(new Handler.Callback() {
+//
+//            @Override
+//            public boolean handleMessage(Message message) {
+//                switch (message.what) {
+//                    case 0:
+//                        bottomBarRelativeLayout.setVisibility(View.VISIBLE);
+//                        break;
+//
+//                    default:
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
+//        handler.sendEmptyMessageDelayed(0, 100);
     }
 
     public void initLayoutAnimation() {
@@ -111,7 +126,9 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
         transition.setDuration(LayoutTransition.DISAPPEARING, 0);
         transition.setDuration(LayoutTransition.APPEARING, animationDuration);
 
-        ObjectAnimator slideIn = ObjectAnimator.ofFloat(null, "translationY", Dimension.dp2px(this, 50), 0).setDuration(animationDuration);
+        int translation = getResources().getDimensionPixelOffset(R.dimen.size_float_action_button) + getResources().getDimensionPixelOffset(R.dimen.margin_float_action_button);
+
+        ObjectAnimator slideIn = ObjectAnimator.ofFloat(null, "translationY", translation, 0).setDuration(animationDuration);
         transition.setAnimator(LayoutTransition.APPEARING, slideIn);
     }
 
@@ -197,9 +214,9 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
             case R.id.iv_crop:
                 cropImg();
                 break;
-            case R.id.tv_skip_crop:
-                startSimilarImgActivity(srcImgPath);
-                break;
+//            case R.id.tv_skip_crop:
+//                startSimilarImgActivity(srcImgPath);
+//                break;
         }
     }
 

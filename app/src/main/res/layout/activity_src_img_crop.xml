@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context="com.diandian.coolco.emilie.activity.SrcImgCropActivity">
+    tools:context="com.diandian.coolco.emilie.activity.SrcImgCropActivity"
+    >
 
     <com.edmodo.cropper.CropImageView
         android:id="@+id/crop_image_view"
@@ -16,6 +17,20 @@
         android:src="@drawable/ic_launcher"
         android:transitionName="@string/src_img_transtion_dest" />
 
+    <ImageView
+        android:id="@+id/iv_crop"
+        android:layout_width="@dimen/size_float_action_button"
+        android:layout_height="@dimen/size_float_action_button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/margin_float_action_button"
+        android:background="@drawable/selector_bg_float_action_button"
+        android:contentDescription="@null"
+        android:scaleType="centerInside"
+        android:src="@android:drawable/ic_menu_crop"
+        android:visibility="invisible"/>
+
+    <!--
     <RelativeLayout
         android:id="@+id/rl_bottom_bar"
         android:layout_width="match_parent"
@@ -50,5 +65,5 @@
             android:textSize="16sp" />
 
     </RelativeLayout>
-
+    -->
 </com.diandian.coolco.emilie.widget.DetectSwipeGestureRelativeLayout>

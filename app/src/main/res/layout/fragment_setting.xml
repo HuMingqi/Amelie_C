@@ -3,9 +3,15 @@
     android:layout_height="match_parent"
     tools:context="com.diandian.coolco.emilie.fragment.SettingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
-        android:gravity="center"/>
+    <ListView
+        android:id="@+id/ls_setting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/divider"
+        android:dividerHeight="@dimen/height_divider"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp">
+
+    </ListView>
 
 </FrameLayout>

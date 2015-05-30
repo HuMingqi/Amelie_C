@@ -45,7 +45,7 @@ public class CameraPreviewSurfaceView extends SurfaceView implements SurfaceHold
         Logcat.e(TAG, "surfaceChanged => w=" + w + ", h=" + h);
         // If your preview can change or rotate, take care of those events here.
         // Make sure to stop the preview before resizing or reformatting it.
-        if (this.holder.getSurface() == null){
+        if (this.holder.getSurface() == null) {
             // preview surface does not exist
             return;
         }
@@ -53,7 +53,7 @@ public class CameraPreviewSurfaceView extends SurfaceView implements SurfaceHold
         // stop preview before making changes
         try {
             camera.stopPreview();
-        } catch (Exception e){
+        } catch (Exception e) {
             // ignore: tried to stop a non-existent preview
         }
 
@@ -86,7 +86,7 @@ public class CameraPreviewSurfaceView extends SurfaceView implements SurfaceHold
             camera.setPreviewDisplay(this.holder);
             camera.startPreview();
 
-        } catch (Exception e){
+        } catch (Exception e) {
             Logcat.d(TAG, "Error starting camera preview: " + e.getMessage());
         }
     }
@@ -102,19 +102,23 @@ public class CameraPreviewSurfaceView extends SurfaceView implements SurfaceHold
         }
 
         List<Camera.Size> supportedPictureSizes = camera.getParameters().getSupportedPictureSizes();
-        if (supportedPictureSizes != null){
+        if (supportedPictureSizes != null) {
             optimalPictureSize = getOptimalSize(supportedPictureSizes, optimalPreviewSize.width, optimalPreviewSize.height);
         }
 
         float ratio;
-        if(optimalPreviewSize.height >= optimalPreviewSize.width)
+        if (optimalPreviewSize.height >= optimalPreviewSize.width)
             ratio = (float) optimalPreviewSize.height / (float) optimalPreviewSize.width;
         else
             ratio = (float) optimalPreviewSize.width / (float) optimalPreviewSize.height;
 
         // One of these methods should be used, second method squishes preview slightly
         setMeasuredDimension(width, (int) (width * ratio));
-//        setMeasuredDimension((int) (width * ratio), height);
+//        if (optimalPreviewSize.height / height > optimalPreviewSize.width / width) {
+//            setMeasuredDimension(width, width * optimalPreviewSize.height / optimalPreviewSize.width);
+//        } else {
+//            setMeasuredDimension(height * optimalPreviewSize.width / optimalPreviewSize.height, height);
+//        }
     }
 
     private Camera.Size getOptimalSize(List<Camera.Size> sizes, int w, int h) {

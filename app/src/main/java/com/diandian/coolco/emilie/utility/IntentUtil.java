@@ -4,21 +4,24 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.diandian.coolco.emilie.R;
+import com.diandian.coolco.emilie.activity.WebActivity;
 
 public class IntentUtil {
 
     public static void startWebActivity(Activity activity, String url)
     {
-        try
-        {
-            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
-            activity.startActivity(intent);
-        }
-        catch(android.content.ActivityNotFoundException e)
-        {
-            // can't start activity
-        }
+        Intent intent = new Intent(activity, WebActivity.class);
+        intent.putExtra(ExtraDataName.WEB_ACTIVITY_URL, url);
+        activity.startActivity(intent);
+//        try
+//        {
+//            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
+//            activity.startActivity(intent);
+//        }
+//        catch(android.content.ActivityNotFoundException e)
+//        {
+//            // can't start activity
+//        }
     }
 
 

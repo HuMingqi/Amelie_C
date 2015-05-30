@@ -9,7 +9,9 @@ public class Event {
     public static class ScanImgCompletedEvent {}
     public static class SrcImgSavedEvent {}
     public static class ShakeEvent {}
-    public static class GuideFeedbackDialogDismissEvent {}
+    public static class GoFeedbackDialogDismissEvent {}
+    public static class GoFeedbackEvent {}
     public static class GetCollectionCompletedEvent {}
+    public static class SendFeedBackEvent {}
 
 }

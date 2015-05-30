@@ -125,7 +125,7 @@ public class AccountFragment extends BaseFragment {
         mMatrix.mapRect(mDisplayRect);
     }
 
-    class MatrixImageView {
+    static class MatrixImageView {
         private final ImageView mImageView;
         private float mScaleFactor;
         private final Matrix mMatrix = new Matrix();

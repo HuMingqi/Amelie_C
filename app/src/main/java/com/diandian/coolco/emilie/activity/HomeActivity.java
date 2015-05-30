@@ -1,53 +1,38 @@
 package com.diandian.coolco.emilie.activity;
 
-import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
 
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.fragment.AccountFragment;
 import com.diandian.coolco.emilie.fragment.BaseFragment;
 import com.diandian.coolco.emilie.fragment.BlankFragment;
 import com.diandian.coolco.emilie.fragment.CollectionFragment;
-import com.diandian.coolco.emilie.fragment.HomeFragment;
+import com.diandian.coolco.emilie.fragment.SearchFragment;
 import com.diandian.coolco.emilie.fragment.NavigationDrawerFragment;
 import com.diandian.coolco.emilie.fragment.SettingFragment;
+import com.diandian.coolco.emilie.utility.SuperToastUtil;
 
 import roboguice.activity.RoboActionBarActivity;
 
-public class HomeActivity extends RoboActionBarActivity
+public class HomeActivity extends BaseActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private CharSequence mTitle;
+    private NavigationDrawerFragment drawerFragment;
+    private final static String SEARCH_FRAGMENT_TAG = "search";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
+        drawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
 
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -56,31 +41,10 @@ public class HomeActivity extends RoboActionBarActivity
         setSupportActionBar(toolbar);
 
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, drawerLayout, toolbar);
+        drawerFragment.setUp(R.id.navigation_drawer, drawerLayout, toolbar);
 
-
-//        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
-//                this,
-//                drawerLayout,
-//                toolbar,
-//                R.string.drawer_open,
-//                R.string.drawer_close
-//        ) {
-//
-//            public void onDrawerClosed(View view) {
-//                invalidateOptionsMenu();
-//            }
-//
-//            public void onDrawerOpened(View drawerView) {
-//                invalidateOptionsMenu();
-//            }
-//        };
-//
-//        drawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.color_primary_dark));
-//        drawerLayout.setDrawerListener(drawerToggle);
-//        drawerLayout.closeDrawer();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, BaseFragment.newInstance(HomeFragment.class, "首页"))
+                .add(R.id.container, BaseFragment.newInstance(SearchFragment.class, "搜索"), SEARCH_FRAGMENT_TAG)
                 .commit();
     }
 
@@ -88,14 +52,14 @@ public class HomeActivity extends RoboActionBarActivity
     public void onNavigationDrawerItemSelected(int sectionViewId) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (sectionViewId) {
+            case R.id.rl_search:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, BaseFragment.newInstance(SearchFragment.class, "搜索"), SEARCH_FRAGMENT_TAG)
+                        .commit();
+                break;
             case R.id.rl_collection:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, BaseFragment.newInstance(CollectionFragment.class, "我的收藏"))
-                        .commit();
-                break;
-            case R.id.rl_search:
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, BaseFragment.newInstance(HomeFragment.class, "搜索"))
                         .commit();
                 break;
             case R.id.rl_account:
@@ -108,9 +72,11 @@ public class HomeActivity extends RoboActionBarActivity
                         .replace(R.id.container, BaseFragment.newInstance(SettingFragment.class, "设置"))
                         .commit();
                 break;
-            default:
+            case R.id.rl_history:
+            case R.id.rl_recommend:
+            case R.id.rl_hot:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, BaseFragment.newInstance(BlankFragment.class, "coming soon..."))
+                        .replace(R.id.container, BaseFragment.newInstance(BlankFragment.class, "coming soon"))
                         .commit();
 
                 break;
@@ -118,31 +84,16 @@ public class HomeActivity extends RoboActionBarActivity
 
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
-    }
-
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-//        actionBar.setTitle(mTitle);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
+        if (!drawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
@@ -168,44 +119,25 @@ public class HomeActivity extends RoboActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+    private long backpressed;
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((HomeActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
+    @Override
+    public void onBackPressed() {
+        if (drawerFragment.isDrawerOpen()) {
+            super.onBackPressed();
+        } else {
+            if (getSupportFragmentManager().findFragmentByTag(SEARCH_FRAGMENT_TAG) == null) {
+                onNavigationDrawerItemSelected(R.id.rl_search);
+            } else {
+                if (backpressed + TIME_INTERVAL > System.currentTimeMillis()) {
+                    super.onBackPressed();
+                    return;
+                } else {
+                    SuperToastUtil.showToast(this, "再按一次返回键退出");
+                }
+                backpressed = System.currentTimeMillis();
+            }
         }
     }
-
 }

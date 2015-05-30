@@ -1,6 +1,7 @@
 package com.diandian.coolco.emilie.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,7 +14,6 @@ public class CameraActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

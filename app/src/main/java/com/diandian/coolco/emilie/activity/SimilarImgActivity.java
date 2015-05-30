@@ -1,6 +1,7 @@
 package com.diandian.coolco.emilie.activity;
 
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +29,11 @@ import com.diandian.coolco.emilie.adapter.SimilarImgGridViewHolder;
 import com.diandian.coolco.emilie.dialog.ProgressDialog;
 import com.diandian.coolco.emilie.model.Image;
 import com.diandian.coolco.emilie.utility.Dimension;
+import com.diandian.coolco.emilie.utility.Event;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.diandian.coolco.emilie.utility.NetHelper;
+import com.diandian.coolco.emilie.utility.Preference;
+import com.diandian.coolco.emilie.utility.PreferenceKey;
 import com.diandian.coolco.emilie.utility.Url;
 import com.etsy.android.grid.StaggeredGridView;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -48,7 +53,7 @@ import java.util.List;
 
 import roboguice.inject.InjectView;
 
-public class SimilarImgActivity extends BaseActivity {
+public class SimilarImgActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.sgv_similar_img)
     private StaggeredGridView similarImgGridView;
@@ -58,6 +63,16 @@ public class SimilarImgActivity extends BaseActivity {
     private TextView similarImageNumberTextView;
     @InjectView(R.id.tv_search_use_time)
     private TextView searchUseTimeTextView;
+
+    @InjectView(R.id.fl_src_image)
+    private View srcImageContainerView;
+    @InjectView(R.id.fl_similar_image_number)
+    private View similarImageNumberView;
+    @InjectView(R.id.fl_search_use_time)
+    private View searchUseTimeView;
+
+    @InjectView(R.id.iv_crop_image_again)
+    private ImageView cropImageAgainImageView;
 
     private List<Image> datas;
     private BaseAdapter adapter;
@@ -69,10 +84,12 @@ public class SimilarImgActivity extends BaseActivity {
     private float headerHeight;
     private float gridMargin;
     private float searchUseTimeMaxTranslateX;
+    private String croppedSrcImgPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initActionBar();
         setContentView(R.layout.activity_similar_img);
 
         init();
@@ -80,18 +97,14 @@ public class SimilarImgActivity extends BaseActivity {
 
     private void init() {
         Intent intent = getIntent();
-        String croppedSrcImgPath = intent.getStringExtra(ExtraDataName.CROPPED_SRC_IMG_PATH);
+        croppedSrcImgPath = intent.getStringExtra(ExtraDataName.CROPPED_SRC_IMG_PATH);
 //        new SearchSimilarImgAysncTask().execute(croppedSrcImgPath);
-        String uriString = String.format("file://%s", croppedSrcImgPath);
-        srcImageDraweeView.setImageURI(Uri.parse(uriString));
+        loadSrcImage();
 
 //        Drawable editDrawable = new IconDrawable(this, Iconify.IconValue.md_mode_edit).sizeDp(64).color(Color.parseColor("#80e7e7e7"));
 //        srcImageDraweeView.getHierarchy().setControllerOverlay(editDrawable);
 
-        Drawable clothesDrawable = new IconDrawable(this, Iconify.IconValue.md_local_florist).sizeDp(54).color(getResources().getColor(R.color.ab_icon));
-        Drawable clockDrawable = new IconDrawable(this, Iconify.IconValue.md_query_builder).sizeDp(54).color(getResources().getColor(R.color.ab_icon));
-        similarImageNumberTextView.setCompoundDrawables(null, clothesDrawable, null, null);
-        searchUseTimeTextView.setCompoundDrawables(null, clockDrawable, null, null);
+        srcImageContainerView.setOnClickListener(this);
 
         datas = new ArrayList<Image>();
 
@@ -138,31 +151,38 @@ public class SimilarImgActivity extends BaseActivity {
         datas.add(image6);
         datas.add(image7);
 
-
-//        TextView clothesNumTextView = new TextView(this);
-//        clothesNumTextView.setText("找到2,123件服饰");
-//        clothesNumTextView.setTextSize(14);
-//        clothesNumTextView.setTextColor(getResources().getColor(android.R.color.secondary_text_light));
-//        int padding = (int) Dimension.dp2px(this, 12);
-//        clothesNumTextView.setPadding(padding, padding, padding, padding);
-//        similarImgGridView.addHeaderView(clothesNumTextView);
-
         smoothInterpolator = new AccelerateDecelerateInterpolator();
 
-        originalGridSize = getResources().getDimensionPixelOffset(R.dimen.size_src_image);
+        originalGridSize = (Dimension.getScreenWidth(this) - 4*Dimension.dp2px(this, 8)) / 3;
         targetGridSize = Dimension.dp2px(this, 48);
 
         srcImageMinScaleRatio = targetGridSize / originalGridSize;
         srcImageMaxTranslateX = Dimension.getScreenWidth(this) - originalGridSize - getResources().getDimensionPixelOffset(R.dimen.padding_header)*2;
 
         gridMargin = Dimension.dp2px(this, 8);
-        searchUseTimeMaxTranslateX = Dimension.getScreenWidth(this)-gridMargin-searchUseTimeTextView.getRight()+2*gridMargin+2*targetGridSize;
+        searchUseTimeMaxTranslateX = Dimension.getScreenWidth(this)-gridMargin-searchUseTimeView.getRight()+2*gridMargin+2*targetGridSize;
 
-        srcImageDraweeView.setPivotX(originalGridSize);
-        similarImageNumberTextView.setPivotX(originalGridSize);
-        searchUseTimeTextView.setPivotX(originalGridSize);
+        srcImageContainerView.setPivotX(originalGridSize);
+        similarImageNumberView.setPivotX(originalGridSize);
+        searchUseTimeView.setPivotX(originalGridSize);
 
         headerHeight = originalGridSize + getResources().getDimensionPixelOffset(R.dimen.padding_header);
+
+        int iconSize = (int) (originalGridSize * 0.5);
+        int iconColor = getResources().getColor(R.color.ab_icon);
+        int editIconSize = (int) (originalGridSize/3);
+        Drawable clothesDrawable = new IconDrawable(this, Iconify.IconValue.md_local_florist).sizePx(iconSize).color(iconColor);
+        Drawable clockDrawable = new IconDrawable(this, Iconify.IconValue.md_query_builder).sizePx(iconSize).color(iconColor);
+        Drawable editDrawable = new IconDrawable(this, Iconify.IconValue.md_crop).sizePx(editIconSize).color(iconColor).alpha(80);
+        similarImageNumberTextView.setCompoundDrawables(null, clothesDrawable, null, null);
+        searchUseTimeTextView.setCompoundDrawables(null, clockDrawable, null, null);
+        cropImageAgainImageView.setImageDrawable(editDrawable);
+//        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) cropImageAgainImageView.getLayoutParams();
+//        layoutParams.width = editIconSize;
+//        layoutParams.height = editIconSize;
+//        cropImageAgainImageView.setLayoutParams(layoutParams);
+
+
 
         View placeHolderView = new View(this);
         placeHolderView.setMinimumHeight(((int) headerHeight));
@@ -182,7 +202,6 @@ public class SimilarImgActivity extends BaseActivity {
             @Override
             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
                 animate();
-//                animateSimilarImageNumber();
             }
         });
 
@@ -200,8 +219,13 @@ public class SimilarImgActivity extends BaseActivity {
         });
     }
 
-    private void animateSimilarImageNumber() {
-        similarImageNumberTextView.setTranslationX(srcImageDraweeView.getTranslationX());
+    private void loadSrcImage() {
+        String uriString = String.format("file://%s", croppedSrcImgPath);
+        srcImageDraweeView.setImageURI(Uri.parse(uriString));
+    }
+
+    public void onEventMainThread(Event.SrcImgSavedEvent event) {
+        loadSrcImage();
     }
 
     private void animate() {
@@ -209,24 +233,24 @@ public class SimilarImgActivity extends BaseActivity {
 
         float scaleRatio = (originalGridSize - scrollY) / originalGridSize;
         scaleRatio = clamp(scaleRatio, srcImageMinScaleRatio, 1.0f);
-        srcImageDraweeView.setScaleX(scaleRatio);
-        srcImageDraweeView.setScaleY(scaleRatio);
-        similarImageNumberTextView.setScaleX(scaleRatio);
-        similarImageNumberTextView.setScaleY(scaleRatio);
-        searchUseTimeTextView.setScaleX(scaleRatio);
-        searchUseTimeTextView.setScaleY(scaleRatio);
+        srcImageContainerView.setScaleX(scaleRatio);
+        srcImageContainerView.setScaleY(scaleRatio);
+        similarImageNumberView.setScaleX(scaleRatio);
+        similarImageNumberView.setScaleY(scaleRatio);
+        searchUseTimeView.setScaleX(scaleRatio);
+        searchUseTimeView.setScaleY(scaleRatio);
 
 //        float searchUseTimeTranslateX = clamp(scrollY-(originalGridSize - targetGridSize), 0, searchUseTimeMaxTranslateX);
         float searchUseTimeTranslateX = clamp(scrollY-(originalGridSize -targetGridSize), 0, 2*targetGridSize+2*gridMargin);
-        searchUseTimeTextView.setTranslationX(searchUseTimeTranslateX);
+        searchUseTimeView.setTranslationX(searchUseTimeTranslateX);
 
-        float searchUseTimeVisualLeft = searchUseTimeTextView.getLeft() + searchUseTimeTextView.getTranslationX() + originalGridSize *(1-scaleRatio);
-        float simliarImgNumTranslateX = searchUseTimeVisualLeft - gridMargin - similarImageNumberTextView.getRight();
-        similarImageNumberTextView.setTranslationX(simliarImgNumTranslateX);
+        float searchUseTimeVisualLeft = searchUseTimeView.getLeft() + searchUseTimeView.getTranslationX() + originalGridSize *(1-scaleRatio);
+        float simliarImgNumTranslateX = searchUseTimeVisualLeft - gridMargin - similarImageNumberView.getRight();
+        similarImageNumberView.setTranslationX(simliarImgNumTranslateX);
 
         float similarImageNumVisualLeft = searchUseTimeVisualLeft - originalGridSize * scaleRatio - gridMargin;
-        float srcImageTranslateX = similarImageNumVisualLeft - gridMargin - srcImageDraweeView.getRight();
-        srcImageDraweeView.setTranslationX(srcImageTranslateX);
+        float srcImageTranslateX = similarImageNumVisualLeft - gridMargin - srcImageContainerView.getRight();
+        srcImageContainerView.setTranslationX(srcImageTranslateX);
 
 //        float translateRatio = ((float) scrollY) / originalGridSize;
 //        translateRatio = clamp(translateRatio, 0.0f, 1.0f);
@@ -304,10 +328,27 @@ public class SimilarImgActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.fl_src_image:
+                startSrcImgCropActivity();
+                break;
+        }
+    }
+
+    private void startSrcImgCropActivity(){
+        Preference.setPrefBoolean(getApplicationContext(), PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
+        Intent intent = new Intent(this, SrcImgCropActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(ExtraDataName.SRC_IMG_PATH, croppedSrcImgPath);
+        startActivity(intent);
+    }
+
 
     class SearchSimilarImgAysncTask extends AsyncTask<String, ObjectUtils.Null, Integer> {
 
-        private ProgressDialog progressDialog;
+        private Dialog progressDialog;
 
         @Override
         protected void onPreExecute() {

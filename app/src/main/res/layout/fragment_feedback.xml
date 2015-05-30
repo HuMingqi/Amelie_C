@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/feedback_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_rounded_rectangle_new"
+    android:orientation="vertical"
+    >
+
+    <EditText
+        android:id="@+id/feedback"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_margin="1dp"
+        android:background="#f9f9f9"
+        android:hint="写下您遇到的问题或建议"
+        android:gravity="top|left"
+        android:inputType="textMultiLine"
+        android:lineSpacingMultiplier="1.2"
+        android:paddingBottom="4dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="12dp"
+        android:textColor="@color/primary_text"
+        android:textColorHint="@color/secondary_text"
+        android:textSize="16sp" >
+    </EditText>
+    <!--  android:textCursorDrawable="@null" -->
+
+    <TextView
+        android:id="@+id/feedback_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginBottom="4dp"
+        android:layout_marginRight="4dp"
+        android:text="240"
+        android:textColor="@color/main"
+        android:textSize="16sp" />
+</LinearLayout>

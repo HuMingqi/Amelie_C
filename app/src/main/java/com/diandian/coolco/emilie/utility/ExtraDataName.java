@@ -8,4 +8,5 @@ public class ExtraDataName {
     public static final String SIMILAR_IMGS = PACKAGE_PREFIX + "similarImgs";
     public static final String REMOVE_IMGS = PACKAGE_PREFIX + "removeImgs";
     public static final String SIMILAR_IMG_INIT_POS = PACKAGE_PREFIX + "similarImgInitPos";
+    public static final String WEB_ACTIVITY_URL = PACKAGE_PREFIX + "url";
 }

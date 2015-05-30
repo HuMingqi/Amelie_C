@@ -3,7 +3,9 @@ package com.diandian.coolco.emilie.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDialog;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -15,12 +17,21 @@ public class ProgressDialog  extends Dialog{
 	
 	private String messageString = "";
 
-    public static ProgressDialog show(Context context, String messageString){
-        ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage(messageString);
-        progressDialog.show();
-        return progressDialog;
-    }
+    public static Dialog show(Context context, String messageString){
+		if (Build.VERSION.SDK_INT >= 21) {
+			android.app.ProgressDialog progressDialog = new android.app.ProgressDialog(context);
+			progressDialog.setMessage(messageString);
+			progressDialog.show();
+			return progressDialog;
+		} else {
+			ProgressDialog progressDialog = new ProgressDialog(context);
+			progressDialog.setMessage(messageString);
+			progressDialog.show();
+			return progressDialog;
+		}
+
+
+	}
 	
 	public ProgressDialog(Context context) {
 		super(context, R.style.progressDialogTheme);
