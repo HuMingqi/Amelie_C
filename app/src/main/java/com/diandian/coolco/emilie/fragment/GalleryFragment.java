@@ -279,6 +279,7 @@ public class GalleryFragment extends BaseFragment{
         Intent intent = new Intent(getActivity(), SimilarImgActivity.class);
         intent.putExtra(ExtraDataName.CROPPED_SRC_IMG_PATH, srcImgPath);
         startActivity(intent);
+        getActivity().finish();
     }
 
     public void onImageFolderSelected(ImageFolder selectedFolder) {

@@ -281,10 +281,10 @@ public class NavigationDrawerFragment extends RoboFragment implements View.OnCli
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // If the drawer is open, show the global app actions in the action bar. See also
+        // If the drawer is open, show the menu_drawer_global app actions in the action bar. See also
         // showGlobalContextActionBar, which controls the top-left area of the action bar.
         if (mDrawerLayout != null && isDrawerOpen()) {
-            inflater.inflate(R.menu.global, menu);
+            inflater.inflate(R.menu.menu_drawer_global, menu);
             showGlobalContextActionBar();
         }
         super.onCreateOptionsMenu(menu, inflater);
@@ -300,7 +300,7 @@ public class NavigationDrawerFragment extends RoboFragment implements View.OnCli
     }
 
     /**
-     * Per the navigation drawer design guidelines, updates the action bar to show the global app
+     * Per the navigation drawer design guidelines, updates the action bar to show the menu_drawer_global app
      * 'context', rather than just what's in the current screen.
      */
     private void showGlobalContextActionBar() {

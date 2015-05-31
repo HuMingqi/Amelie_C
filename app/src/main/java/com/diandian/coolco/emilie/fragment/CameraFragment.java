@@ -91,8 +91,8 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
     private void startSimilarImgActivity(String srcImgPath) {
         Intent intent = new Intent(getActivity(), SimilarImgActivity.class);
         intent.putExtra(ExtraDataName.CROPPED_SRC_IMG_PATH, srcImgPath);
-
-        getActivity().startActivity(intent);
+        startActivity(intent);
+        getActivity().finish();
     }
 
     private void rotateAndSavePicInBg(final byte[] data, final File pictureFile) {

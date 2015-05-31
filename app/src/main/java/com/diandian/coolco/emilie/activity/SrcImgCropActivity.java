@@ -8,15 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.dialog.ProgressDialog;
@@ -46,7 +42,7 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
 
     private String srcImgPath;
 
-//    private Handler handler;
+    //    private Handler handler;
     private Dialog progressDialog;
 
     @Override
@@ -70,7 +66,7 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
             progressDialog = ProgressDialog.show(this, "正在加载...");
         }
 
-        int iconSize = getResources().getDimensionPixelOffset(R.dimen.size_float_action_button)/2;
+        int iconSize = getResources().getDimensionPixelOffset(R.dimen.size_float_action_button) / 2;
         triggleCropImageView.setImageDrawable(
                 new IconDrawable(context, Iconify.IconValue.md_crop)
                         .colorRes(R.color.ab_icon)
@@ -136,6 +132,14 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
         srcImgStorageCompleted();
     }
 
+    public void onEventMainThread(Event.CropDownEvent event) {
+        triggleCropImageView.setVisibility(View.INVISIBLE);
+    }
+
+    public void onEventMainThread(Event.CropUpEvent event) {
+        triggleCropImageView.setVisibility(View.VISIBLE);
+    }
+
     private void srcImgStorageCompleted() {
         cropImageView.setImageBitmap(getThumbnail(srcImgPath));
 
@@ -152,7 +156,8 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(srcImgPath, options);
         int width = Dimension.getScreenWidth(this);
-        int height = Dimension.getScreenHeight(this) - ((int) Dimension.dp2px(this, 100)) - Dimension.getStatusBarHeight(this);
+//        int height = Dimension.getScreenHeight(this) - ((int) Dimension.dp2px(this, 100)) - Dimension.getStatusBarHeight(this);
+        int height = Dimension.getScreenHeight(this);
         double ratio = 1;
         if (options.outWidth < width && options.outHeight < height) {
             ratio = 1;
@@ -163,12 +168,12 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
         options.inJustDecodeBounds = false;
         Bitmap sampledBitmap = BitmapFactory.decodeFile(srcImgPath, options);
 
-        if (ratio == 1){
+        if (ratio == 1) {
             return sampledBitmap;
         }
 
         Bitmap scaledBitmap = null;
-        if ((float) options.outWidth / width > (float) options.outHeight / height){
+        if ((float) options.outWidth / width > (float) options.outHeight / height) {
             scaledBitmap = Bitmap.createScaledBitmap(sampledBitmap, width, ((int) (((float) width) * options.outHeight / options.outWidth)), false);
         } else {
             scaledBitmap = Bitmap.createScaledBitmap(sampledBitmap, ((int) (((float) height) * options.outWidth / options.outHeight)), height, false);
@@ -229,8 +234,10 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
 
     private void startSimilarImgActivity(String imgPath) {
         Intent intent = new Intent(this, SimilarImgActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(ExtraDataName.CROPPED_SRC_IMG_PATH, imgPath);
         startActivity(intent);
+        finish();
     }
 
 }

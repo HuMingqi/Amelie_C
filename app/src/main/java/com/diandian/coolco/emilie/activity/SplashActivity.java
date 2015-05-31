@@ -90,29 +90,36 @@ public class SplashActivity extends Activity {
 
         appNameFireworkText = new FireworkText(appNameTextView);
         appNameFireworkText.setDuration(DURATION);
-    }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        handler = new Handler(new Handler.Callback() {
-
+        appNameTextView.postDelayed(new Runnable() {
             @Override
-            public boolean handleMessage(Message message) {
-                switch (message.what) {
-                    case 0:
-                        startAnimation();
-                        break;
-
-                    default:
-                        break;
-                }
-                return false;
+            public void run() {
+                startAnimation();
             }
-        });
-        handler.sendEmptyMessageDelayed(0, 300);
+        }, 300);
     }
+
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        handler = new Handler(new Handler.Callback() {
+//
+//            @Override
+//            public boolean handleMessage(Message message) {
+//                switch (message.what) {
+//                    case 0:
+//                        startAnimation();
+//                        break;
+//
+//                    default:
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
+//        handler.sendEmptyMessageDelayed(0, 300);
+//    }
 
     private void startAnimation(){
         logoImageView.setVisibility(View.VISIBLE);
@@ -126,7 +133,7 @@ public class SplashActivity extends Activity {
 
 
     private void startMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
     }

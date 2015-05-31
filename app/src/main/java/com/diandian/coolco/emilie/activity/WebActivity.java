@@ -79,13 +79,21 @@ public class WebActivity extends BaseActivity {
             }
         });
 
-        String url = getIntent().getExtras().getString(ExtraDataName.WEB_ACTIVITY_URL);
-
-        if (TextUtils.isEmpty(url)) {
-            webview.loadUrl("http://item.jd.com/1462879267.html");
+        Bundle extrasBundle = getIntent().getExtras();
+        if (extrasBundle == null) {
+            loadDefaultPage();
         } else {
-            webview.loadUrl(url);
+            String url = extrasBundle.getString(ExtraDataName.WEB_ACTIVITY_URL);
+            if (TextUtils.isEmpty(url)) {
+                loadDefaultPage();
+            } else {
+                webview.loadUrl(getIntent().getExtras().getString(ExtraDataName.WEB_ACTIVITY_URL));
+            }
         }
+    }
+
+    private void loadDefaultPage() {
+        webview.loadUrl("http://item.jd.com/1462879267.html");
     }
 
 

@@ -2,12 +2,9 @@ package com.diandian.coolco.emilie.fragment;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 
-import com.diandian.coolco.emilie.activity.SrcImgObtainActivity;
 import com.diandian.coolco.emilie.utility.MyApplication;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -45,7 +42,11 @@ public class BaseFragment extends RoboFragment {
         if (getArguments() != null) {
             String title = getArguments().getString(ARG_TITLE);
 //            getActivity().setTitle(title);
-            ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(title);
+            if (getActivity() instanceof ActionBarActivity) {
+                if (((ActionBarActivity) getActivity()).getSupportActionBar() != null) {
+                    ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(title);
+                }
+            }
         }
     }
 
@@ -61,7 +62,7 @@ public class BaseFragment extends RoboFragment {
         super.onDetach();
     }
 
-    public void onEvent(String empty){
+    public void onEvent(String empty) {
 
     }
 

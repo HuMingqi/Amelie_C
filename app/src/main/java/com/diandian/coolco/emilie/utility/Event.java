@@ -13,5 +13,7 @@ public class Event {
     public static class GoFeedbackEvent {}
     public static class GetCollectionCompletedEvent {}
     public static class SendFeedBackEvent {}
+    public static class CropDownEvent {}
+    public static class CropUpEvent {}
 
 }

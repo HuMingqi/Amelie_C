@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.diandian.coolco.emilie" >
+    package="com.diandian.coolco.emilie">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -16,10 +16,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <activity
-            android:name=".activity.SrcImgObtainActivity"
-            android:label="@string/app_name" />
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activity.SrcImgCropActivity"
             android:label="@string/title_activity_src_img_crop"
@@ -29,29 +26,19 @@
             android:label="@string/title_activity_similar_img" />
         <activity
             android:name=".activity.SimilarImgDetailActivity"
-            android:label="@string/title_activity_similar_img_detail" />
-        <!-- android:theme="@style/ActionBarOvelayTheme" -->
+            android:label="@string/title_activity_similar_img_detail"
+            android:theme="@style/MyAppBaseTheme"/>
         <activity
             android:name=".activity.SettingActivity"
-            android:label="设置" />
+            android:label="@string/title_activity_setting" />
         <activity
             android:name=".activity.WebActivity"
             android:label="@string/title_activity_web" />
         <activity
             android:name=".activity.SplashActivity"
             android:label="@string/title_activity_splash"
-            android:theme="@style/SplashTheme" />
-        <activity
-            android:name=".activity.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/MyAppBaseTheme" />
-        <activity
-            android:name=".activity.CollectionActivity"
-            android:label="@string/title_activity_collection" />
-        <activity
-            android:name=".activity.HomeActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/MyAppBaseTheme" >
+            android:theme="@style/SplashTheme">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -59,18 +46,22 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.CollectionActivity"
+            android:label="@string/title_activity_collection" />
+        <activity
+            android:name=".activity.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/MyAppBaseTheme" />
+        <activity
             android:name=".activity.CameraActivity"
             android:label="@string/title_activity_camera"
-            android:theme="@style/MyAppBaseTheme" >
-        </activity>
+            android:theme="@style/MyAppBaseTheme" />
         <activity
             android:name=".activity.GalleryActivity"
-            android:label="@string/title_activity_gallery" >
-        </activity>
+            android:label="@string/title_activity_gallery" />
         <activity
             android:name=".activity.FeedbackActivity"
-            android:label="@string/title_activity_feedback" >
-        </activity>
+            android:label="@string/title_activity_feedback" />
     </application>
 
 </manifest>

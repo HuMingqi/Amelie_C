@@ -340,7 +340,6 @@ public class SimilarImgActivity extends BaseActivity implements View.OnClickList
     private void startSrcImgCropActivity(){
         Preference.setPrefBoolean(getApplicationContext(), PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
         Intent intent = new Intent(this, SrcImgCropActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(ExtraDataName.SRC_IMG_PATH, croppedSrcImgPath);
         startActivity(intent);
     }

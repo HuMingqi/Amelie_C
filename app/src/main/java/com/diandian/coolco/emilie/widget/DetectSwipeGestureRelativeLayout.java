@@ -87,12 +87,11 @@ public class DetectSwipeGestureRelativeLayout extends RelativeLayout {
             }
             return result;
         }
+
+
     }
 
     public void onSwipeRight() {
-//        if (listener != null){
-//            listener.onSwipeRight();
-//        }
         EventBus.getDefault().post(new Event.SwipeRightEvent());
     }
 
@@ -103,15 +102,5 @@ public class DetectSwipeGestureRelativeLayout extends RelativeLayout {
     }
 
     public void onSwipeBottom() {
-    }
-
-    private SwipeRightListener listener;
-
-    public void setListener(SwipeRightListener listener) {
-        this.listener = listener;
-    }
-
-    public interface SwipeRightListener {
-        void onSwipeRight();
     }
 }

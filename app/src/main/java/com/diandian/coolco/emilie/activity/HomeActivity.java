@@ -18,8 +18,6 @@ import com.diandian.coolco.emilie.fragment.NavigationDrawerFragment;
 import com.diandian.coolco.emilie.fragment.SettingFragment;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
 
-import roboguice.activity.RoboActionBarActivity;
-
 public class HomeActivity extends BaseActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -76,7 +74,7 @@ public class HomeActivity extends BaseActivity
             case R.id.rl_recommend:
             case R.id.rl_hot:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, BaseFragment.newInstance(BlankFragment.class, "coming soon"))
+                        .replace(R.id.container, BaseFragment.newInstance(BlankFragment.class, "待完善"))
                         .commit();
 
                 break;
@@ -97,7 +95,7 @@ public class HomeActivity extends BaseActivity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.home, menu);
+            getMenuInflater().inflate(R.menu.menu_home, menu);
             restoreActionBar();
             return true;
         }
