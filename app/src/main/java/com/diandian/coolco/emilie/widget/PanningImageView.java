@@ -12,13 +12,14 @@ import android.widget.ImageView;
 public class PanningImageView extends ImageView implements ValueAnimator.AnimatorUpdateListener {
 
 
-    private enum Direction {RIGHT2LEFT, LEFT2RIGHT};
+    private enum Direction {RIGHT2LEFT, LEFT2RIGHT}
+
     private Direction direction;
 
     private static final int DURATION = 15000;
 
     private float scaleRatio;
-    private float maxTranslateX;
+//    private float maxTranslateX;
     private final Matrix matrix = new Matrix();
     private ValueAnimator animator;
 
@@ -47,9 +48,9 @@ public class PanningImageView extends ImageView implements ValueAnimator.Animato
 
         RectF rectF = new RectF(0, 0, getDrawable().getIntrinsicWidth(), getDrawable().getIntrinsicHeight());
         matrix.mapRect(rectF);
-        maxTranslateX = rectF.width() - getMeasuredWidth();
+//        maxTranslateX = rectF.width() - getMeasuredWidth();
 
-        animator = ValueAnimator.ofFloat(0, -maxTranslateX);
+        animator = ValueAnimator.ofFloat(rectF.left, rectF.left-(rectF.right-getMeasuredWidth()));
         animator.setDuration(DURATION);
         animator.setRepeatCount(ValueAnimator.INFINITE);
         animator.setRepeatMode(ValueAnimator.REVERSE);

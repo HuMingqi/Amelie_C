@@ -23,4 +23,6 @@
     <dimen name="ring_thickness">2dp</dimen>
     <dimen name="height_divider">1px</dimen>
     <dimen name="size_search_fragment_button">100dp</dimen>
+    <dimen name="show_case_hand_move_distance">100dp</dimen>
+    <dimen name="size_click_point">16dp</dimen>
 </resources>

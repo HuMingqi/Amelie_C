@@ -10,13 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.diandian.coolco.emilie.R;
-import com.diandian.coolco.emilie.dialog.ClothesInfoDialogFragment;
 import com.diandian.coolco.emilie.dialog.Go2FeedBackDialogFragment;
 import com.diandian.coolco.emilie.utility.Event;
-import com.diandian.coolco.emilie.utility.MyApplication;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
-import com.squareup.leakcanary.RefWatcher;
 
 import de.greenrobot.event.EventBus;
 import roboguice.activity.RoboActionBarActivity;
@@ -79,10 +76,12 @@ public class BaseActivity extends RoboActionBarActivity{
 
     protected void initActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(new IconDrawable(context, Iconify.IconValue.md_arrow_back)
-                .colorRes(R.color.ab_icon)
-                .actionBarSize());
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(new IconDrawable(context, Iconify.IconValue.md_arrow_back)
+                    .colorRes(R.color.ab_icon)
+                    .actionBarSize());
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
 
@@ -133,8 +132,8 @@ public class BaseActivity extends RoboActionBarActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RefWatcher refWatcher = MyApplication.getRefWatcher(this);
-        refWatcher.watch(this);
+//        RefWatcher refWatcher = MyApplication.getRefWatcher(this);
+//        refWatcher.watch(this);
 
     }
 

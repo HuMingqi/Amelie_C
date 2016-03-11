@@ -2,6 +2,7 @@ package com.diandian.coolco.emilie.fragment;
 
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
@@ -24,7 +26,9 @@ import android.widget.TextView;
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.activity.CameraActivity;
 import com.diandian.coolco.emilie.activity.GalleryActivity;
+import com.diandian.coolco.emilie.activity.SimilarImgActivity;
 import com.diandian.coolco.emilie.utility.Dimension;
+import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.diandian.coolco.emilie.widget.PanningImageView;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
@@ -104,11 +108,30 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private void startGalleryActivity() {
         Intent intent = new Intent(getActivity(), GalleryActivity.class);
         startActivity(intent);
+//        startActivityWithAnimation(getActivity(), GalleryActivity.class, go2galleryImageView, getResources().getString(R.string.transition_name_gallery));
     }
 
     private void startCameraActivity() {
         Intent intent = new Intent(getActivity(), CameraActivity.class);
         startActivity(intent);
+//        startActivityWithAnimation(getActivity(), CameraActivity.class, go2cameraImageView, getResources().getString(R.string.transition_name_camera));
+    }
+
+    private void startActivityWithAnimation(Activity activity, Class clazz, View fromView, String sharedElementName) {
+        ActivityOptionsCompat options = null;
+//        if (Build.VERSION.SDK_INT >= 21) {
+//            options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, fromView, sharedElementName);
+//        } else {
+            options = ActivityOptionsCompat.makeScaleUpAnimation(fromView, 0, 0, fromView.getWidth(), fromView.getHeight());
+//        }
+
+        Intent intent = new Intent(activity, clazz);
+
+        if (Build.VERSION.SDK_INT > 15) {
+            activity.startActivity(intent, options.toBundle());
+        } else {
+            activity.startActivity(intent);
+        }
     }
 
     Bitmap blurImage(Bitmap input) {

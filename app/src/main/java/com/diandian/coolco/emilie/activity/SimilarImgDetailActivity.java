@@ -1,14 +1,15 @@
 package com.diandian.coolco.emilie.activity;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -20,6 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.dialog.ClothesInfoDialogFragment;
@@ -28,9 +31,11 @@ import com.diandian.coolco.emilie.utility.DBHelper;
 import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.diandian.coolco.emilie.utility.IntentUtil;
 import com.diandian.coolco.emilie.utility.MyApplication;
+import com.diandian.coolco.emilie.utility.Preference;
+import com.diandian.coolco.emilie.utility.PreferenceKey;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
-import com.diandian.coolco.emilie.utility.SystemUiHelper;
 import com.diandian.coolco.emilie.widget.DetectTapLongPressViewPager;
+import com.diandian.coolco.emilie.widget.DoubleSideFrameLayout;
 import com.diandian.coolco.emilie.widget.PullUpDownLinearLayout;
 import com.diandian.coolco.emilie.widget.WebImageContainer;
 
@@ -44,6 +49,17 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
 
     @InjectView(R.id.vp_similar_img)
     private ViewPager viewPager;
+    
+    @InjectView(R.id.v_shadow)
+    private View shadowView;
+    @InjectView(R.id.ll_hint_pull_down)
+    private View pullDownHintView;
+    @InjectView(R.id.ll_hint_pull_up)
+    private View pullUpHintView;
+    @InjectView(R.id.rl_show_case_double_tap_container)
+    private View doubleTapHintView;
+    @InjectView(R.id.v_click_point)
+    private View clickPointView;
 
     private ActionBar actionBar;
 
@@ -63,7 +79,9 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_similar_img_detail);
-//        initActionBar();
+        initActionBar();
+        actionBar = getSupportActionBar();
+        actionBar.hide();
         init();
     }
 
@@ -78,6 +96,7 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(initPos, true);
         viewPager.setOnPageChangeListener(this);
+/*
 
         SystemUiHelper systemUiHelper = new SystemUiHelper(
                 this,
@@ -88,9 +107,17 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
                 0);
 
         systemUiHelper.hide();
-        ((DetectTapLongPressViewPager) viewPager).setTapLongPressListener(new DetectTapLongPressViewPager.TapLongPressListener() {
+
+*/
+        ((DetectTapLongPressViewPager) viewPager).setGestureListener(new DetectTapLongPressViewPager.GestureListener() {
             @Override
             public void onTap() {
+                toggleActionBar();
+            }
+
+            @Override
+            public void onDoubleTap() {
+                flipPage();
             }
 
             @Override
@@ -98,6 +125,99 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
                 showContextMenu();
             }
         });
+
+        initShowCase();
+    }
+
+    private void flipPage() {
+        View currentPageView = getCurrentPageView();
+        DoubleSideFrameLayout doubleSideFrameLayout = (DoubleSideFrameLayout) currentPageView.findViewById(R.id.dsf_clothes);
+        doubleSideFrameLayout.flip();
+    }
+
+    private void initShowCase(){
+        initPullDownShowCase();
+    }
+
+    private void initPullDownShowCase() {
+        boolean pullDownCaseShowed = Preference.getPrefBoolean(this, PreferenceKey.SHOW_CASE_PULL_DOWN);
+        if (!pullDownCaseShowed){
+            shadowView.setVisibility(View.VISIBLE);
+            pullDownHintView.setVisibility(View.VISIBLE);
+            pullDownHintView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pullDownHintView.setVisibility(View.GONE);
+                    shadowView.setVisibility(View.GONE);
+                    Preference.setPrefBoolean(SimilarImgDetailActivity.this, PreferenceKey.SHOW_CASE_PULL_DOWN, true);
+                    initPullUpShowCase();
+                }
+            });
+            float handMoveDistance = getResources().getDimensionPixelOffset(R.dimen.show_case_hand_move_distance);
+            ValueAnimator animator = ObjectAnimator.ofFloat(pullDownHintView, "translationY", 0, handMoveDistance);
+            animator.setDuration(2000);
+            animator.setRepeatCount(ValueAnimator.INFINITE);
+            animator.setRepeatMode(ValueAnimator.RESTART);
+            animator.start();
+        }
+    }
+
+    private void initPullUpShowCase() {
+        boolean pullUpCaseShowed = Preference.getPrefBoolean(this, PreferenceKey.SHOW_CASE_PULL_UP);
+        if (!pullUpCaseShowed){
+            shadowView.setVisibility(View.VISIBLE);
+            pullUpHintView.setVisibility(View.VISIBLE);
+            pullUpHintView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pullUpHintView.setVisibility(View.GONE);
+                    shadowView.setVisibility(View.GONE);
+                    Preference.setPrefBoolean(SimilarImgDetailActivity.this, PreferenceKey.SHOW_CASE_PULL_UP, true);
+                    initDoubleTapShowCase();
+                }
+            });
+            float handMoveDistance = getResources().getDimensionPixelOffset(R.dimen.show_case_hand_move_distance);
+            ValueAnimator animator = ObjectAnimator.ofFloat(pullUpHintView, "translationY", 0, -handMoveDistance);
+            animator.setDuration(2000);
+            animator.setRepeatCount(ValueAnimator.INFINITE);
+            animator.setRepeatMode(ValueAnimator.RESTART);
+            animator.start();
+        }
+    }
+    
+    private void initDoubleTapShowCase() {
+        boolean doubleTapCaseShowed = Preference.getPrefBoolean(this, PreferenceKey.SHOW_CASE_DOUBLE_TAP);
+        if (!doubleTapCaseShowed){
+            shadowView.setVisibility(View.VISIBLE);
+            doubleTapHintView.setVisibility(View.VISIBLE);
+            doubleTapHintView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    doubleTapHintView.setVisibility(View.GONE);
+                    shadowView.setVisibility(View.GONE);
+                    Preference.setPrefBoolean(SimilarImgDetailActivity.this, PreferenceKey.SHOW_CASE_DOUBLE_TAP, true);
+                }
+            });
+
+            int clickPointSize = getResources().getDimensionPixelOffset(R.dimen.size_click_point);
+
+            clickPointView.setPivotX(clickPointSize/2);
+            clickPointView.setPivotY(clickPointSize/2);
+            ValueAnimator scaleXAnimator = ObjectAnimator.ofFloat(clickPointView, "scaleX", 1, 2);
+            ValueAnimator scaleYAnimator = ObjectAnimator.ofFloat(clickPointView, "scaleY", 1, 2);
+            ValueAnimator alphaAnimator = ObjectAnimator.ofFloat(clickPointView, "alpha", 0.8f, 0);
+            scaleXAnimator.setRepeatCount(ValueAnimator.INFINITE);
+            scaleXAnimator.setRepeatMode(ValueAnimator.RESTART);
+            scaleYAnimator.setRepeatCount(ValueAnimator.INFINITE);
+            scaleYAnimator.setRepeatMode(ValueAnimator.RESTART);
+            alphaAnimator.setRepeatCount(ValueAnimator.INFINITE);
+            alphaAnimator.setRepeatMode(ValueAnimator.RESTART);
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.setDuration(1000);
+            animatorSet.playTogether(scaleXAnimator, scaleYAnimator, alphaAnimator);
+
+            animatorSet.start();
+        }
     }
 
     private void initCollected() {
@@ -106,17 +226,15 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
         }
     }
 
-    /*
 
-        private void toggleActionBarAndSystemUiVisiblity() {
-            if (actionBar.isShowing()) {
-                actionBar.hide();
-            } else {
-                actionBar.show();
-            }
+    private void toggleActionBar() {
+        if (actionBar.isShowing()) {
+            actionBar.hide();
+        } else {
+            actionBar.show();
         }
+    }
 
-    */
     private void showContextMenu() {
         DialogFragment dialogFragment = new MenuDialogFragment();
 //        dialogFragment.show(getSupportFragmentManager(), "menu");
@@ -131,6 +249,7 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
     @Override
     public void onPageSelected(int position) {
         updatePullUpDown();
+        updateMenu();
     }
 
     @Override
@@ -162,6 +281,9 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
 
             WebImageContainer webImageContainer = (WebImageContainer) page.findViewById(R.id.wic_viewpage_similar_img_detail);
             webImageContainer.setImageUrl(image.getDownloadUrl());
+
+            TextView clothesInfoTextView = (TextView) page.findViewById(R.id.tv_clothes_info);
+            clothesInfoTextView.setText(image.getDescription());
 
             container.addView(page);
             return page;
@@ -201,11 +323,12 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
         }
 
         updatePullUpDown();
+        updateMenu();
     }
 
     private void updatePullUpDown() {
         final int index = viewPager.getCurrentItem();
-        PullUpDownLinearLayout page = (PullUpDownLinearLayout) viewPager.findViewWithTag(index);
+        PullUpDownLinearLayout page = getCurrentPageView();
         if (collected.get(index)) {
             page.setHint("下拉取消收藏", "松开取消收藏", "上拉快速分享", "松开立即分享");
         } else {
@@ -213,29 +336,31 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
         }
     }
 
-    /*
+    public PullUpDownLinearLayout getCurrentPageView(){
+        final int index = viewPager.getCurrentItem();
+        return (PullUpDownLinearLayout) viewPager.findViewWithTag(index);
+    }
 
-        private void updateCollectionMenuText(boolean collected) {
-            collectionMenu.setTitle(collected ? "取消收藏" : "添加收藏");
-        }
 
-    */
+    private void updateMenu() {
+        final int index = viewPager.getCurrentItem();
+        collectionMenu.setTitle(collected.get(index) ? "取消收藏" : "添加收藏");
+    }
+
     @Override
     public void onPullUp() {
         shareClothes();
     }
 
-    /*
 
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-            getMenuInflater().inflate(R.menu.menu_similar_img_detail, menu);
-            collectionMenu = menu.findItem(R.id.action_add_to_collection);
-            initMenu(menu);
-            return true;
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_similar_img_detail, menu);
+        collectionMenu = menu.findItem(R.id.action_add_to_collection);
+        initMenu(menu);
+        return true;
+    }
 
-    */
     @SuppressLint("ValidFragment")
     private class MenuDialogFragment extends DialogFragment {
 
@@ -299,43 +424,41 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
         }
     }
 
-    /*
 
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
-            //noinspection SimplifiableIfStatement
-            if (id == R.id.action_settings) {
-                return true;
-            }
-
-            switch (item.getItemId()) {
-                case R.id.action_add_to_collection:
-                    toggleCollection();
-                    break;
-                case R.id.action_share_clothes:
-                    shareClothes();
-                    break;
-                case R.id.action_download:
-                    downloadImage();
-                    break;
-                case R.id.action_go_shopping:
-                    goShopping();
-                    break;
-                case R.id.action_info:
-                    showClothesInfo();
-                    break;
-            }
-
-            return super.onOptionsItemSelected(item);
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
 
-    */
+        switch (item.getItemId()) {
+            case R.id.action_add_to_collection:
+                toggleCollection();
+                break;
+            case R.id.action_share_clothes:
+                shareClothes();
+                break;
+            case R.id.action_download:
+                downloadImage();
+                break;
+            case R.id.action_go_shopping:
+                goShopping();
+                break;
+            case R.id.action_info:
+                showClothesInfo();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void shareClothes() {
         String chooserTitle = "分享";
         String subject = "Amelie";
-        String text = "好漂漂~balabala~[http://myron.sinaapp.com/list]";
+        String text = "好漂亮~"+images.get(viewPager.getCurrentItem()).getShoppingUrl();
         IntentUtil.startShareActivity(this, chooserTitle, subject, text);
     }
 
@@ -353,7 +476,8 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
     }
 
     private void showClothesInfo() {
-        DialogFragment clothesInfoDialog = new ClothesInfoDialogFragment("Lancome 百褶裙 X7Y8902", this);
+        DialogFragment clothesInfoDialog = new ClothesInfoDialogFragment(images.get(viewPager.getCurrentItem()).getDescription(), this);
+//        DialogFragment clothesInfoDialog = new ClothesInfoDialogFragment("Lancome 百褶裙 X7Y8902", this);
         clothesInfoDialog.show(getSupportFragmentManager(), "clothesInfo");
     }
 

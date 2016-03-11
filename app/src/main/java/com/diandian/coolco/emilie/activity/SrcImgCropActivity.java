@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.ImageView;
 
 import com.diandian.coolco.emilie.R;
@@ -23,6 +25,7 @@ import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.diandian.coolco.emilie.utility.Preference;
 import com.diandian.coolco.emilie.utility.PreferenceKey;
 import com.diandian.coolco.emilie.utility.SystemUiHelper;
+import com.diandian.coolco.emilie.utility.SystemUiUtil;
 import com.edmodo.cropper.CropImageView;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
@@ -35,15 +38,28 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
     private CropImageView cropImageView;
     @InjectView(R.id.iv_crop)
     private ImageView triggleCropImageView;
-//    @InjectView(R.id.tv_skip_crop)
+    //    @InjectView(R.id.tv_skip_crop)
 //    private TextView skipCropTextView;
 //    @InjectView(R.id.rl_bottom_bar)
 //    private RelativeLayout bottomBarRelativeLayout;
+    @InjectView(R.id.iv_crop_cancel)
+    private ImageView cancelImageView;
+    @InjectView(R.id.iv_crop_done)
+    private ImageView doneImageView;
+    @InjectView(R.id.iv_crop_retry)
+    private ImageView retryImageView;
+
+    @InjectView(R.id.iv_crop_tmp_result)
+    private ImageView cropTmpImageView;
 
     private String srcImgPath;
 
     //    private Handler handler;
     private Dialog progressDialog;
+    private Bitmap tmpBmp;
+    private long animationDuration;
+    private LayoutTransition optionsTransition;
+    private ViewGroup rootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +83,24 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
         }
 
         int iconSize = getResources().getDimensionPixelOffset(R.dimen.size_float_action_button) / 2;
-        triggleCropImageView.setImageDrawable(
-                new IconDrawable(context, Iconify.IconValue.md_crop)
-                        .colorRes(R.color.ab_icon)
-                        .actionBarSize());
-//                        .sizePx(iconSize));
+        triggleCropImageView.setImageDrawable(new IconDrawable(context, Iconify.IconValue.md_crop)
+                .colorRes(R.color.ab_icon).actionBarSize());
+//                .sizePx(iconSize));
+        cancelImageView.setImageDrawable(new IconDrawable(getApplicationContext(), Iconify.IconValue.md_close)
+                .colorRes(R.color.ab_icon).actionBarSize());
+//                .sizePx(iconSize));
+        retryImageView.setImageDrawable(new IconDrawable(getApplicationContext(), Iconify.IconValue.md_refresh)
+                .colorRes(R.color.ab_icon).actionBarSize());
+//                .sizePx(iconSize));
+        doneImageView.setImageDrawable(new IconDrawable(getApplicationContext(), Iconify.IconValue.md_done)
+                .colorRes(R.color.ab_icon).actionBarSize());
+//                .sizePx(iconSize));
+
         triggleCropImageView.setOnClickListener(this);
+        cancelImageView.setOnClickListener(this);
+        retryImageView.setOnClickListener(this);
+        doneImageView.setOnClickListener(this);
+
 //        skipCropTextView.setOnClickListener(this);
         initLayoutAnimation();
         triggleCropImageView.post(new Runnable() {
@@ -81,51 +109,70 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
                 triggleCropImageView.setVisibility(View.VISIBLE);
             }
         });
-        SystemUiHelper systemUiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_HIDE_STATUS_BAR, 0);
-        systemUiHelper.hide();
+
+        SystemUiUtil.hideSystemUi(this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        handler = new Handler(new Handler.Callback() {
-//
-//            @Override
-//            public boolean handleMessage(Message message) {
-//                switch (message.what) {
-//                    case 0:
-//                        bottomBarRelativeLayout.setVisibility(View.VISIBLE);
-//                        break;
-//
-//                    default:
-//                        break;
-//                }
-//                return false;
-//            }
-//        });
-//        handler.sendEmptyMessageDelayed(0, 100);
-    }
 
+    /*
+
+        @Override
+        protected void onResume() {
+            super.onResume();
+            handler = new Handler(new Handler.Callback() {
+
+                @Override
+                public boolean handleMessage(Message message) {
+                    switch (message.what) {
+                        case 0:
+                            bottomBarRelativeLayout.setVisibility(View.VISIBLE);
+                            break;
+
+                        default:
+                            break;
+                    }
+                    return false;
+                }
+            });
+            handler.sendEmptyMessageDelayed(0, 100);
+        }
+
+    */
     public void initLayoutAnimation() {
-        LayoutTransition optionsTransition = new LayoutTransition();
+        optionsTransition = new LayoutTransition();
         setupAnimations(optionsTransition);
-        ((ViewGroup) findViewById(R.id.root)).setLayoutTransition(optionsTransition);
+        rootView = (ViewGroup) findViewById(R.id.root);
+//        enableLayoutChangeAnimation();
+    }
+
+    private void enableLayoutChangeAnimation() {
+        rootView.setLayoutTransition(optionsTransition);
+    }
+
+    private void disableLayoutChangeAnimation() {
+        rootView.setLayoutTransition(null);
     }
 
     private void setupAnimations(LayoutTransition transition) {
-        long animationDuration = 200;
+        animationDuration = 200;
+        Interpolator interpolator = new AccelerateDecelerateInterpolator();
 
         transition.setStagger(LayoutTransition.CHANGE_APPEARING, 0);
         transition.setStagger(LayoutTransition.CHANGE_DISAPPEARING, 0);
         transition.setStartDelay(LayoutTransition.CHANGE_APPEARING, 0);
         transition.setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 0);
-        transition.setDuration(LayoutTransition.DISAPPEARING, 0);
+        transition.setDuration(LayoutTransition.DISAPPEARING, animationDuration);
         transition.setDuration(LayoutTransition.APPEARING, animationDuration);
+        transition.setInterpolator(LayoutTransition.DISAPPEARING, interpolator);
+        transition.setInterpolator(LayoutTransition.APPEARING, interpolator);
 
         int translation = getResources().getDimensionPixelOffset(R.dimen.size_float_action_button) + getResources().getDimensionPixelOffset(R.dimen.margin_float_action_button);
 
         ObjectAnimator slideIn = ObjectAnimator.ofFloat(null, "translationY", translation, 0).setDuration(animationDuration);
         transition.setAnimator(LayoutTransition.APPEARING, slideIn);
+        ObjectAnimator slideOut = ObjectAnimator.ofFloat(null, "translationY", 0, translation).setDuration(animationDuration);
+        transition.setAnimator(LayoutTransition.DISAPPEARING, slideOut);
+//        transition.setAnimator(LayoutTransition.CHANGE_DISAPPEARING, slideOut);
     }
 
     public void onEventMainThread(Event.SrcImgSavedEvent event) {
@@ -217,18 +264,71 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_crop:
-                cropImg();
+                crop();
                 break;
+            case R.id.iv_crop_cancel:
+                cancel();
+                break;
+            case R.id.iv_crop_done:
+                done();
+                break;
+            case R.id.iv_crop_retry:
+                retry();
+                break;
+
 //            case R.id.tv_skip_crop:
 //                startSimilarImgActivity(srcImgPath);
 //                break;
         }
     }
 
-    private void cropImg() {
+    private void crop() {
+        tmpBmp = cropImageView.getCroppedImage();
+
+        disableLayoutChangeAnimation();
+        cropImageView.setVisibility(View.INVISIBLE);
+        cropTmpImageView.setImageBitmap(tmpBmp);
+        cropTmpImageView.setVisibility(View.VISIBLE);
+
+        enableLayoutChangeAnimation();
+        triggleCropImageView.setVisibility(View.INVISIBLE);
+        cancelImageView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                cancelImageView.setVisibility(View.VISIBLE);
+                doneImageView.setVisibility(View.VISIBLE);
+                retryImageView.setVisibility(View.VISIBLE);
+            }
+        }, animationDuration);
+
+    }
+
+    private void retry() {
+        disableLayoutChangeAnimation();
+        cropTmpImageView.setVisibility(View.INVISIBLE);
+        cropImageView.setVisibility(View.VISIBLE);
+
+        enableLayoutChangeAnimation();
+        cancelImageView.setVisibility(View.INVISIBLE);
+        doneImageView.setVisibility(View.INVISIBLE);
+        retryImageView.setVisibility(View.INVISIBLE);
+        triggleCropImageView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                triggleCropImageView.setVisibility(View.VISIBLE);
+            }
+        }, animationDuration);
+    }
+
+    private void cancel() {
+        finish();
+    }
+
+
+    private void done() {
         String imgName = System.currentTimeMillis() + ".jpg";
-        Bitmap bm = cropImageView.getCroppedImage();
-        String imgPath = BitmapStorage.storeImg(context, bm, imgName);
+        String imgPath = BitmapStorage.storeImg(context, tmpBmp, imgName);
+        Preference.setPrefBoolean(getApplicationContext(), PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
         startSimilarImgActivity(imgPath);
     }
 

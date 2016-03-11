@@ -8,11 +8,11 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.Region;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
-import android.widget.ProgressBar;
 
+import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.utility.Dimension;
 
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class BoxView extends View {
 
     private void init() {
         shadowPaint = new Paint();
-        shadowPaint.setColor(Color.parseColor("#66000000"));
+        shadowPaint.setColor(Color.parseColor("#80000000"));
         clearPaint = new Paint();
         clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 
@@ -79,7 +79,7 @@ public class BoxView extends View {
         textPaint.setTextSize(Dimension.sp2px(getContext(), TEXT_SIZE_IN_SP));
         textPaint.setColor(Color.parseColor("#e7e7e7"));
 
-        text = "请将衣服放入框内";
+        text = getResources().getString(R.string.box_view_hint);
     }
 
     @Override
@@ -105,7 +105,15 @@ public class BoxView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         previewRect = new Rect(0, 0, w, h);
 //        h = (int) (h - Dimension.dp2px(getContext(), 50));
-        boxRect = new Rect(w / 4, h / 3, w * 3 / 4, h * 2 / 3);
+        TypedValue typedValue = new TypedValue();
+        getResources().getValue(R.dimen.box_width_fraction, typedValue, true);
+        float boxWidthFraction = typedValue.getFloat();
+        getResources().getValue(R.dimen.box_height_fraction, typedValue, true);
+        float boxHeightFraction = typedValue.getFloat();
+        float boxWidthPadding = w * (1-boxWidthFraction) * 0.5f;
+        float boxHeightPadding = h * (1-boxHeightFraction) * 0.5f;
+//        boxRect = new Rect(w / 4, h / 3, w * 3 / 4, h * 2 / 3);
+        boxRect = new Rect((int) boxWidthPadding, (int) boxHeightPadding, ((int) (w - boxWidthPadding)), ((int) (h - boxHeightPadding)));
 
 
         Rect textBounds = new Rect();
@@ -113,7 +121,7 @@ public class BoxView extends View {
         textWidth = textPaint.measureText(text);
         textHeight = textBounds.height();
 
-        textRect = new Rect(0, ((int) (h * 2 / 3 + Dimension.dp2px(getContext(), 8))), w, h);
+        textRect = new Rect(0, ((int) (boxHeightPadding - textHeight - Dimension.dp2px(getContext(), 8))), w, h);
 
         int edgeLen = (int) Dimension.dp2px(getContext(), EDGE_LEN_IN_DP);
         cornerPath = new Path();

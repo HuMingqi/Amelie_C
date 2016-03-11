@@ -8,6 +8,10 @@
 
     </style>
 
+    <style name="ActionBarOverlayTheme" parent="AppTheme">
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
     <style name="MyAppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
@@ -102,6 +106,11 @@
     <style name="ToolBarTitleTextAppearance">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">#f9f9f9</item>
+    </style>
+
+    <style name="ShowCaseHintTextAppearance">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/secondary_text_default_material_dark</item>
     </style>
 
 </resources>

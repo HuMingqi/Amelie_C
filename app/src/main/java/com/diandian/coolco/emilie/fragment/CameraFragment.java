@@ -3,16 +3,17 @@ package com.diandian.coolco.emilie.fragment;
 
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
+import android.app.Dialog;
+import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
@@ -23,17 +24,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.diandian.coolco.emilie.R;
-import com.diandian.coolco.emilie.activity.SimilarImgActivity;
+import com.diandian.coolco.emilie.dialog.ProgressDialog;
 import com.diandian.coolco.emilie.utility.BitmapStorage;
 import com.diandian.coolco.emilie.utility.CameraPreviewSurfaceView;
-import com.diandian.coolco.emilie.utility.Dimension;
 import com.diandian.coolco.emilie.utility.Event;
-import com.diandian.coolco.emilie.utility.ExtraDataName;
 import com.diandian.coolco.emilie.utility.MyApplication;
 import com.diandian.coolco.emilie.utility.Preference;
 import com.diandian.coolco.emilie.utility.PreferenceKey;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
-import com.diandian.coolco.emilie.utility.SystemUiHelper;
+import com.diandian.coolco.emilie.utility.SystemUiUtil;
+import com.diandian.coolco.emilie.utility.TranstionAnimationUtil;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 
@@ -54,7 +54,10 @@ import roboguice.inject.InjectView;
 public class CameraFragment extends BaseFragment implements View.OnClickListener {
 
     private final static String TAG = CameraFragment.class.getSimpleName();
-    private enum  Mode {CAPTURE, CHOOSE};
+    private long animationDuration;
+    private Dialog dialog;
+
+    private enum Mode {CAPTURE, CHOOSE}
 
     @InjectView(R.id.fl_camera)
     private FrameLayout cameraFrameLayout;
@@ -87,25 +90,30 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
         }
     };
 
+    /*
 
-    private void startSimilarImgActivity(String srcImgPath) {
-        Intent intent = new Intent(getActivity(), SimilarImgActivity.class);
-        intent.putExtra(ExtraDataName.CROPPED_SRC_IMG_PATH, srcImgPath);
-        startActivity(intent);
-        getActivity().finish();
-    }
+        private void startSimilarImgActivity(String srcImgPath, View fromView) {
+            Intent intent = new Intent(getActivity(), SimilarImgActivity.class);
+            intent.putExtra(ExtraDataName.CROPPED_SRC_IMG_PATH, srcImgPath);
+            startActivity(intent);
+            getActivity().finish();
+        }
+
+    */
+/*
 
     private void rotateAndSavePicInBg(final byte[] data, final File pictureFile) {
         ((MyApplication) getActivity().getApplication()).getAsyncExecutor().execute(new AsyncExecutor.RunnableEx() {
             @Override
             public void run() throws Exception {
-                byte[] rotatedBitmapData = rotateBitmap(data);
+                byte[] rotatedBitmapData = rotateCropBitmap(data);
                 saveBitmap(rotatedBitmapData, pictureFile);
                 srcImgStorageCompleted();
             }
         });
     }
 
+*/
     private void saveBitmap(byte[] data, File pictureFile) {
         try {
             FileOutputStream fos = new FileOutputStream(pictureFile);
@@ -118,24 +126,36 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
-    private byte[] rotateBitmap(final byte[] data) {
+    private byte[] rotateCropBitmap(final byte[] data) {
         Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
         bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, false);
+
+        TypedValue typedValue = new TypedValue();
+        getResources().getValue(R.dimen.box_width_fraction, typedValue, true);
+        float boxWidthFraction = typedValue.getFloat();
+        getResources().getValue(R.dimen.box_height_fraction, typedValue, true);
+        float boxHeightFraction = typedValue.getFloat();
+        int boxWidthPadding = (int) (bm.getWidth() * (1 - boxWidthFraction) * 0.5f);
+        int boxHeightPadding = (int) (bm.getHeight() * (1 - boxHeightFraction) * 0.5f);
+        bm = Bitmap.createBitmap(bm, boxWidthPadding, boxHeightPadding, bm.getWidth() - boxWidthPadding, bm.getHeight() - boxHeightPadding);
+
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         return stream.toByteArray();
     }
 
-    private void srcImgStorageCompleted() {
-        //set flag
-        Preference.setPrefBoolean(getActivity().getApplicationContext(), PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
+    /*
 
-        //send event
-        EventBus.getDefault().post(new Event.SrcImgSavedEvent());
-    }
+        private void srcImgStorageCompleted() {
+            //set flag
+            Preference.setPrefBoolean(getActivity().getApplicationContext(), PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
+            //send event
+            EventBus.getDefault().post(new Event.SrcImgSavedEvent());
+        }
 
+    */
     public CameraFragment() {
         // Required empty public constructor
     }
@@ -154,7 +174,7 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void init() {
-        int iconSize = getResources().getDimensionPixelOffset(R.dimen.size_float_action_button)/2;
+        int iconSize = getResources().getDimensionPixelOffset(R.dimen.size_float_action_button) / 2;
         captureImageView.setImageDrawable(new IconDrawable(getActivity().getApplicationContext(), Iconify.IconValue.md_camera)
                 .colorRes(R.color.ab_icon)
                 .actionBarSize());
@@ -196,19 +216,18 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
             }
         });
 
-        SystemUiHelper systemUiHelper = new SystemUiHelper(getActivity(), SystemUiHelper.LEVEL_HIDE_STATUS_BAR, 0);
-        systemUiHelper.hide();
+        SystemUiUtil.hideSystemUi(getActivity());
     }
 
     private void setUpLayoutChangeAnimation() {
         LayoutTransition transition = new LayoutTransition();
-        long animationDuration = 200;
+        animationDuration = 200;
         long staggerDuration = 100;
         Interpolator interpolator = new AccelerateDecelerateInterpolator();
 
         transition.setStagger(LayoutTransition.APPEARING, staggerDuration);
         transition.setStagger(LayoutTransition.DISAPPEARING, staggerDuration);
-        transition.setStartDelay(LayoutTransition.APPEARING, animationDuration);
+        transition.setStartDelay(LayoutTransition.APPEARING, 0);
         transition.setStartDelay(LayoutTransition.DISAPPEARING, 0);
         transition.setDuration(LayoutTransition.DISAPPEARING, animationDuration);
         transition.setDuration(LayoutTransition.APPEARING, animationDuration);
@@ -289,41 +308,79 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void setFloatActionButtonVisiblity(Mode mode) {
-        switch (mode){
+        switch (mode) {
             case CAPTURE:
                 cancelImageView.setVisibility(View.INVISIBLE);
                 retryImageView.setVisibility(View.INVISIBLE);
                 doneImageView.setVisibility(View.INVISIBLE);
-                captureImageView.setVisibility(View.VISIBLE);
+                captureImageView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        captureImageView.setVisibility(View.VISIBLE);
+                    }
+                }, animationDuration);
                 break;
             case CHOOSE:
-
                 captureImageView.setVisibility(View.INVISIBLE);
-                cancelImageView.setVisibility(View.VISIBLE);
-                retryImageView.setVisibility(View.VISIBLE);
-                doneImageView.setVisibility(View.VISIBLE);
+                cancelImageView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        cancelImageView.setVisibility(View.VISIBLE);
+                        retryImageView.setVisibility(View.VISIBLE);
+                        doneImageView.setVisibility(View.VISIBLE);
+                    }
+                }, animationDuration);
                 break;
         }
     }
 
-    private void setFloatActionButtonVisiblity(int invisible, int visible) {
-        cancelImageView.setVisibility(invisible);
-        retryImageView.setVisibility(invisible);
-        doneImageView.setVisibility(invisible);
-        captureImageView.setVisibility(visible);
-    }
+    /*
 
-    private void done(){
+        private void setFloatActionButtonVisiblity(int invisible, int visible) {
+            cancelImageView.setVisibility(invisible);
+            retryImageView.setVisibility(invisible);
+            doneImageView.setVisibility(invisible);
+            captureImageView.setVisibility(visible);
+        }
+
+    */
+    private void done() {
         File pictureFile = BitmapStorage.getOutputMediaFile(getActivity().getApplicationContext(), BitmapStorage.MEDIA_TYPE_IMAGE);
         if (pictureFile == null) {
             SuperToastUtil.showToast(getActivity(), "拍照失败");
             return;
         }
 
-        rotateAndSavePicInBg(picData, pictureFile);
+//        rotateAndSavePicInBg(picData, pictureFile);
 
         srcImgPath = pictureFile.getAbsolutePath();
-        startSimilarImgActivity(srcImgPath);
+        rotateCropSavePicInBg(picData, pictureFile);
+
+//        startSimilarImgActivity(srcImgPath);
+    }
+
+    private void rotateCropSavePicInBg(final byte[] data, final File pictureFile) {
+        dialog = ProgressDialog.show(getActivity(), "正在处理照片...");
+        ((MyApplication) getActivity().getApplication()).getAsyncExecutor().execute(new AsyncExecutor.RunnableEx() {
+            @Override
+            public void run() throws Exception {
+                byte[] rotatedBitmapData = rotateCropBitmap(data);
+                saveBitmap(rotatedBitmapData, pictureFile);
+//                srcImgStorageCompleted();
+                EventBus.getDefault().post(new Event.PictureOperationCompletedEvent());
+            }
+        });
+    }
+
+    public void onEventMainThread(Event.PictureOperationCompletedEvent event) {
+        pictureOperationCompleted();
+    }
+
+    public void pictureOperationCompleted() {
+        if (dialog != null && dialog.isShowing()){
+            dialog.dismiss();
+        }
+        TranstionAnimationUtil.startSimilarImgActivity(getActivity(), srcImgPath, cameraFrameLayout);
     }
 
     private void capture() {

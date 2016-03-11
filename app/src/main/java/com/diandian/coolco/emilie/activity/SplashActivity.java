@@ -16,13 +16,14 @@ import android.widget.TextView;
 
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.utility.Dimension;
+import com.diandian.coolco.emilie.utility.SystemUiUtil;
 import com.diandian.coolco.emilie.widget.FireworkText;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 
 public class SplashActivity extends Activity {
 
-    private static final long DURATION = 1200;
+    private static final long DURATION = 1400;
 
     private ImageView logoImageView;
     private TextView appNameTextView;
@@ -53,7 +54,7 @@ public class SplashActivity extends Activity {
         appNameTextView = (TextView) findViewById(R.id.tv_app_name);
         copyrightTextView = (TextView) findViewById(R.id.tv_copyright);
 
-        logoImageView.setImageDrawable(new IconDrawable(this, Iconify.IconValue.md_cloud).sizeDp(80).color(Color.parseColor("#aaf9f9f9")));
+//        logoImageView.setImageDrawable(new IconDrawable(this, Iconify.IconValue.md_cloud).sizeDp(80).color(Color.parseColor("#aaf9f9f9")));
 
         logoAlphatAnimator = ObjectAnimator.ofFloat(logoImageView, "alpha", 0, 1);
         logoAlphatAnimator.setDuration(DURATION);
@@ -97,6 +98,8 @@ public class SplashActivity extends Activity {
                 startAnimation();
             }
         }, 300);
+
+//        SystemUiUtil.hideSystemUi(this);
     }
 
 

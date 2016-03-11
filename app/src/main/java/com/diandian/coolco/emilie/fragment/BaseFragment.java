@@ -5,9 +5,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
-import com.diandian.coolco.emilie.utility.MyApplication;
-import com.squareup.leakcanary.RefWatcher;
-
 import java.lang.reflect.InvocationTargetException;
 
 import de.greenrobot.event.EventBus;
@@ -77,7 +74,7 @@ public class BaseFragment extends RoboFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        RefWatcher refWatcher = MyApplication.getRefWatcher(getActivity());
-        refWatcher.watch(this);
+//        RefWatcher refWatcher = MyApplication.getRefWatcher(getActivity());
+//        refWatcher.watch(this);
     }
 }

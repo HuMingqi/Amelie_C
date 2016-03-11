@@ -27,10 +27,7 @@
         <activity
             android:name=".activity.SimilarImgDetailActivity"
             android:label="@string/title_activity_similar_img_detail"
-            android:theme="@style/MyAppBaseTheme"/>
-        <activity
-            android:name=".activity.SettingActivity"
-            android:label="@string/title_activity_setting" />
+            android:theme="@style/ActionBarOverlayTheme"/>
         <activity
             android:name=".activity.WebActivity"
             android:label="@string/title_activity_web" />

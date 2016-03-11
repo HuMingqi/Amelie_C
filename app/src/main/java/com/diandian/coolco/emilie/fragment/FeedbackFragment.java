@@ -1,8 +1,8 @@
 package com.diandian.coolco.emilie.fragment;
 
+import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -10,19 +10,17 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.dialog.ProgressDialog;
-import com.diandian.coolco.emilie.fragment.BaseFragment;
 import com.diandian.coolco.emilie.utility.Event;
+import com.diandian.coolco.emilie.utility.NetworkManager;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
 
-import roboguice.RoboGuice;
 import roboguice.inject.InjectView;
 
 /**
@@ -86,19 +84,34 @@ public class FeedbackFragment extends BaseFragment {
         imm.hideSoftInputFromWindow(feedbackEditText.getWindowToken(), 0);
 
         if (TextUtils.isEmpty(feedbackEditText.getText())) {
-            YoYo.with(Techniques.Shake).duration(1000).playOn(feedbackContainer);
+            shake();
             SuperToastUtil.showToast(getActivity(), "请输入反馈意见");
         } else {
-            final Dialog dialog = ProgressDialog.show(getActivity(), "正在提交反馈...");
-            feedbackEditText.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    dialog.dismiss();
-                    SuperToastUtil.showToast(getActivity(), "提交成功，感谢您的反馈");
-                    getActivity().finish();
-                }
-            }, 1000);
+            if (NetworkManager.isOnline(getActivity())) {
+                final Dialog dialog = ProgressDialog.show(getActivity(), "正在提交反馈...");
+                feedbackEditText.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+                        SuperToastUtil.showToast(getActivity(), "提交成功，感谢您的反馈");
+                        getActivity().finish();
+                    }
+                }, 1000);
+            } else {
+                SuperToastUtil.showToast(getActivity(), getString(R.string.no_network_tip));
+                getActivity().finish();
+
+            }
         }
+    }
+
+    private void shake() {
+        int margin = ((ViewGroup.MarginLayoutParams) feedbackContainer.getLayoutParams()).leftMargin;
+        ObjectAnimator animator = ObjectAnimator.ofFloat(feedbackContainer, "translationX", 0, -margin, margin, -margin, margin, 0);
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.setDuration(1000);
+        animator.start();
+//        YoYo.with(Techniques.Shake).duration(1000).playOn(feedbackContainer);
     }
 
 

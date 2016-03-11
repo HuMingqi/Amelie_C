@@ -5,15 +5,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.diandian.coolco.emilie.fragment.CameraFragment"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:transitionName="@string/transition_name_camera">
 
     <FrameLayout
         android:id="@+id/fl_camera"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
     </FrameLayout>
+
+    <com.diandian.coolco.emilie.widget.BoxView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <ImageView
         android:id="@+id/iv_capture"
@@ -28,7 +31,7 @@
         android:visibility="invisible"/>
 
     <ImageView
-        android:id="@+id/iv_camera_retry"
+        android:id="@+id/iv_camera_done"
         android:layout_width="@dimen/size_float_action_button"
         android:layout_height="@dimen/size_float_action_button"
         android:layout_gravity="bottom|center_horizontal"
@@ -52,7 +55,7 @@
         android:visibility="invisible" />
 
     <ImageView
-        android:id="@+id/iv_camera_done"
+        android:id="@+id/iv_camera_retry"
         android:layout_width="@dimen/size_float_action_button"
         android:layout_height="@dimen/size_float_action_button"
         android:layout_gravity="bottom|right"
@@ -62,6 +65,8 @@
         android:scaleType="centerInside"
         android:src="@android:drawable/ic_menu_camera"
         android:visibility="invisible" />
+
+
     <!--
    <RelativeLayout
        android:id="@+id/rl_bottom_bar"
