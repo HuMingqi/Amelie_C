@@ -1,4 +1,4 @@
-<com.diandian.coolco.emilie.widget.DetectSwipeGestureRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
@@ -11,24 +11,62 @@
         android:id="@+id/crop_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rl_bottom_bar"
-        android:layout_centerInParent="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher"
         android:transitionName="@string/src_img_transtion_dest" />
+
+    <ImageView
+        android:id="@+id/iv_crop_tmp_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        />
 
     <ImageView
         android:id="@+id/iv_crop"
         android:layout_width="@dimen/size_float_action_button"
         android:layout_height="@dimen/size_float_action_button"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom|center_horizontal"
         android:layout_margin="@dimen/margin_float_action_button"
         android:background="@drawable/selector_bg_float_action_button"
         android:contentDescription="@null"
         android:scaleType="centerInside"
         android:src="@android:drawable/ic_menu_crop"
         android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/iv_crop_done"
+        android:layout_width="@dimen/size_float_action_button"
+        android:layout_height="@dimen/size_float_action_button"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="@dimen/margin_float_action_button"
+        android:background="@drawable/selector_bg_float_action_button"
+        android:contentDescription="@null"
+        android:scaleType="centerInside"
+        android:src="@android:drawable/ic_menu_camera"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/iv_crop_cancel"
+        android:layout_width="@dimen/size_float_action_button"
+        android:layout_height="@dimen/size_float_action_button"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="@dimen/margin_float_action_button"
+        android:background="@drawable/selector_bg_float_action_button"
+        android:contentDescription="@null"
+        android:scaleType="centerInside"
+        android:src="@android:drawable/ic_menu_camera"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/iv_crop_retry"
+        android:layout_width="@dimen/size_float_action_button"
+        android:layout_height="@dimen/size_float_action_button"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="@dimen/margin_float_action_button"
+        android:background="@drawable/selector_bg_float_action_button"
+        android:contentDescription="@null"
+        android:scaleType="centerInside"
+        android:src="@android:drawable/ic_menu_camera"
+        android:visibility="invisible" />
 
     <!--
     <RelativeLayout
@@ -66,4 +104,4 @@
 
     </RelativeLayout>
     -->
-</com.diandian.coolco.emilie.widget.DetectSwipeGestureRelativeLayout>
+</FrameLayout>

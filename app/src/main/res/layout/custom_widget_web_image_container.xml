@@ -8,10 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
          />
-    <!--fresco:placeholderImage="@color/drawee_view_place_holder"-->
+    <!---->
     <!--fresco:actualImageScaleType="fitCenter"-->
     <!--fresco:fadeDuration="200"-->
-    <!--fresco:pressedStateOverlayImage="@color/press_state_overlay_color"-->
+    <!--fresco:actualImageScaleType="fitCenter"
+        fresco:placeholderImage="@color/drawee_view_place_holder"
+        fresco:pressedStateOverlayImage="@color/drawee_view_press_state_overlay_color"-->
     <ProgressBar
         android:id="@+id/pb_loading"
         style="@style/progressBarLightTheme"

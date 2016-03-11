@@ -15,5 +15,6 @@ public class Event {
     public static class SendFeedBackEvent {}
     public static class CropDownEvent {}
     public static class CropUpEvent {}
+    public static class PictureOperationCompletedEvent {}
 
 }

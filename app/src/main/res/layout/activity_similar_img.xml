@@ -19,43 +19,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-<!--        <View
-            android:id="@+id/card_bg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/ll_card_container"
-            android:layout_alignBottom="@+id/ll_card_container"
-            android:background="@color/bg_activity"
-            />-->
+        <!--        <View
+                    android:id="@+id/card_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/ll_card_container"
+                    android:layout_alignBottom="@+id/ll_card_container"
+                    android:background="@color/bg_activity"
+                    />-->
 
         <LinearLayout
             android:id="@+id/ll_card_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/padding_header">
+            android:padding="@dimen/padding_header"
+            android:animateLayoutChanges="true">
 
             <com.diandian.coolco.emilie.widget.SquareFrameLayout
                 android:id="@+id/fl_src_image"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="invisible">
 
                 <com.diandian.coolco.emilie.widget.SquareSimpleDraweeView
                     android:id="@+id/dv_src_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:transitionName="@string/similar_img_transtion_dest"
                     fresco:actualImageScaleType="centerCrop"
                     fresco:placeholderImage="@color/drawee_view_place_holder"
                     fresco:placeholderImageScaleType="centerCrop"
                     fresco:pressedStateOverlayImage="@color/drawee_view_press_state_overlay_color"
                     fresco:roundAsCircle="false"
-                    fresco:roundedCornerRadius="@dimen/simialr_image_card_radius" />
+                    fresco:roundedCornerRadius="@dimen/simialr_image_card_radius"
+                    />
 
                 <ImageView
                     android:id="@+id/iv_crop_image_again"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
+                    android:layout_margin="8dp"
                     android:src="@android:drawable/ic_menu_edit" />
             </com.diandian.coolco.emilie.widget.SquareFrameLayout>
 
@@ -66,7 +71,9 @@
                 android:layout_height="0dp"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_similar_clothes_num">
+                android:background="@drawable/bg_similar_clothes_num"
+                android:visibility="invisible">
+
 
                 <TextView
                     android:id="@+id/tv_similar_image_number"
@@ -84,7 +91,8 @@
                 android:layout_height="0dp"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_search_use_time">
+                android:background="@drawable/bg_search_use_time"
+                android:visibility="invisible">
 
                 <TextView
                     android:id="@+id/tv_search_use_time"
@@ -97,5 +105,43 @@
             </com.diandian.coolco.emilie.widget.SquareFrameLayout>
 
         </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_show_case_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:background="@color/shadow"
+        >
+        <!---->
+        <com.diandian.coolco.emilie.widget.ShowCaseShadowView
+            android:id="@+id/cv_show_case_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+        <View
+            android:id="@+id/v_click_point"
+            android:layout_width="@dimen/size_click_point"
+            android:layout_height="@dimen/size_click_point"
+            android:background="@drawable/bg_click_point"/>
+
+        <ImageView
+            android:id="@+id/iv_hand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/hand"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_hand"
+            android:layout_margin="8dp"
+            android:text="@string/hint_crop_again"
+            style="@style/ShowCaseHintTextAppearance"
+            android:gravity="center"
+            />
     </RelativeLayout>
 </com.diandian.coolco.emilie.widget.DetectSwipeGestureRelativeLayout>

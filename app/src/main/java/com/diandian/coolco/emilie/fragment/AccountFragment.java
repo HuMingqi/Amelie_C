@@ -54,7 +54,6 @@ public class AccountFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setIcon();
-        animateAvatarBg();
     }
 
     private void setIcon(){
@@ -64,11 +63,12 @@ public class AccountFragment extends BaseFragment {
         collectionCountTextView.setCompoundDrawables(collectionDrawable, null, null, null);
         shareCountTextView.setCompoundDrawables(shareDrawable, null, null, null);
         loginCountTextView.setCompoundDrawables(loginDrawable, null, null, null);
-        int padding = (int) Dimension.dp2px(getActivity().getApplicationContext(), 4);
+        int padding = (int) Dimension.dp2px(getActivity().getApplicationContext(), 8);
         collectionCountTextView.setCompoundDrawablePadding(padding);
         shareCountTextView.setCompoundDrawablePadding(padding);
         loginCountTextView.setCompoundDrawablePadding(padding);
     }
+/*
 
     private void animateAvatarBg() {
         avatarBgImageView.post(new Runnable() {
@@ -142,4 +142,6 @@ public class AccountFragment extends BaseFragment {
             mImageView.setImageMatrix(mMatrix);
         }
     }
+
+*/
 }

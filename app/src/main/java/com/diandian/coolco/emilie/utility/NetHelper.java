@@ -179,8 +179,12 @@ public class NetHelper {
     }
 
     public static byte[] bitmap2Bytes(Bitmap bm) {
+        int maxByteCount = 256*1024;
+        int originByteCount = bm.getByteCount();
+        int quality = (int) Math.min(((float) maxByteCount) / originByteCount * 100, 100);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        bm.compress(Bitmap.CompressFormat.JPEG, quality, baos);
         return baos.toByteArray();
     }
 }

@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 
 public class DetectTapLongPressViewPager extends ViewPager {
 
-    private GestureDetector tapGestureDetector;
+    private GestureDetector gestureDetector;
 
     public DetectTapLongPressViewPager(Context context) {
         super(context);
@@ -21,21 +21,27 @@ public class DetectTapLongPressViewPager extends ViewPager {
     }
 
     private void init() {
-        tapGestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener(){
+        gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener(){
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
-                if (tapLongPressListener != null) {
-                    tapLongPressListener.onTap();
+                if (gestureListener != null) {
+                    gestureListener.onTap();
                 }
                 return super.onSingleTapConfirmed(e);
             }
 
-
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                if (gestureListener != null) {
+                    gestureListener.onDoubleTap();
+                }
+                return super.onDoubleTap(e);
+            }
 
             @Override
             public void onLongPress(MotionEvent e) {
-                if (tapLongPressListener != null) {
-                    tapLongPressListener.onLongPress();
+                if (gestureListener != null) {
+                    gestureListener.onLongPress();
                 }
                 super.onLongPress(e);
             }
@@ -44,18 +50,19 @@ public class DetectTapLongPressViewPager extends ViewPager {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        tapGestureDetector.onTouchEvent(ev);
+        gestureDetector.onTouchEvent(ev);
         return super.dispatchTouchEvent(ev);
     }
 
-    private TapLongPressListener tapLongPressListener;
+    private GestureListener gestureListener;
 
-    public void setTapLongPressListener(TapLongPressListener tapLongPressListener) {
-        this.tapLongPressListener = tapLongPressListener;
+    public void setGestureListener(GestureListener gestureListener) {
+        this.gestureListener = gestureListener;
     }
 
-    public interface TapLongPressListener {
+    public interface GestureListener {
         void onTap();
         void onLongPress();
+        void onDoubleTap();
     }
 }

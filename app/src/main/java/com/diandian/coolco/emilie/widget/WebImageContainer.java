@@ -74,6 +74,7 @@ public class WebImageContainer extends RelativeLayout {
         progerssBar = findViewById(R.id.pb_loading);
         loadingProgressTextView = (TextView) findViewById(R.id.tv_loading_progress);
     }
+/*
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -81,6 +82,7 @@ public class WebImageContainer extends RelativeLayout {
         return super.dispatchTouchEvent(ev);
     }
 
+*/
     public void setImageSize(Point imageSize) {
         setDraweeViewDrawableSize(imageSize.x, imageSize.y);
     }
@@ -106,10 +108,10 @@ public class WebImageContainer extends RelativeLayout {
 
                     }
                 })
-                .setFadeDuration(getResources().getInteger(R.integer.drawee_view_fade_duration))
+//                .setFadeDuration(getResources().getInteger(R.integer.drawee_view_fade_duration))
                 .setPlaceholderImage(new ColorDrawable(getResources().getColor(R.color.drawee_view_place_holder)))
                 .setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER)
-                .setPressedStateOverlay(new ColorDrawable(getResources().getColor(R.color.drawee_view_press_state_overlay_color)))
+//                .setPressedStateOverlay(new ColorDrawable(getResources().getColor(R.color.drawee_view_press_state_overlay_color)))
                 .build();
 //        GenericDraweeHierarchy hierarchy = draweeView.getHierarchy();
 //        hierarchy.setProgressBarImage(new ProgressBarDrawable(){

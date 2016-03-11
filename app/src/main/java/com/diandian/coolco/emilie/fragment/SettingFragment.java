@@ -19,6 +19,7 @@ import com.diandian.coolco.emilie.activity.FeedbackActivity;
 import com.diandian.coolco.emilie.dialog.ProgressDialog;
 import com.diandian.coolco.emilie.utility.Dimension;
 import com.diandian.coolco.emilie.utility.IntentUtil;
+import com.diandian.coolco.emilie.utility.NetworkManager;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
 import com.diandian.coolco.emilie.utility.Url;
 
@@ -97,14 +98,20 @@ public class SettingFragment extends BaseFragment implements AdapterView.OnItemC
                 break;
             }
             case 5: {
-                final Dialog dialog = ProgressDialog.show(getActivity(), "正在检查新版本...");
-                settingListView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        dialog.dismiss();
-                        SuperToastUtil.showToast(getActivity(), "当前已是最新版本");
-                    }
-                }, 1000);
+
+                if (NetworkManager.isOnline(getActivity())) {
+                    final Dialog dialog = ProgressDialog.show(getActivity(), "正在检查新版本...");
+                    settingListView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.dismiss();
+                            SuperToastUtil.showToast(getActivity(), "当前已是最新版本");
+                        }
+                    }, 1000);
+                } else {
+                    SuperToastUtil.showToast(getActivity(), getString(R.string.no_network_tip));
+
+                }
                 break;
             }
             case 6: {

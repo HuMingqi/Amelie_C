@@ -1,0 +1,33 @@
+Applications Memory Usage (kB):
+Uptime: 191675650 Realtime: 624617694
+
+** MEMINFO in pid 8575 [com.diandian.coolco.emilie] **
+                         Shared  Private     Heap     Heap     Heap
+                   Pss    Dirty    Dirty     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------
+       Native       20        8       20     3668     3382      285
+       Dalvik     5608     7800     5364    12844    11710     1134
+       Cursor        0        0        0                           
+       Ashmem        0        0        0                           
+    Other dev        4       56        0                           
+     .so mmap     1301     1048      968                           
+    .jar mmap        0        0        0                           
+    .apk mmap       91        0        0                           
+    .ttf mmap      389        0        0                           
+    .dex mmap     2448        0       12                           
+   Other mmap     4086     7476      124                           
+      Unknown     2069      204     2068                           
+        TOTAL    16016    16592     8556    16512    15092     1419
+ 
+ Objects
+               Views:       32         ViewRootImpl:        1
+         AppContexts:        3           Activities:        1
+              Assets:        4        AssetManagers:        4
+       Local Binders:        8        Proxy Binders:       16
+    Death Recipients:        0
+     OpenSSL Sockets:        0
+ 
+ SQL
+         MEMORY_USED:        0
+  PAGECACHE_OVERFLOW:        0          MALLOC_SIZE:        0
+ 

@@ -2,6 +2,7 @@ package com.diandian.coolco.emilie.fragment;
 
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -40,10 +41,9 @@ import com.diandian.coolco.emilie.utility.MyApplication;
 import com.diandian.coolco.emilie.utility.Preference;
 import com.diandian.coolco.emilie.utility.PreferenceKey;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
+import com.diandian.coolco.emilie.utility.TranstionAnimationUtil;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
-import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
-import com.nhaarman.listviewanimations.appearance.simple.ScaleInAnimationAdapter;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -63,7 +63,7 @@ import roboguice.inject.InjectView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GalleryFragment extends BaseFragment{
+public class GalleryFragment extends BaseFragment {
 
     @InjectView(R.id.gv_local_img)
     private GridView localImgGridView;
@@ -206,7 +206,7 @@ public class GalleryFragment extends BaseFragment{
     }
 
 
-    public void onEventMainThread(ImageFolder imageFolder){
+    public void onEventMainThread(ImageFolder imageFolder) {
         onImageFolderSelected(imageFolder);
     }
 
@@ -246,7 +246,9 @@ public class GalleryFragment extends BaseFragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                startSrcImgCropActivity(currentFolderImgs.get(position), view);
-                startSimilarImgActivity(currentFolderImgs.get(position));
+                Preference.setPrefBoolean(getActivity().getApplicationContext(), PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
+                TranstionAnimationUtil.startSimilarImgActivity
+                        (getActivity(), currentFolderImgs.get(position), view);
             }
         });
     }
@@ -258,11 +260,11 @@ public class GalleryFragment extends BaseFragment{
 
         //set animation
         ActivityOptionsCompat options = null;
-        if (Build.VERSION.SDK_INT > 21) {
-            options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), itemView, getResources().getString(R.string.similar_img_transtion_dest));
-        } else {
-            options = ActivityOptionsCompat.makeScaleUpAnimation(itemView, 0, 0, itemView.getWidth(), itemView.getHeight());
-        }
+//        if (Build.VERSION.SDK_INT >= 21) {
+        options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), itemView, getResources().getString(R.string.similar_img_transtion_dest));
+//        } else {
+        options = ActivityOptionsCompat.makeScaleUpAnimation(itemView, 0, 0, itemView.getWidth(), itemView.getHeight());
+//        }
 
         //add extra data
         Intent intent = new Intent(getActivity(), SrcImgCropActivity.class);
@@ -275,12 +277,6 @@ public class GalleryFragment extends BaseFragment{
         }
     }
 
-    private void startSimilarImgActivity(String srcImgPath){
-        Intent intent = new Intent(getActivity(), SimilarImgActivity.class);
-        intent.putExtra(ExtraDataName.CROPPED_SRC_IMG_PATH, srcImgPath);
-        startActivity(intent);
-        getActivity().finish();
-    }
 
     public void onImageFolderSelected(ImageFolder selectedFolder) {
         mImageDirListPopupWindow.dismiss();

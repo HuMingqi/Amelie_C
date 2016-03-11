@@ -1,12 +1,9 @@
 package com.diandian.coolco.emilie.utility;
 
 import android.app.Application;
-import android.content.Context;
 import android.view.ViewConfiguration;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 
 import java.lang.reflect.Field;
 
@@ -17,12 +14,12 @@ public class MyApplication extends Application {
     private AsyncExecutor asyncExecutor;
     private ShakeDetector shakeDetector;
 
-    public static RefWatcher getRefWatcher(Context context) {
-        MyApplication application = (MyApplication) context.getApplicationContext();
-        return application.refWatcher;
-    }
-
-    private RefWatcher refWatcher;
+//    public static RefWatcher getRefWatcher(Context context) {
+//        MyApplication application = (MyApplication) context.getApplicationContext();
+//        return application.refWatcher;
+//    }
+//
+//    private RefWatcher refWatcher;
 
 //    public static void initImageLoader(Context paramContext) {
 //		ImageLoaderConfiguration localImageLoaderConfiguration = new ImageLoaderConfiguration
@@ -42,7 +39,7 @@ public class MyApplication extends Application {
         asyncExecutor = AsyncExecutor.create();
 //        hack2showOverflow();
         startShakeDetection();
-        refWatcher = LeakCanary.install(this);
+//        refWatcher = LeakCanary.install(this);
         Fresco.initialize(getApplicationContext());
     }
 
