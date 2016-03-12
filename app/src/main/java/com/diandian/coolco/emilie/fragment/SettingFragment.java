@@ -63,7 +63,7 @@ public class SettingFragment extends BaseFragment implements AdapterView.OnItemC
         settingListView.addFooterView(footerView);
         settingListView.setHeaderDividersEnabled(false);
         settingListView.setFooterDividersEnabled(false);
-        String[] strings = {"欢迎页", "用户协议", "常见问题", "告诉朋友", "意见反馈", "版本升级", "给我们评分", "开源许可", "关于我们"};
+        String[] strings = {"用户协议", "常见问题", "告诉朋友", "意见反馈", "版本升级" , "开源许可", "关于我们"};
         adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_setting, strings);
         settingListView.setAdapter(adapter);
         settingListView.setOnItemClickListener(this);
@@ -74,30 +74,32 @@ public class SettingFragment extends BaseFragment implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         int calibratedPosition = position - settingListView.getHeaderViewsCount();
         switch (calibratedPosition) {
-            case 0: {
+            /*case 0: {
+                //TODO:welcome page
                 break;
             }
-            case 1: {
+            */
+            case 0: {
                 IntentUtil.startWebActivity(getActivity(), Url.PROTOCOL);
                 break;
             }
-            case 2: {
+            case 1: {
                 IntentUtil.startWebActivity(getActivity(), Url.FAQ);
                 break;
             }
-            case 3: {
+            case 2: {
                 String chooserTitle = "分享";
                 String subject = "Amelie";
                 String text = "我正在使用爱美丽，请你也来试用~balabala~[http://myron.sinaapp.com/list]";
                 IntentUtil.startShareActivity(getActivity(), chooserTitle, subject, text);
                 break;
             }
-            case 4: {
+            case 3: {
                 Intent intent = new Intent(getActivity(), FeedbackActivity.class);
                 getActivity().startActivity(intent);
                 break;
             }
-            case 5: {
+            case 4: {
 
                 if (NetworkManager.isOnline(getActivity())) {
                     final Dialog dialog = ProgressDialog.show(getActivity(), "正在检查新版本...");
@@ -114,20 +116,21 @@ public class SettingFragment extends BaseFragment implements AdapterView.OnItemC
                 }
                 break;
             }
-            case 6: {
+            /*case 5: {
+                //TODO:there's a bug
                 Uri uri = Uri.parse("market://details?id=" + getActivity().getPackageName());
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;
-            }
-            case 7:
+            }*/
+            case 5:
                 IntentUtil.startWebActivity(getActivity(), Url.LICENSE);
                 break;
-            case 8:
+            case 6:
                 IntentUtil.startWebActivity(getActivity(), Url.ABOUT);
                 break;
-            case 9:
+            case 7:
                 break;
         }
     }
