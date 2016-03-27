@@ -82,7 +82,7 @@ public class SimilarImgActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.ll_card_container)
     private View cardContaner;
     @InjectView(R.id.fl_src_image)
-    private View srcImageContainerView;
+    private View srcImageContainerView; //put src img
     @InjectView(R.id.fl_similar_image_number)
     private View similarImageNumberView;
     @InjectView(R.id.fl_search_use_time)
@@ -250,7 +250,7 @@ public class SimilarImgActivity extends BaseActivity implements View.OnClickList
             }
         });
 
-
+        //similar img clicked then start DetailedActivity
         similarImgGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
