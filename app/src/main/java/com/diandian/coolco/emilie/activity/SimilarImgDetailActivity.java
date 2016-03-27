@@ -87,11 +87,11 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
 
     private void init() {
         Intent intent = getIntent();
-        images = intent.getParcelableArrayListExtra(ExtraDataName.SIMILAR_IMGS);
+        images = intent.getParcelableArrayListExtra(ExtraDataName.SIMILAR_IMGS);//get all images from search or collection
 
         initCollected();
 
-        int initPos = intent.getIntExtra(ExtraDataName.SIMILAR_IMG_INIT_POS, 0);
+        int initPos = intent.getIntExtra(ExtraDataName.SIMILAR_IMG_INIT_POS, 0);//get image clicked index
         adapter = new SimilarImgViewPagerAdapter();
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(initPos, true);
@@ -129,7 +129,7 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
         initShowCase();
 
         //updatePullUpDown();
-        //updateMenu();
+        //updateMenu(); //null pointer because collectionMenu not be set
     }
 
     private void flipPage() {
@@ -250,7 +250,7 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
     }
 
     @Override
-    public void onPageSelected(int position) {
+    public void onPageSelected(int position) {  //on page cutted over
         updatePullUpDown();
         updateMenu();
     }
@@ -360,6 +360,9 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_similar_img_detail, menu);
         collectionMenu = menu.findItem(R.id.action_add_to_collection);
+
+        updateMenu();   //collection bug fixed by hmqi
+
         initMenu(menu);
         return true;
     }
