@@ -8,6 +8,19 @@ import com.diandian.coolco.emilie.activity.WebActivity;
 
 public class IntentUtil {
 
+    public static void startStandardWebActivity(Activity activity, String url)
+    {
+        try
+        {
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
+            activity.startActivity(intent);
+        }
+        catch(android.content.ActivityNotFoundException e)
+        {
+            // can't start activity
+        }
+    }
+
     public static void startWebActivity(Activity activity, String url)
     {
         Intent intent = new Intent(activity, WebActivity.class);

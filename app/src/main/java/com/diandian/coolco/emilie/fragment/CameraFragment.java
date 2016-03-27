@@ -367,7 +367,7 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
                 byte[] rotatedBitmapData = rotateCropBitmap(data);
                 saveBitmap(rotatedBitmapData, pictureFile);
 //                srcImgStorageCompleted();
-                EventBus.getDefault().post(new Event.PictureOperationCompletedEvent());
+                EventBus.getDefault().post(new Event.PictureOperationCompletedEvent());//to search photo
             }
         });
     }

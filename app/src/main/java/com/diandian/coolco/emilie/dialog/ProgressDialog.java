@@ -53,7 +53,7 @@ public class ProgressDialog  extends Dialog{
 	    params.alpha = 0.9f;
 	    params.dimAmount = 0.5f;
 	    window.setAttributes(params);
-        setCancelable(false);
+        setCancelable(true);
         
 	}
 	
