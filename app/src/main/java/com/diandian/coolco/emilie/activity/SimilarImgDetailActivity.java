@@ -127,6 +127,9 @@ public class SimilarImgDetailActivity extends DbSupportBaseActivity implements P
         });
 
         initShowCase();
+
+        //updatePullUpDown();
+        //updateMenu();
     }
 
     private void flipPage() {

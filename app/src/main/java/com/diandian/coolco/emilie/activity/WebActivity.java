@@ -127,6 +127,6 @@ public class WebActivity extends BaseActivity {
     }
 
     private void openWithBrowser() {
-        IntentUtil.startWebActivity(this, webview.getUrl());
+        IntentUtil.startStandardWebActivity(this, webview.getUrl());
     }
 }

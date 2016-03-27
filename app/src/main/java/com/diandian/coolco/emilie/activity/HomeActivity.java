@@ -32,7 +32,7 @@ public class HomeActivity extends BaseActivity
         drawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);//drawerlayout is homelayout
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextAppearance(this, R.style.ToolBarTitleTextAppearance);
@@ -41,6 +41,7 @@ public class HomeActivity extends BaseActivity
         // Set up the drawer.
         drawerFragment.setUp(R.id.navigation_drawer, drawerLayout, toolbar);
 
+        //load search fragment in homepage,look it in fragment_search.xml
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, BaseFragment.newInstance(SearchFragment.class, "搜索"), SEARCH_FRAGMENT_TAG)
                 .commit();

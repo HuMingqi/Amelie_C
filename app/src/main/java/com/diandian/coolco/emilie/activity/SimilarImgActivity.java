@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -492,6 +493,12 @@ public class SimilarImgActivity extends BaseActivity implements View.OnClickList
         protected void onPreExecute() {
             progressDialog = ProgressDialog.show(SimilarImgActivity.this, "正在搜索...");
             searchStartTime = System.currentTimeMillis();
+            progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    cancel(true);
+                }
+            });
         }
 
         @Override
