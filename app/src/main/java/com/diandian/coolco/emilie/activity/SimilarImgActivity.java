@@ -493,6 +493,7 @@ public class SimilarImgActivity extends BaseActivity implements View.OnClickList
         protected void onPreExecute() {
             progressDialog = ProgressDialog.show(SimilarImgActivity.this, "正在搜索...");
             searchStartTime = System.currentTimeMillis();
+            //progress dialog is canceled then cancel the aysnc task
             progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {

@@ -41,7 +41,7 @@ public class NetHelper {
 
     public static String sendRequest(String actionUrl, JSONObject jsonObject,
                                      List<String> imageNames, List<Bitmap> bitmaps) {
-
+        //Log.v("sendreq","req");
         String end = "\r\n";
         String twoHyphens = "--";
         String boundary = "*****";
@@ -92,13 +92,13 @@ public class NetHelper {
                             + "name=\"upload_image\";filename=\"" + picName + "\""
                             + end);
                     ds.writeBytes(end);
-                    ds.write(bitmap2Bytes(bitmap));
+                    ds.write(bitmap2Bytes(bitmap));//compress
                     ds.writeBytes(end);
                     ds.writeBytes(twoHyphens + boundary + twoHyphens + end);
                 }
             }
 
-            ds.flush();
+            ds.flush();//post image stream
 
 			/* 取得Response内容 */
             int responseCode = con.getResponseCode();
@@ -179,12 +179,18 @@ public class NetHelper {
     }
 
     public static byte[] bitmap2Bytes(Bitmap bm) {
-        int maxByteCount = 256*1024;
-        int originByteCount = bm.getByteCount();
-        int quality = (int) Math.min(((float) maxByteCount) / originByteCount * 100, 100);
+//        int maxByteCount = 256*1024;
+//        int originByteCount = bm.getByteCount();
+//        int quality = (int) Math.min(((float) maxByteCount) / originByteCount * 100, 100);//error!!!quality not equals bits rate
+        //Log.d("size",bm.getByteCount()/1024+"");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        bm.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+        int quality=105;
+        do{
+            baos.reset();
+            quality-= 5;
+            bm.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+//            Log.d("quality", quality + "");
+        }while(baos.toByteArray().length / 1024 > 100);//make uploaded image <100kB
         return baos.toByteArray();
     }
 }
