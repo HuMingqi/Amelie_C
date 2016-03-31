@@ -82,7 +82,7 @@ public class SimilarImgActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.ll_card_container)
     private View cardContaner;
     @InjectView(R.id.fl_src_image)
-    private View srcImageContainerView;
+    private View srcImageContainerView; //put src img
     @InjectView(R.id.fl_similar_image_number)
     private View similarImageNumberView;
     @InjectView(R.id.fl_search_use_time)
@@ -250,7 +250,7 @@ public class SimilarImgActivity extends BaseActivity implements View.OnClickList
             }
         });
 
-
+        //similar img clicked then start DetailedActivity
         similarImgGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -493,6 +493,7 @@ public class SimilarImgActivity extends BaseActivity implements View.OnClickList
         protected void onPreExecute() {
             progressDialog = ProgressDialog.show(SimilarImgActivity.this, "正在搜索...");
             searchStartTime = System.currentTimeMillis();
+            //progress dialog is canceled then cancel the aysnc task
             progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
