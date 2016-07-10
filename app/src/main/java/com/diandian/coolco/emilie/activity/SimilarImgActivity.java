@@ -476,6 +476,10 @@ public class SimilarImgActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+    /***
+     * cropping image again
+     * author : hiocde
+      */
     private void startSrcImgCropActivity() {
         Preference.setPrefBoolean(getApplicationContext(), PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
         Intent intent = new Intent(this, SrcImgCropActivity.class);

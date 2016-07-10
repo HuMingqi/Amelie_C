@@ -356,8 +356,6 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
 
         srcImgPath = pictureFile.getAbsolutePath();
 
-
-
         rotateCropSavePicInBg(picData, pictureFile);
 
 //        startSimilarImgActivity(srcImgPath);
@@ -385,8 +383,9 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
             dialog.dismiss();
         }
 
+        StartCropping.startCropActivity(this.getActivity(),srcImgPath);//***crop and select class of clothes before searching    by hiocde
 
-        TranstionAnimationUtil.startSimilarImgActivity(getActivity(), srcImgPath, cameraFrameLayout);
+        //TranstionAnimationUtil.startSimilarImgActivity(getActivity(), srcImgPath, cameraFrameLayout);
     }
 
     private void capture() {

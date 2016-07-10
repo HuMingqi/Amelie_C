@@ -10,6 +10,7 @@ import com.diandian.coolco.emilie.activity.SrcImgCropActivity;
  */
 public class StartCropping {
     public static void startCropActivity(Activity activity,String img_path){
+        Preference.setPrefBoolean(activity.getApplicationContext(), PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
         Intent intent = new Intent(activity, SrcImgCropActivity.class);
         intent.putExtra(ExtraDataName.SRC_IMG_PATH, img_path);
         activity.startActivity(intent);
