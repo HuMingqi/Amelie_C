@@ -42,6 +42,7 @@ import com.diandian.coolco.emilie.utility.Preference;
 import com.diandian.coolco.emilie.utility.PreferenceKey;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
 import com.diandian.coolco.emilie.utility.TranstionAnimationUtil;
+import com.diandian.coolco.emilie.utility.StartCropping;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 
@@ -247,8 +248,11 @@ public class GalleryFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                startSrcImgCropActivity(currentFolderImgs.get(position), view);
                 Preference.setPrefBoolean(getActivity().getApplicationContext(), PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
-                TranstionAnimationUtil.startSimilarImgActivity
-                        (getActivity(), currentFolderImgs.get(position), view);
+
+                startSrcImgCropActivity(currentFolderImgs.get(position),view);//***crop and select class of clothes before searching    by hiocde
+
+//                TranstionAnimationUtil.startSimilarImgActivity
+//                        (getActivity(), currentFolderImgs.get(position), view);
             }
         });
     }
