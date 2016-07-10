@@ -31,6 +31,7 @@ import com.diandian.coolco.emilie.utility.Event;
 import com.diandian.coolco.emilie.utility.MyApplication;
 import com.diandian.coolco.emilie.utility.Preference;
 import com.diandian.coolco.emilie.utility.PreferenceKey;
+import com.diandian.coolco.emilie.utility.StartCropping;
 import com.diandian.coolco.emilie.utility.SuperToastUtil;
 import com.diandian.coolco.emilie.utility.SystemUiUtil;
 import com.diandian.coolco.emilie.utility.TranstionAnimationUtil;
@@ -354,6 +355,9 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
 //        rotateAndSavePicInBg(picData, pictureFile);
 
         srcImgPath = pictureFile.getAbsolutePath();
+
+
+
         rotateCropSavePicInBg(picData, pictureFile);
 
 //        startSimilarImgActivity(srcImgPath);
@@ -380,6 +384,8 @@ public class CameraFragment extends BaseFragment implements View.OnClickListener
         if (dialog != null && dialog.isShowing()){
             dialog.dismiss();
         }
+
+
         TranstionAnimationUtil.startSimilarImgActivity(getActivity(), srcImgPath, cameraFrameLayout);
     }
 
