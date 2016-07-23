@@ -20,88 +20,91 @@
         android:visibility="invisible"
         />
 
-    <ImageView
-        android:id="@+id/iv_crop"
-        android:layout_width="@dimen/size_float_action_button"
-        android:layout_height="@dimen/size_float_action_button"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_margin="@dimen/margin_float_action_button"
-        android:background="@drawable/selector_bg_float_action_button"
-        android:contentDescription="@null"
-        android:scaleType="centerInside"
-        android:src="@android:drawable/ic_menu_crop"
-        android:visibility="invisible"/>
-
-    <ImageView
-        android:id="@+id/iv_crop_done"
-        android:layout_width="@dimen/size_float_action_button"
-        android:layout_height="@dimen/size_float_action_button"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_margin="@dimen/margin_float_action_button"
-        android:background="@drawable/selector_bg_float_action_button"
-        android:contentDescription="@null"
-        android:scaleType="centerInside"
-        android:src="@android:drawable/ic_menu_camera"
-        android:visibility="invisible" />
-
-    <ImageView
-        android:id="@+id/iv_crop_cancel"
-        android:layout_width="@dimen/size_float_action_button"
-        android:layout_height="@dimen/size_float_action_button"
-        android:layout_gravity="bottom|left"
-        android:layout_margin="@dimen/margin_float_action_button"
-        android:background="@drawable/selector_bg_float_action_button"
-        android:contentDescription="@null"
-        android:scaleType="centerInside"
-        android:src="@android:drawable/ic_menu_camera"
-        android:visibility="invisible" />
-
-    <ImageView
-        android:id="@+id/iv_crop_retry"
-        android:layout_width="@dimen/size_float_action_button"
-        android:layout_height="@dimen/size_float_action_button"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="@dimen/margin_float_action_button"
-        android:background="@drawable/selector_bg_float_action_button"
-        android:contentDescription="@null"
-        android:scaleType="centerInside"
-        android:src="@android:drawable/ic_menu_camera"
-        android:visibility="invisible" />
-
-    <!--
-    <RelativeLayout
-        android:id="@+id/rl_bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/bottom_bar"
-        android:visibility="invisible">
 
         <ImageView
             android:id="@+id/iv_crop"
-            android:layout_width="@dimen/bottom_bar_button_width"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_width="@dimen/size_float_action_button"
+            android:layout_height="@dimen/size_float_action_button"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="@dimen/margin_float_action_button"
+            android:background="@drawable/selector_bg_float_action_button"
             android:contentDescription="@null"
             android:scaleType="centerInside"
-            android:src="@android:drawable/ic_menu_crop" />
+            android:src="@android:drawable/ic_menu_crop"
+            android:visibility="invisible"/>
 
-        <TextView
-            android:id="@+id/tv_skip_crop"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:gravity="center"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="跳过"
-            android:textColor="#e7e7e7"
-            android:textSize="16sp" />
+        <ImageView
+            android:id="@+id/iv_crop_done"
+            android:layout_width="@dimen/size_float_action_button"
+            android:layout_height="@dimen/size_float_action_button"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="@dimen/margin_float_action_button"
+            android:background="@drawable/selector_bg_float_action_button"
+            android:contentDescription="@null"
+            android:scaleType="centerInside"
+            android:src="@android:drawable/ic_menu_camera"
+            android:visibility="invisible" />
 
-    </RelativeLayout>
-    -->
+        <ImageView
+            android:id="@+id/iv_crop_cancel"
+            android:layout_width="@dimen/size_float_action_button"
+            android:layout_height="@dimen/size_float_action_button"
+            android:layout_gravity="bottom|left"
+            android:layout_margin="@dimen/margin_float_action_button"
+            android:background="@drawable/selector_bg_float_action_button"
+            android:contentDescription="@null"
+            android:scaleType="centerInside"
+            android:src="@android:drawable/ic_menu_camera"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/iv_crop_retry"
+            android:layout_width="@dimen/size_float_action_button"
+            android:layout_height="@dimen/size_float_action_button"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="@dimen/margin_float_action_button"
+            android:background="@drawable/selector_bg_float_action_button"
+            android:contentDescription="@null"
+            android:scaleType="centerInside"
+            android:src="@android:drawable/ic_menu_camera"
+            android:visibility="invisible" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_gravity="center_horizontal|bottom">
+
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <RadioButton
+                android:id="@+id/kind0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/kind0"
+                android:layout_gravity="left"
+                android:layout_weight="2" />
+            <RadioButton
+                android:id="@+id/kind1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/kind1"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1.5" />
+            <RadioButton
+                android:id="@+id/kind2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/kind2"
+                android:layout_weight="0.5" />
+        </RadioGroup>
+
+
+
+    </LinearLayout>
+
+
 </FrameLayout>
