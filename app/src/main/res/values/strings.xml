@@ -12,6 +12,10 @@
     <string name="src_img_transtion_dest">srcImgTranstionDest</string>
     <string name="dialog_positive_button">确定</string>
 
+    <string name="kind0">上衣</string>
+    <string name="kind1">下衣</string>
+    <string name="kind2">连衣裙</string>
+
     <string-array name="menu_similar_img_detail_add_collection">
         <item>收藏</item>
         <item>分享</item>

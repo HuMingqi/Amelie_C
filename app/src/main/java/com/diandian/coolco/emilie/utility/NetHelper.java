@@ -82,7 +82,7 @@ public class NetHelper {
             ds = new DataOutputStream(con.getOutputStream());
             ds.write(jsonSB.toString().getBytes());
 
-            if (imageNames != null && bitmaps != null) {
+            if (imageNames != null && bitmaps != null) {    //***pack params
                 for (int i = 0; i < imageNames.size(); i++) {
                     String picName = imageNames.get(i);
                     Bitmap bitmap = bitmaps.get(i);

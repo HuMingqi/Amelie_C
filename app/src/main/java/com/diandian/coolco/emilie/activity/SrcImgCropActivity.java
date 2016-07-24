@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.diandian.coolco.emilie.R;
 import com.diandian.coolco.emilie.dialog.ProgressDialog;
@@ -60,6 +62,7 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
     private long animationDuration;
     private LayoutTransition optionsTransition;
     private ViewGroup rootView;
+    private int kind=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,28 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
     }
 
     private void init() {
+        kind=0;
+        RadioGroup group=(RadioGroup)findViewById(R.id.kinds);
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup grp, int checkedId) {
+                RadioButton checkR=(RadioButton) grp.findViewById(checkedId);
+                String ckind=(String)checkR.getText();
+                switch(ckind){
+                    case "上衣":
+                        kind=0;
+                        break;
+                    case "下衣":
+                        kind=1;
+                        break;
+                    case "连衣裙":
+                        kind=2;
+                        break;
+                }
+            }
+        }
+        );
+
         getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bg_activity)));
         Intent intent = getIntent();
         srcImgPath = intent.getStringExtra(ExtraDataName.SRC_IMG_PATH);

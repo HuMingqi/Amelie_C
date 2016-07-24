@@ -511,7 +511,7 @@ public class SimilarImgActivity extends BaseActivity implements View.OnClickList
             String croppedSrcImgPath = params[0];
             Bitmap croppedSrcImgBm = BitmapFactory.decodeFile(croppedSrcImgPath);
             String imgName = System.currentTimeMillis() + ".jpg";
-            String responseString = NetHelper.sendRequest(Url.SEARCH_SIMILAR_IMAGES, null, imgName, croppedSrcImgBm);
+            String responseString = NetHelper.sendRequest(Url.SEARCH_SIMILAR_IMAGES, null, imgName, croppedSrcImgBm);//*** request there by hiocde
             if (responseString == null) {
                 return 0;
             }
