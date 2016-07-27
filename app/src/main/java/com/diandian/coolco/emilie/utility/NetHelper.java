@@ -31,16 +31,16 @@ public class NetHelper {
     private final static String TAG = NetHelper.class.getName();
 
     public static String sendRequest(String actionUrl, JSONObject jsonObject,
-                                     String imageName, Bitmap bitmap) {
+                                     String imageName, Bitmap bitmap,String kind) {
         List<String> imageNames = new ArrayList<>();
         imageNames.add(imageName);
         List<Bitmap> bitmaps = new ArrayList<>();
         bitmaps.add(bitmap);
-        return sendRequest(actionUrl, jsonObject, imageNames, bitmaps);
+        return sendRequest(actionUrl, jsonObject, imageNames, bitmaps,kind);
     }
 
     public static String sendRequest(String actionUrl, JSONObject jsonObject,
-                                     List<String> imageNames, List<Bitmap> bitmaps) {
+                                     List<String> imageNames, List<Bitmap> bitmaps,String kind) {
         //Log.v("sendreq","req");
         String end = "\r\n";
         String twoHyphens = "--";
@@ -50,18 +50,6 @@ public class NetHelper {
         DataOutputStream ds = null;
         InputStream is = null;
         StringBuffer sb = null;
-
-        if (jsonObject == null){
-            jsonObject = new JSONObject();
-        }
-
-        StringBuilder jsonSB = new StringBuilder();
-        jsonSB.append(twoHyphens).append(boundary).append(end);
-        jsonSB.append("Content-Disposition:form-data;name=\"json\"")
-                .append(end).append(end);
-        jsonSB.append(jsonObject.toString()).append(end);
-        jsonSB.append(twoHyphens).append(boundary).append(twoHyphens)
-                .append(end);
 
         try {
             URL url = new URL(actionUrl);
@@ -80,9 +68,27 @@ public class NetHelper {
                     "multipart/form-data;boundary=" + boundary);
 
             ds = new DataOutputStream(con.getOutputStream());
-            ds.write(jsonSB.toString().getBytes());
 
-            if (imageNames != null && bitmaps != null) {    //***pack params
+            //***pack jsonOb
+            if (jsonObject == null){
+                jsonObject = new JSONObject();
+            }
+            StringBuilder jsonSB = new StringBuilder();
+            jsonSB.append(twoHyphens).append(boundary).append(end);
+            jsonSB.append("Content-Disposition:form-data;name=\"json\"")
+                    .append(end).append(end);
+            jsonSB.append(jsonObject.toString()).append(end);
+            jsonSB.append(twoHyphens).append(boundary).append(twoHyphens)
+                    .append(end);
+
+            //***pack kind info
+            String kind_info=twoHyphens + boundary + end+"Content-Disposition:form-data; name=\"kind\""+end+end+kind;
+
+            //*** pack data into req body according to multipart/from-data format ... by hiocde
+            ds.write(jsonSB.toString().getBytes());
+            ds.write(kind_info.getBytes());
+
+            if (imageNames != null && bitmaps != null) {
                 for (int i = 0; i < imageNames.size(); i++) {
                     String picName = imageNames.get(i);
                     Bitmap bitmap = bitmaps.get(i);
@@ -100,7 +106,7 @@ public class NetHelper {
 
             ds.flush();//post image stream
 
-			/* 取得Response内容 */
+			/* get Response content */
             int responseCode = con.getResponseCode();
             Log.e(TAG, "responseCode = " + responseCode);
             if (con.getResponseCode() == 200) {

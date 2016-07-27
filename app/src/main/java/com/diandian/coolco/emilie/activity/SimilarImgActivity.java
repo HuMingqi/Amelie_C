@@ -125,6 +125,7 @@ public class SimilarImgActivity extends BaseActivity implements View.OnClickList
     private void init() {
         Intent intent = getIntent();
         croppedSrcImgPath = intent.getStringExtra(ExtraDataName.CROPPED_SRC_IMG_PATH);
+        String kind = intent.getStringExtra("kind");    //clothes kind ... by hiocde
 
         if (!NetworkManager.isOnline(this)) {
             SuperToastUtil.showToast(this, getString(R.string.no_network_tip));
@@ -134,18 +135,7 @@ public class SimilarImgActivity extends BaseActivity implements View.OnClickList
         String uriString = String.format("file://%s", croppedSrcImgPath);
         srcImageDraweeView.setImageURI(Uri.parse(uriString));
 
-        new SearchSimilarImgAysncTask().execute(croppedSrcImgPath);
-
-        //check flag
-/*        boolean isSrcImgStorageCompleted = Preference.getPrefBoolean(context, PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED);
-        if (isSrcImgStorageCompleted) {
-            srcImageReady();
-        } else {
-            progressDialog = ProgressDialog.show(this, "正在加载...");
-        }*/
-
-//        Drawable editDrawable = new IconDrawable(this, Iconify.IconValue.md_mode_edit).sizeDp(64).color(Color.parseColor("#80e7e7e7"));
-//        srcImageDraweeView.getHierarchy().setControllerOverlay(editDrawable);
+        new SearchSimilarImgAysncTask().execute(croppedSrcImgPath,kind); // submit post req ... by hiocde
 
         srcImageContainerView.setOnClickListener(this);
 
@@ -479,7 +469,7 @@ public class SimilarImgActivity extends BaseActivity implements View.OnClickList
     /***
      * cropping image again
      * author : hiocde
-      */
+     */
     private void startSrcImgCropActivity() {
         Preference.setPrefBoolean(getApplicationContext(), PreferenceKey.IS_SRC_IMG_STORAGE_COMPLETED, true);
         Intent intent = new Intent(this, SrcImgCropActivity.class);
@@ -509,9 +499,11 @@ public class SimilarImgActivity extends BaseActivity implements View.OnClickList
         @Override
         protected Integer doInBackground(String... params) {
             String croppedSrcImgPath = params[0];
+            String kind=params[1];
+
             Bitmap croppedSrcImgBm = BitmapFactory.decodeFile(croppedSrcImgPath);
             String imgName = System.currentTimeMillis() + ".jpg";
-            String responseString = NetHelper.sendRequest(Url.SEARCH_SIMILAR_IMAGES, null, imgName, croppedSrcImgBm);//*** request there by hiocde
+            String responseString = NetHelper.sendRequest(Url.SEARCH_SIMILAR_IMAGES, null, imgName, croppedSrcImgBm,kind);//*** request there by hiocde
             if (responseString == null) {
                 return 0;
             }

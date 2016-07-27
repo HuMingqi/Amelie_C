@@ -62,7 +62,7 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
     private long animationDuration;
     private LayoutTransition optionsTransition;
     private ViewGroup rootView;
-    private int kind=0;
+    private String kind="0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,22 +73,23 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
     }
 
     private void init() {
-        kind=0;
+        kind="0";
         RadioGroup group=(RadioGroup)findViewById(R.id.kinds);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup grp, int checkedId) {
                 RadioButton checkR=(RadioButton) grp.findViewById(checkedId);
                 String ckind=(String)checkR.getText();
+                //***set kind code ... by hiocde
                 switch(ckind){
                     case "上衣":
-                        kind=0;
+                        kind="0";
                         break;
                     case "下衣":
-                        kind=1;
+                        kind="1";
                         break;
                     case "连衣裙":
-                        kind=2;
+                        kind="2";
                         break;
                 }
             }
@@ -361,6 +362,7 @@ public class SrcImgCropActivity extends BaseActivity implements View.OnClickList
         Intent intent = new Intent(this, SimilarImgActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(ExtraDataName.CROPPED_SRC_IMG_PATH, imgPath);
+        intent.putExtra("kind",kind);
         startActivity(intent);
         finish();
     }

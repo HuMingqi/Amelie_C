@@ -86,6 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/kind0"
+                android:textColor="@color/color_accent"
                 android:layout_gravity="left"
                 android:layout_weight="2"
                 android:checked="true" />
@@ -94,6 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/kind1"
+                android:textColor="@color/color_accent"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1.5" />
             <RadioButton
@@ -101,6 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/kind2"
+                android:textColor="@color/color_accent"
                 android:layout_weight="0.5" />
         </RadioGroup>
 
